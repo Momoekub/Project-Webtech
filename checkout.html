@@ -265,49 +265,88 @@
                         </div>
                     </div>
                 </div>
-                <div class="mb-5">
-                    <h5 class="section-title position-relative text-uppercase mb-3">
-                        <span class="bg-secondary pr-3">Payment</span>
-                    </h5>
-                    <div class="bg-light p-30">
-                      <div class="form-group">
-    <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" name="payment" id="mobilebanking">
+                <!-- ส่วนเลือกช่องทางการชำระ -->
+<div class="mb-5">
+  <h5 class="section-title position-relative text-uppercase mb-3">
+    <span class="bg-secondary pr-3">Payment</span>
+  </h5>
+  <div class="bg-light p-30">
+    <!-- ช่องทางทั้งหมด -->
+    <div class="form-group">
+      <div class="custom-control custom-radio">
+        <input type="radio" class="custom-control-input" name="payment" id="mobilebanking" onclick="openModal('bankModal')">
         <label class="custom-control-label" for="mobilebanking">Mobile Banking</label>
+      </div>
     </div>
 
-</div>
-<div class="form-group">
-    <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" name="payment" id="promptpay">
+    <div class="form-group">
+      <div class="custom-control custom-radio">
+        <input type="radio" class="custom-control-input" name="payment" id="promptpay" onclick="openModal('promptpayModal')">
         <label class="custom-control-label" for="promptpay">PromptPay</label>
+      </div>
     </div>
-</div>
-<div class="form-group">
-    <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" name="payment" id="truemoney">
-        <label class="custom-control-label" for="truemoney">TrueMoney</label>
-    </div>
-</div>
-<div class="form-group">
-    <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" name="payment" id="paypal">
-        <label class="custom-control-label" for="paypal">Paypal</label>
-    </div>
-</div>
-<div class="form-group">
-    <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" name="payment" id="creditcard">
+
+    <div class="form-group">
+      <div class="custom-control custom-radio">
+        <input type="radio" class="custom-control-input" name="payment" id="creditcard" onclick="openModal('creditModal')">
         <label class="custom-control-label" for="creditcard">Credit Card</label>
+      </div>
     </div>
-</div>
-<div class="form-group mb-4">
-    <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" name="payment" id="cod">
+
+    <div class="form-group mb-4">
+      <div class="custom-control custom-radio">
+        <input type="radio" class="custom-control-input" name="payment" id="cod" onclick="openModal('codModal')">
         <label class="custom-control-label" for="cod">ชำระเงินปลายทาง (Cash on Delivery)</label>
+      </div>
     </div>
+  </div>
 </div>
 
+<!-- MODALS -->
+<!-- PromptPay Modal -->
+<div id="promptpayModal" class="custom-modal">
+  <div class="custom-modal-content">
+    <span class="close" onclick="closeModal('promptpayModal')">&times;</span>
+    <h4>PromptPay</h4>
+    <p>กรุณาสแกน QR Code</p>
+    <img src="img/qr-code.jpg" width="200" alt="PromptPay QR"><!---  เดี๋ยวดึงข้อมูลมาทีหลังมาสร้างเป็นqrcode --->
+    <p><small>ยอดเงิน: 00 บาท</small></p>
+  </div>
+</div>
+
+<!-- Mobile Banking Modal -->
+<div id="bankModal" class="custom-modal">
+  <div class="custom-modal-content">
+    <span class="close" onclick="closeModal('bankModal')">&times;</span>
+    <h4>Mobile Banking</h4>
+    <p>ชื่อบัญชี: บริษัท ABC</p>
+    <p>ธนาคารไทยพาณิชย์</p>
+    <p>เลขบัญชี: 123-456-7890</p>
+    <label>แนบสลิป: <input type="file" accept="image/*" class="form-control-file"></label>
+  </div>
+</div>
+
+<!-- Credit Card Modal -->
+<div id="creditModal" class="custom-modal">
+  <div class="custom-modal-content">
+    <span class="close" onclick="closeModal('creditModal')">&times;</span>
+    <h4>Credit Card</h4>
+    <label>ชื่อบนบัตร: <input type="text" class="form-control"></label>
+    <label>หมายเลขบัตร: <input type="text" class="form-control" maxlength="16"></label>
+    <label>วันหมดอายุ: <input type="text" class="form-control" placeholder="MM/YY"></label>
+    <label>CVV: <input type="text" class="form-control" maxlength="3"></label>
+  </div>
+</div>
+
+<!-- COD Modal -->
+<div id="codModal" class="custom-modal">
+  <div class="custom-modal-content">
+    <span class="close" onclick="closeModal('codModal')">&times;</span>
+    <h4>ชำระเงินปลายทาง</h4>
+    <p>เจ้าหน้าที่จะเก็บเงินเมื่อจัดส่งสินค้า</p>
+    <p>โปรดยืนยันที่อยู่ให้ถูกต้อง</p>
+  </div>
+</div>
                         <!-- Place Order button (for desktop only, hidden on mobile) -->
                         <button  class="btn btn-block btn-primary font-weight-bold py-3 d-none d-lg-block">Place Order</button>
                     </div>
@@ -405,6 +444,25 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script>
+function openModal(id) {
+  document.getElementById(id).style.display = "block";
+}
+
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+// ปิด modal เมื่อคลิกพื้นที่นอกกล่อง
+window.onclick = function(event) {
+  const modals = document.querySelectorAll('.custom-modal');
+  modals.forEach(modal => {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  });
+}
+</script>
 </body>
 
 </html>

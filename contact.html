@@ -318,17 +318,14 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
-window.onload = function() {
+    window.onload = function() {
     document.getElementById('contactForm').addEventListener('submit', function(e) {
         e.preventDefault();
-
-        // รับค่าจาก input
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const subject = document.getElementById('subject').value.trim();
         const message = document.getElementById('message').value.trim();
 
-        // ตรวจสอบความถูกต้องแบบง่าย (required)
         let valid = true;
         if (!name) { valid = false; document.getElementById('name').nextElementSibling.textContent = "กรุณากรอกชื่อ"; }
             else { document.getElementById('name').nextElementSibling.textContent = ""; }
@@ -341,14 +338,11 @@ window.onload = function() {
 
         if (!valid) return;
 
-        // แสดงข้อความสำเร็จ (mockup)
         document.getElementById('success').innerHTML = `
             <div class="alert alert-success">
                 ขอบคุณที่ติดต่อเรา! เราได้รับข้อความของคุณแล้ว 😊
             </div>
         `;
-
-        // reset form
         document.getElementById('contactForm').reset();
     });
 };
