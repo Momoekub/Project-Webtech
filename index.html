@@ -27,6 +27,65 @@
 </head>
 
 <body>
+    <!-- Sign In Modal -->
+    <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Sign In</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="signinEmail">Email address</label>
+            <input type="email" class="form-control" id="signinEmail" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="signinPassword">Password</label>
+            <input type="password" class="form-control" id="signinPassword" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Sign Up Modal -->
+<div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Sign Up</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="signupUsername">Username</label>
+            <input type="text" class="form-control" id="signupUsername" placeholder="Enter username">
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">Email address</label>
+            <input type="email" class="form-control" id="signupEmail" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" class="form-control" id="signupPassword" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-success btn-block">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
     <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-1 px-xl-5">
@@ -43,8 +102,8 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">Sign in</button>
-                            <button class="dropdown-item" type="button">Sign up</button>
+                            <button class="dropdown-item" type="button" data-toggle="modal" data-target="#signInModal">Sign in</button>
+                            <button class="dropdown-item" type="button" data-toggle="modal" data-target="#signUpModal">Sign up</button>
                         </div>
                     </div>
                    
