@@ -38,9 +38,9 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form  onsubmit="signIn(event)">
           <div class="form-group">
-            <label for="signinEmail">Email address</label>
+            <label for="signinuser">Email address </label>
             <input type="email" class="form-control" id="signinEmail" placeholder="Enter email">
           </div>
           <div class="form-group">
@@ -53,6 +53,7 @@
     </div>
   </div>
 </div>
+
 <!-- Sign Up Modal -->
 <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -64,7 +65,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form onsubmit="signUp(event)">
           <div class="form-group">
             <label for="signupUsername">Username</label>
             <input type="text" class="form-control" id="signupUsername" placeholder="Enter username">
@@ -773,6 +774,57 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+
+<!--สคริปต์หน้าล็อคอินกับสร้างบัญชี-->
+<script>
+   function signUp(event) {
+  event.preventDefault();       
+
+  const username = document.getElementById('signupUsername').value;
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+
+  fetch('http://localhost:8000/api/account/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, email, password })  
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("สมัครสมาชิกสำเร็จ");
+    } else {
+      alert("สมัครไม่สำเร็จ: " + data.message);
+    }
+  });
+}
+
+
+function signIn(event) {
+  event.preventDefault(); 
+
+  const email = document.getElementById('signinEmail').value; 
+  const password = document.getElementById('signinPassword').value;
+
+  fetch('http://localhost:8000/api/account/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("ล็อกอินสำเร็จ");
+    } else {
+         alert("อีเมล์หรือรหัสผิด")
+      document.getElementById('loginError').innerText = data.message || "Login failed";
+     
+    }
+  });
+}
+</script>
+
 </body>
 
 </html>
