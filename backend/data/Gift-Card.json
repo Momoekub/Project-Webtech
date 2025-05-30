@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Steam wallet",
+    "image": "img/use/product/GiftCard/giftcard1.png",
+    "price": 100,
+    "description": "Steam wallet"
+  },
+    {
+    "name": "Garena shell",
+    "image": "img/use/product/GiftCard/giftcard2.png",
+    "price": 100,
+    "description": "Garena shell"
+  },
+    {
+    "name": "Roblox Gift Card",
+    "image": "img/use/product/GiftCard/giftcard3.png",
+    "price": 100,
+    "description": "Roblox Gift Card"
+  },
+    {
+    "name": "Riot Cash Card",
+    "image": "img/use/product/GiftCard/giftcard4.png",
+    "price": 100,
+    "description": "Riot Cash Card"
+  }
+]

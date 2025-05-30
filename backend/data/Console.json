@@ -1,0 +1,50 @@
+[
+  {
+    "name": "PlayStation 4",
+    "image": "img/use/product/Console/product1.png",
+    "price": 100,
+    "description": "ps4"
+  },
+    {
+    "name": "PlayStation 5",
+    "image": "img/use/product/Console/product2.png",
+    "price": 120,
+    "description": "ps5"
+  },
+    {
+    "name": "PlayStation 3",
+    "image": "img/use/product/Console/product3.png",
+    "price": 70,
+    "description": "ps3"
+  },
+    {
+    "name": "PlayStation 2",
+    "image": "img/use/product/Console/product4.png",
+    "price": 50,
+    "description": "ps2"
+  },
+    {
+    "name": "Xbox-Series X",
+    "image": "img/use/product/Console/product5.png",
+    "price": 100,
+    "description": "Series X"
+  },
+    {
+    "name": "Xbox-Series S",
+    "image": "img/use/product/Console/product6.png",
+    "price": 90,
+    "description": "Series S"
+  },
+    {
+    "name": "Xbox One",
+    "image": "img/use/product/Console/product7.png",
+    "price": 120,
+    "description": "One"
+  },
+    {
+    "name": "Nintendo Switch",
+    "image": "img/use/product/Console/product8.png",
+    "price": 300,
+    "description": "Nintendo"
+  }
+]
