@@ -1,8 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const path = require('path');
-const fs = require('fs');
+
 
 const app = express();
 const PORT = 8000; // <-- มาเปลี่ยนพอร์ตตรงนี้นะจ๊ะ
@@ -10,7 +9,7 @@ const PORT = 8000; // <-- มาเปลี่ยนพอร์ตตรงน
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api/nametest', require('./routes/nametest'));
+app.use('/api/account', require('./routesMomoe/account'));
 
 app.listen(PORT, () => {
     console.log('Server running at http://localhost:'+ PORT);
