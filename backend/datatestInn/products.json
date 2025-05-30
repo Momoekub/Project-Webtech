@@ -1,0 +1,118 @@
+[
+  {
+    "name": "Steam Wallet Giftcard(TH)",
+    "description": "วิธีใช้งาน:เข้าไปที่หน้าบัญชีของคุณแล้วไปที่เติมเงินเข้าSteam Wallet แล้วกรอกรหัส\nรหัสจะถูกส่งให้ภายใน5นาที หลังชำระเงินเรียบร้อย (ดูที่หน้า \"บัญชีของฉัน\" หรือในอีเมล) *ใช้ได้เฉพาะโซนไทยเท่านั้น*",
+    "category": "GiftCard",
+    "image": "giftcard1.png",
+    "prices": [
+      {
+        "value": "Steam Wallet 50฿",
+        "salePrice": 50
+      },
+      {
+        "value": "Steam Wallet 100฿",
+        "salePrice": 100
+      },
+      {
+        "value": "Steam Wallet 200฿",
+        "salePrice": 200
+      },
+      {
+        "value": "Steam Wallet 350฿",
+        "salePrice": 350
+      },
+      {
+        "value": "Steam Wallet 1000฿",
+        "salePrice": 1000
+      },
+      {
+        "value": "Steam Wallet 2000฿",
+        "salePrice": 2000
+      }
+    ],
+    "id": 1
+  },
+  {
+    "name": "Garena Giftcard",
+    "description": "วิธีใช้งาน: เติมเชลล์เข้าไอดีการีน่าได้ทาง https://termgame.com/ แล้วไปที่เมนู “เติมเชลล์” จากนั้นเลือก บัตรเติมเงิน Garena แล้วกรอกรหัส รหัสจะถูกส่งให้ภายใน5นาที หลังชำระเงินเรียบร้อย (ดูที่หน้า \"บัญชีของฉัน\" หรือในอีเมล)",
+    "category": "GiftCard",
+    "image": "giftcard2.png",
+    "prices": [
+      {
+        "value": "Shell 27 + Bonus 3",
+        "salePrice": 20
+      },
+      {
+        "value": "Shell 67 + Bonus 8",
+        "salePrice": 50
+      },
+      {
+        "value": "Shell 121 + Bonus 14",
+        "salePrice": 90
+      },
+      {
+        "value": "Shell 135 + Bonus 15",
+        "salePrice": 98
+      },
+      {
+        "value": "Shell 405 + Bonus 45",
+        "salePrice": 295
+      },
+      {
+        "value": "Shell 675 + Bonus 75",
+        "salePrice": 490
+      },
+      {
+        "value": "350 + Bonus 150",
+        "salePrice": 980
+      }
+    ],
+    "id": 2
+  },
+  {
+    "name": "Roblox  Giftcard",
+    "description": "วิธีใช้งาน: ไปที่ roblox.com/redeem แล้วกรอกรหัส รหัสจะถูกส่งให้ภายใน5นาที หลังชำระเงินเรียบร้อย (ดูที่หน้า \"บัญชีของฉัน\" หรือในอีเมล)",
+    "category": "GiftCard",
+    "image": "giftcard3.png",
+    "prices": [
+      {
+        "value": "Roblox Giftcard 300฿",
+        "salePrice": 300
+      },
+      {
+        "value": "Roblox Giftcard 750฿",
+        "salePrice": 750
+      }
+    ],
+    "id": 3
+  },
+  {
+    "name": "Riot Giftcard(TH)",
+    "description": "วิธีใช้: เข้าไปที่หน้าหลักของเกม แล้วไปที่'VP' (Valorant Points) จากนั้นเลือก Prepaid Cards & Codes แล้วกรอกรหัส รหัสจะถูกส่งให้ภายใน5นาที หลังชำระเงินเรียบร้อย (ดูที่หน้า \"บัญชีของฉัน\" หรือในอีเมล) *ใช้ได้เฉพาะโซนไทยเท่านั้น*",
+    "category": "GiftCard",
+    "image": "giftcard4.png",
+    "prices": [
+      {
+        "value": "500 VP",
+        "salePrice": 139
+      },
+      {
+        "value": "1050 VP",
+        "salePrice": 279
+      },
+      {
+        "value": "2175 VP",
+        "salePrice": 559
+      },
+      {
+        "value": "3850 VP",
+        "salePrice": 979
+      },
+      {
+        "value": "11500 VP",
+        "salePrice": 2800
+      }
+    ],
+    "id": 4
+  }
+]

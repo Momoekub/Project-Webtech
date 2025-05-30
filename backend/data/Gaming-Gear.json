@@ -1,0 +1,32 @@
+[
+   {
+    "name": "Controller",
+    "image": "img/use/product/Gear/gear1.png",
+    "price": 100,
+    "description": "Controller"
+  },
+    {
+    "name": "VR",
+    "image": "img/use/product/Gear/gear2.png",
+    "price": 100,
+    "description": "vr"
+  },
+    {
+    "name": "Starter pack",
+      "image": "img/use/product/Gear/gear3.png",
+    "price": 100,
+    "description": "keyboard + mouse"
+  },
+    {
+    "name": "Mouse",
+    "image": "img/use/product/Gear/gear4.png",
+    "price": 100,
+    "description": "mouse"
+  },
+    {
+    "name": "Keyboard",
+    "image": "img/use/product/Gear/gear5.png",
+    "price": 100,
+    "description": "keyboard"
+  }
+]

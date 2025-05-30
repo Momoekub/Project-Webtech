@@ -1,0 +1,50 @@
+[
+  {
+    "name": "The Last of Us™ Part I",
+    "image": "img/use/product/Games/game1.jpg",
+    "price": 50,
+    "description": "-"
+  },
+    {
+    "name": "The Last of Us™ Part II Remastered",
+    "image": "img/use/product/Games/game2.jpg",
+    "price": 50,
+    "description": "-"
+  },
+    {
+    "name": "Stray",
+    "image": "img/use/product/Games/game3.jpg",
+    "price": 70,
+    "description": "-"
+  },
+    {
+    "name": "Guilty Gear -Strive-",
+    "image": "img/use/product/Games/game4.jpg",
+    "price": 50,
+    "description": "-"
+  },
+    {
+    "name": "Warhammer 40,000: Space Marine 2",
+    "image": "img/use/product/Games/game5.jpg",
+    "price": 100,
+    "description": "-"
+  },
+    {
+    "name": "Tennis Manager 25",
+    "image": "img/use/product/Games/game6.jpg",
+    "price": 90,
+    "description": "-"
+  },
+    {
+    "name": "Clair Obscur: Expedition 33",
+    "image": "img/use/product/Games/game7.jpg",
+    "price": 120,
+    "description": "-"
+  },
+    {
+    "name": "Monster Hunter Wilds Deluxe Edition",
+    "image": "img/use/product/Games/game8.jpg",
+    "price": 300,
+    "description": "-"
+  }
+]
