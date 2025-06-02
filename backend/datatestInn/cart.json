@@ -1,0 +1,42 @@
+[
+  {
+    "username": "hi",
+    "id": "4",
+    "productname": "Riot Cash Card(TH)",
+    "priceSelect": 979,
+    "quantity": 1,
+    "image": "giftcard4.png",
+    "category": "GiftCard",
+    "option": "3850 VP"
+  },
+  {
+    "username": "hi",
+    "id": "3",
+    "productname": "Roblox  Giftcard",
+    "priceSelect": 300,
+    "quantity": 1,
+    "image": "giftcard3.png",
+    "category": "GiftCard",
+    "option": "300฿"
+  },
+  {
+    "username": "hi",
+    "id": "5",
+    "productname": "Play Station 4",
+    "priceSelect": 14990,
+    "quantity": 7,
+    "image": "product1.png",
+    "category": "Console",
+    "option": "Pro 1TB"
+  },
+  {
+    "username": "hi",
+    "id": "5",
+    "productname": "Play Station 4",
+    "priceSelect": 9990,
+    "quantity": 10,
+    "image": "product1.png",
+    "category": "Console",
+    "option": "Slim 1TB"
+  }
+]

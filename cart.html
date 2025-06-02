@@ -240,112 +240,7 @@
                             <th>Remove</th>
                         </tr>
                     </thead>
-                    <tbody class="align-middle">
-                        <tr>
-                            <td class="align-middle"><img src="img/product-1.jpg" alt="" style="width: 50px;"> Product Name</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="img/product-2.jpg" alt="" style="width: 50px;"> Product Name</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="img/product-3.jpg" alt="" style="width: 50px;"> Product Name</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="img/product-4.jpg" alt="" style="width: 50px;"> Product Name</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="img/product-5.jpg" alt="" style="width: 50px;"> Product Name</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                        </tr>
+                    <tbody id="cart-body" class="align-middle">
                     </tbody>
                 </table>
             </div>
@@ -363,17 +258,17 @@
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>$150</h6>
+                            <h6 id="subtotal"></h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 id="shipping" class="font-weight-medium"></h6>
                         </div>
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5>$160</h5>
+                            <h5 id="totalprice"></h5>
                         </div>
                         <a href="checkout.html" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</a>
                     </div>
@@ -475,6 +370,113 @@
     <script src="Register.js"></script>
     <!--สคริปต์หน้าล็อคอินกับสร้างบัญชี-->
 <script>
+  loadCart();
+  async function loadCart() {
+  const username = localStorage.getItem('username');
+  const tbody = document.getElementById('cart-body');
+  let subtotal = 0;
+  let shipping = 0;
+  let totalprice = 0;
+
+  if (!username) {
+    alert('โปรดlogin');
+    return;
+  }
+  try {
+    const res = await fetch(`http://localhost:7000/api/cart?username=${encodeURIComponent(username)}`);
+    const cart = await res.json();
+
+    tbody.innerHTML = '';
+
+    cart.forEach(p => {
+      const total = p.priceSelect * p.quantity;
+      const tr = document.createElement('tr');
+      if(p.category !== "GiftCard"){
+        shipping +=40;
+      }
+      subtotal += total;
+      totalprice=subtotal+shipping;
+      tr.innerHTML = `
+        <td class="align-middle" style="display: flex; align-items: center; gap: 10px;">
+          <img src="/img/use/product/${p.category}/${p.image}" alt="productimage" style="width: 50px;"> ${p.productname}
+          <a>${p.option}<a>
+        </td>
+        <td class="align-middle">${p.priceSelect}฿</td>
+        <td class="align-middle">
+          <div class="input-group quantity mx-auto" style="width: 100px;">
+            <div class="input-group-btn">
+              <button class="btn btn-sm btn-primary btn-minus">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="${p.quantity}" readonly>
+            <div class="input-group-btn">
+              <button class="btn btn-sm btn-primary btn-plus">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </td>
+        <td class="align-middle">${total}฿</td>
+        <td class="align-middle">
+          <button class="btn btn-sm btn-danger btn-delete">
+            <i class="fa fa-times"></i>
+          </button>
+        </td>
+      `;
+      tr.querySelector('.btn-minus').addEventListener('click', () => updateQuantity(p.id, p.quantity - 1, p.option));
+      tr.querySelector('.btn-plus').addEventListener('click', () => updateQuantity(p.id, p.quantity + 1, p.option));
+      tr.querySelector('.btn-delete').addEventListener('click', () => deleteItem(p.id, p.option));
+      tbody.appendChild(tr);
+    });
+    document.getElementById('subtotal').textContent = `${subtotal}฿`
+    document.getElementById('shipping').textContent = `${shipping}฿`
+    document.getElementById('totalprice').textContent = `${totalprice}฿`
+  } catch (err) {
+    console.error('เกิดข้อผิดพลาดขณะโหลดตะกร้า:', err);
+  }
+}
+
+async function updateQuantity(id, newQty, option) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const username = localStorage.getItem('username');
+  if (newQty < 1) {
+    await deleteItem(id, option); 
+    await loadCart(); 
+    return;
+  }
+
+  const res = await fetch(`http://localhost:7000/api/cart/${id}?username=${encodeURIComponent(username)}&option=${encodeURIComponent(option)}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ quantity: newQty })
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    console.error('Update failed:', err);
+  } else {
+    await loadCart(); 
+  }
+}
+
+async function deleteItem(id, option) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const username = localStorage.getItem('username');
+
+  const res = await fetch(`http://localhost:7000/api/cart/${id}?username=${encodeURIComponent(username)}&option=${encodeURIComponent(option)}`, {
+    method: 'DELETE'
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    console.error('Delete failed:', err);
+  } else {
+    await loadCart(); 
+  }
+}
+
+
    function signUp(event) {
   event.preventDefault();       
 
@@ -482,7 +484,7 @@
   const email = document.getElementById('signupEmail').value;
   const password = document.getElementById('signupPassword').value;
 
-  fetch('http://localhost:8000/api/account/signup', {
+  fetch('http://localhost:7000/api/account/signup', { //เป็นเปน8000
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, email, password })  
@@ -500,14 +502,13 @@
   });
 }
 
-
 function signIn(event) {
   event.preventDefault(); 
 
   const email = document.getElementById('signinEmail').value; 
   const password = document.getElementById('signinPassword').value;
 
-  fetch('http://localhost:8000/api/account/login', {
+  fetch('http://localhost:7000/api/account/login', { //เปลี่ยนเปน8000
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
@@ -519,6 +520,7 @@ function signIn(event) {
         updateAccountUI(); // <- เรียกตรงนี้
         $('#signInModal').modal('hide');
       alert("ล็อกอินสำเร็จ");
+      loadCart();
     } else {
          alert("อีเมล์หรือรหัสผิด")
       document.getElementById('loginError').innerText = data.message || "Login failed";

@@ -40,7 +40,7 @@ router.post('/signup', (req, res) => {
 
   users.push({ username, email, password });
   writeUsers(users);
-  res.json({ success: true });
+  res.json({ success: true , username:username });
 });
 
 module.exports = router;

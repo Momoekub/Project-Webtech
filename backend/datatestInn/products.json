@@ -6,34 +6,34 @@
     "image": "giftcard1.png",
     "prices": [
       {
-        "value": "Steam Wallet 50฿",
+        "value": "50฿",
         "salePrice": 50
       },
       {
-        "value": "Steam Wallet 100฿",
+        "value": "100฿",
         "salePrice": 100
       },
       {
-        "value": "Steam Wallet 200฿",
+        "value": "200฿",
         "salePrice": 200
       },
       {
-        "value": "Steam Wallet 350฿",
+        "value": "350฿",
         "salePrice": 350
       },
       {
-        "value": "Steam Wallet 1000฿",
+        "value": "1000฿",
         "salePrice": 1000
       },
       {
-        "value": "Steam Wallet 2000฿",
+        "value": "2000฿",
         "salePrice": 2000
       }
     ],
     "id": 1
   },
   {
-    "name": "Garena Giftcard",
+    "name": "Garena Shell",
     "description": "วิธีใช้งาน: เติมเชลล์เข้าไอดีการีน่าได้ทาง https://termgame.com/ แล้วไปที่เมนู “เติมเชลล์” จากนั้นเลือก บัตรเติมเงิน Garena แล้วกรอกรหัส รหัสจะถูกส่งให้ภายใน5นาที หลังชำระเงินเรียบร้อย (ดูที่หน้า \"บัญชีของฉัน\" หรือในอีเมล)",
     "category": "GiftCard",
     "image": "giftcard2.png",
@@ -76,19 +76,19 @@
     "image": "giftcard3.png",
     "prices": [
       {
-        "value": "Roblox Giftcard 300฿",
+        "value": "300฿",
         "salePrice": 300
       },
       {
-        "value": "Roblox Giftcard 750฿",
+        "value": "750฿",
         "salePrice": 750
       }
     ],
     "id": 3
   },
   {
-    "name": "Riot Giftcard(TH)",
-    "description": "วิธีใช้: เข้าไปที่หน้าหลักของเกม แล้วไปที่'VP' (Valorant Points) จากนั้นเลือก Prepaid Cards & Codes แล้วกรอกรหัส รหัสจะถูกส่งให้ภายใน5นาที หลังชำระเงินเรียบร้อย (ดูที่หน้า \"บัญชีของฉัน\" หรือในอีเมล) *ใช้ได้เฉพาะโซนไทยเท่านั้น*",
+    "name": "Riot Cash Card(TH)",
+    "description": "วิธีใช้: เข้าไปที่หน้าหลักของเกม แล้วไปที่ VP(Valorant Points) จากนั้นเลือก Prepaid Cards & Codes แล้วกรอกรหัส รหัสจะถูกส่งให้ภายใน5นาที หลังชำระเงินเรียบร้อย (ดูที่หน้า \"บัญชีของฉัน\" หรือในอีเมล) *ใช้ได้เฉพาะโซนไทยเท่านั้น*",
     "category": "GiftCard",
     "image": "giftcard4.png",
     "prices": [
@@ -114,5 +114,22 @@
       }
     ],
     "id": 4
+  },
+  {
+    "name": "Play Station 4",
+    "description": "PlayStation®4 –มาพร้อมความจุ 500GB และ1TB\nสัมผัสความมันส์แบบไร้ขีดจำกัดกับ PlayStation®4 คอนโซลเกมยอดนิยมที่มาพร้อมความจุขนาดใหญ่ รองรับการติดตั้งเกม แอปพลิเคชัน รวมถึงจัดเก็บภาพและวิดีโอจากเกมได้อย่างจุใจ\nรุ่น PS4 Slim ได้รับการออกแบบให้มีขนาดบางและน้ำหนักเบากว่ารุ่นดั้งเดิม เพื่อความสะดวกในการจัดวางและพกพา ขณะที่รุ่น PS4 Pro รองรับการเล่นเกมในช่วงความละเอียดตั้งแต่ 1080p ถึง 1440p บนโทรทัศน์ความคมชัดสูง (HDTV) พร้อมเทคโนโลยีการเพิ่มความละเอียดที่ได้รับการปรับปรุง ซึ่งช่วยยกระดับภาพของเกมให้ใกล้เคียงกับความละเอียดระดับ 4K และสำหรับเกมที่รองรับ Native 4K โดยเฉพาะ PS4 Pro สามารถแสดงผลด้วยความละเอียดแท้จริงที่ 2160p เพื่อประสบการณ์การเล่นเกมที่คมชัดและสมจริงยิ่งขึ้น",
+    "category": "Console",
+    "image": "product1.png",
+    "prices": [
+      {
+        "value": "Slim 1TB",
+        "salePrice": 9990
+      },
+      {
+        "value": "Pro 1TB",
+        "salePrice": 14990
+      }
+    ],
+    "id": 5
   }
 ]

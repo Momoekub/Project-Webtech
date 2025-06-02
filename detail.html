@@ -105,7 +105,7 @@
                         <i class="fas fa-heart text-dark"></i>
                         <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
                     </a>
-                    <a href="cart.html" class="btn px-0 ml-2">
+                    <a id="cartLink" href="cart.html" class="btn px-0 ml-2">
                         <i class="fas fa-shopping-cart text-dark"></i>
                         <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
                     </a>
@@ -282,14 +282,14 @@
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
-                            <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
+                            <input id="quantity" type="text" class="form-control bg-secondary border-0 text-center" value="1">
                             <div class="input-group-btn">
                                 <button class="btn btn-primary btn-plus">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
                         </div>
-                        <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                        <button id="addToCart" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
                             Cart</button>
                     </div>
                     <div class="d-flex pt-2">
@@ -675,19 +675,18 @@
         });
     }
     
-    /*เอาไว้ดึงไอดีจากหน้าเลือกดูสินค้า
+    //เอาไว้ดึงไอดีจากหน้าเลือกดูสินค้า ใส่"?id=(เลขไอดี มี1-5) หลังurl เพื่อเทส
     const params = new URLSearchParams(window.location.search);
     const productId = params.get("id");
     if (productId) {
     loadProduct(productId);
   } else {
     alert("ไม่พบสินค้า");
-  }*/
-  loadProduct(4);
+  }
    async function loadProduct(id) {
     const apiUrl = 'http://localhost:7000/api/products/'+id; 
     try {
-      const res = await fetch(apiUrl);  // api id สินค้า
+      const res = await fetch(apiUrl); 
       if (!res.ok) throw new Error('โหลดข้อมูลล้มเหลว');
       
       const product = await res.json();
@@ -708,6 +707,7 @@
       btn.type = 'button';
       btn.className = 'btn btn-outline-primary';
       btn.dataset.value = price.salePrice;
+      btn.dataset.option = price.value;
       btn.textContent = `${price.value}`;
 
       btn.addEventListener('click', () => {
@@ -721,7 +721,7 @@
       
       if (index === 0) {
         btn.classList.add('active');
-        document.getElementById('productPrice').textContent = ``;
+        document.getElementById('productPrice').textContent = `${price.salePrice}฿`;
       }
 
       priceContainer.appendChild(btn);
@@ -732,7 +732,65 @@
     alert(error.message);
   }
   }
-    </script>
+
+
+  //addtoCart
+document.getElementById('addToCart').addEventListener('click', async function (e) {
+  e.preventDefault();
+  const id = productId;
+  const productname = document.getElementById('productName').textContent;
+  const activePriceBtn = document.querySelector('#priceSelect .active');
+  const option = activePriceBtn.dataset.option;
+  const quantity = document.getElementById('quantity')?.value;
+  const username = localStorage.getItem('username');
+
+  if (!username) {
+    alert('โปรดlogin');
+    return;
+  }
+  if (!id || !productname || !activePriceBtn || !quantity) {
+    alert('Error');
+    return;
+  }
+
+  const productRes = await fetch(`http://localhost:7000/api/products/${id}`);
+  const product = await productRes.json();
+
+  const imgpath = 'img/use/Product/' + product.category + '/' + product.image;
+  const priceSelect = activePriceBtn.dataset.value;
+
+  const data = {
+    username : username,
+    id: id,
+    productname: productname,
+    priceSelect: parseFloat(priceSelect),
+    quantity: parseInt(quantity),
+    image: product.image,         
+    category: product.category,
+    option: option 
+  };
+  console.log("ส่งข้อมูล:", data);
+
+  try {
+    const res = await fetch('http://localhost:7000/api/cart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (!res.ok) throw new Error("ไม่สามารถเพิ่มลงตะกร้าได้");
+
+    alert("เพิ่มสินค้าลงตะกร้าเรียบร้อยแล้ว");
+  } catch (err) {
+    console.error(err);
+    alert("เกิดข้อผิดพลาด: " + err.message);
+  }
+});
+
+</script>
+
+    
+
     <!--สคริปต์หน้าล็อคอินกับสร้างบัญชี-->
 <script>
    function signUp(event) {
@@ -742,7 +800,7 @@
   const email = document.getElementById('signupEmail').value;
   const password = document.getElementById('signupPassword').value;
 
-  fetch('http://localhost:8000/api/account/signup', {
+  fetch('http://localhost:7000/api/account/signup', { //ต้องเปลี่ยนกลับเปน8000
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, email, password })  
@@ -750,6 +808,7 @@
   .then(res => res.json())
   .then(data => {
     if (data.success) {
+        console.log(username);
         localStorage.setItem('username', data.username);
         updateAccountUI(); // <- เรียกตรงนี้
         $('#signInModal').modal('hide');
@@ -767,7 +826,7 @@ function signIn(event) {
   const email = document.getElementById('signinEmail').value; 
   const password = document.getElementById('signinPassword').value;
 
-  fetch('http://localhost:8000/api/account/login', {
+  fetch('http://localhost:7000/api/account/login', { //ต้องเปลี่ยนกลับเปน8000
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
