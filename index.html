@@ -156,10 +156,10 @@
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                     <div class="navbar-nav w-100">
-                        <a href="" class="nav-item nav-link">Gaming Gear</a>
-                        <a href="" class="nav-item nav-link">Games</a>
-                        <a href="" class="nav-item nav-link">Gift Card</a>
-                        <a href="" class="nav-item nav-link">Console</a>
+                        <a href="" class="nav-item nav-link">1</a>
+                        <a href="" class="nav-item nav-link">2</a>
+                        <a href="" class="nav-item nav-link">3</a>
+                        <a href="" class="nav-item nav-link">4</a>
                     </div>
                 </nav>
             </div>
@@ -828,6 +828,35 @@ function signIn(event) {
 }
 </script>
 <script src="Register.js"></script>
+
+<script>
+    window.onload = function(){
+
+      loadCatagory('http://localhost:4000/api/catagory');
+    };
+
+    //หมวดหมู่
+     function loadCatagory(url){
+      fetch(url)
+      .then(response => response.json())
+      .then(data => catagoryList(data));
+    }
+
+function catagoryList(data){
+  const nav = document.querySelector("#navbar-vertical .navbar-nav");
+  nav.innerHTML = ""; // ล้างรายการเก่า
+
+  data.categories.forEach(category => {
+    const link = document.createElement("a");
+    link.className = "nav-item nav-link";
+    link.href = "#"; // คุณสามารถเปลี่ยนเป็น URL ของแต่ละหมวดหมู่ได้
+    link.textContent = category;
+
+    nav.appendChild(link);
+  });
+}
+
+</script>
 </body>
 
 </html>
