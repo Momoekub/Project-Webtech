@@ -105,9 +105,9 @@
                         <i class="fas fa-heart text-dark"></i>
                         <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
                     </a>
-                    <a href="" class="btn px-0 ml-2">
+                    <a href="cart.html" class="btn px-0 ml-2">
                         <i class="fas fa-shopping-cart text-dark"></i>
-                        <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
+                        <span class="cartquantity badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
                     </a>
                 </div>
             </div>
@@ -173,7 +173,7 @@
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <span class="h1 text-uppercase text-dark bg-light px-2">Multi</span>
+                        <span class="h1 text-uppercase text-dark bg-light px-2">INWZA</span>
                         <span class="h1 text-uppercase text-light bg-primary px-2 ml-n1">Shop</span>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -198,9 +198,9 @@
                                 <i class="fas fa-heart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                             </a>
-                            <a href="" class="btn px-0 ml-3">
+                            <a href="cart.html" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                <span class="cartquantity badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                             </a>
                         </div>
                     </div>
@@ -284,35 +284,24 @@
                     <span class="bg-secondary pr-3">Order Total</span>
                 </h5>
                 <div class="bg-light p-30 mb-5">
-                    <div class="border-bottom">
-                        <h6 class="mb-3">Products</h6>
-                        <div class="d-flex justify-content-between">
-                            <p>Product Name 1</p>
-                            <p>$150</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Product Name 2</p>
-                            <p>$150</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Product Name 3</p>
-                            <p>$150</p>
-                        </div>
-                    </div>
+                  <div class="border-bottom">
+                    <h6 class="mb-3">Products</h6>
+                    <div id="checkoutlist"></div>
+                  </div>
                     <div class="border-bottom pt-3 pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>$450</h6>
+                            <h6 id="subtotal-amount">$0</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 id="totalshipping" class="font-weight-medium">$0</h6>
                         </div>
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5>$460</h5>
+                            <h5 id="totalprice">$0</h5>
                         </div>
                     </div>
                 </div>
@@ -496,6 +485,46 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
+      
+  async function checkoutitem() {
+    const username = localStorage.getItem('username');
+  if (!username) {
+    alert('โปรด login ก่อนทำการ checkout');
+    return;
+  }
+  try {
+    const res = await fetch(`http://localhost:7000/api/cart?username=${encodeURIComponent(username)}`);
+    const cart = await res.json();
+
+    const container = document.getElementById('checkoutlist');
+    container.innerHTML = ''; 
+    let subtotal = 0;
+    let shipping = 0;
+    cart.forEach(item => {
+      subtotal += item.priceSelect * item.quantity;
+      if (item.category !== "GiftCard" && item.category !== "Games") {
+        shipping += 40 * item.quantity;
+      }
+      const div = document.createElement('div');
+      div.className = 'mb-3'; 
+      div.innerHTML = `
+        <p class="mb-1">${item.productname}${item.option ? ' (' + item.option + ')' : ''}</p>
+        <p class="mb-0 text-muted">${item.priceSelect}฿</p>
+      `;
+      container.appendChild(div);
+    });
+    const total = subtotal + shipping;
+    document.getElementById('subtotal-amount').textContent = `${subtotal}฿`;
+    document.getElementById('totalshipping').textContent = `${shipping}฿`;
+    document.getElementById('totalprice').textContent = `${total}฿`;
+
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดระหว่างโหลดรายการสินค้า:', error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', checkoutitem);
+
 function openModal(id) {
   document.getElementById(id).style.display = "block";
 }

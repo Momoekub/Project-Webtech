@@ -102,3 +102,32 @@
     
 })(jQuery);
 
+async function updateCartQuantity() {
+  const username = localStorage.getItem('username');
+  const elements = document.querySelectorAll('.cartquantity');
+
+  if (!username) {
+    elements.forEach(el => el.textContent = '0');
+    return;
+  }
+
+  try {
+    const res = await fetch(`http://localhost:7000/api/cart?username=${encodeURIComponent(username)}`);
+    const cart = await res.json();
+    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    elements.forEach(el => el.textContent = totalQuantity);
+  } catch (error) {
+    console.error('โหลดจำนวนสินค้าในตะกร้าล้มเหลว:', error);
+    elements.forEach(el => el.textContent = '0');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateCartQuantity();
+});
+
+
+
+
+
