@@ -11,7 +11,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve รูปภาพจาก img/use/product 
 app.use('/img', express.static(path.join(__dirname, '..', '/img')));
-app.use('/api/products', require('./routesInn/products'));
+app.use('/api/products', require('./routesInn/products')); //เปลี่ยนเป็นroutesเฉยๆทีหลัง
+app.use('/api/cart', require('./routesInn/cart'));
+app.use('/api/account', require('./routesMomoe/account'));
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

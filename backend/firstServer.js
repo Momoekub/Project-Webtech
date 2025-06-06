@@ -8,7 +8,7 @@ const PORT = 4000; // <-- มาเปลี่ยนพอร์ตตรงน
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api/nametest', require('./routes/nametest'));
+app.use('/api/catagory', require('./routes/catagory'));
 
 app.listen(PORT, () => {
     console.log('Server running at http://localhost:'+ PORT);

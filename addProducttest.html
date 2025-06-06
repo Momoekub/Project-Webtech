@@ -16,8 +16,10 @@
     <textarea name="description" class="form-control mb-2" placeholder="คำอธิบาย" required style="height: 100px;"></textarea>
     <select name="category" class="form-control mb-2">
       <option value="">--หมวดหมู่สินค้า--(เลือกตามชื่อโฟลเดอร์)</option>
-      <option value="GiftCard">GiftCard</option>
       <option value="Console">Console</option>
+      <option value="Games">Games</option>
+      <option value="Gear">Gear</option>
+      <option value="GiftCard">GiftCard</option>
     </select>
     <input name="image" class="form-control mb-2" placeholder="ชื่อไฟล์รูป เช่น giftcard1.png" required>
     <textarea name="prices" class="form-control mb-2" placeholder="ชื่อตัวเลือก:ราคาขาย เช่น Steam Wallet 300:290,Steam Wallet 500:470" required></textarea>
@@ -82,6 +84,7 @@
       });
     }
 
+    //add product
     document.getElementById('add-form').onsubmit = async e => {
       e.preventDefault();
       const f = e.target;
@@ -103,6 +106,7 @@
         image: f.image.value,
         prices: pricesArray
       };
+      console.log(data);
 
       await fetch(apiUrl, {
         method: 'POST',
