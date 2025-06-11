@@ -150,11 +150,11 @@
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                     <div class="navbar-nav w-100">
-                        <a href="" class="nav-item nav-link">Gaming Gear</a>
-                        <a href="" class="nav-item nav-link">Games</a>
-                        <a href="" class="nav-item nav-link">Gift Card</a>
-                        <a href="" class="nav-item nav-link">Console</a>
-                    </div>
+                    <a href="#" class="nav-item nav-link category-link" data-category="gaming-gear-products">Gaming Gear</a>
+                    <a href="#" class="nav-item nav-link category-link" data-category="games-products">Games</a>
+                    <a href="#" class="nav-item nav-link category-link" data-category="gift-card-products">Gift Card</a>
+                    <a href="#" class="nav-item nav-link category-link" data-category="console-products">Console</a>
+                  </div>
                 </nav>
             </div>
             <div class="col-lg-9">
@@ -215,93 +215,43 @@
     <!-- Shop Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
-            <!-- Shop Sidebar Start -->
-            <div class="col-lg-3 col-md-4">
-                <!-- Price Start -->
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
-                    <div class="bg-light p-4 mb-30">
-                        <form id="price-form">
-                            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                <input type="checkbox" class="custom-control-input price-checkbox" checked id="price-all">
-                                <label class="custom-control-label" for="price-all">All Price</label>
-                            </div>
-                            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                <input type="checkbox" class="custom-control-input price-checkbox" id="price-1">
-                                <label class="custom-control-label" for="price-1">$0 - $100</label>
-                            </div>
-                            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                <input type="checkbox" class="custom-control-input price-checkbox" id="price-2">
-                                <label class="custom-control-label" for="price-2">$100 - $200</label>
-                           </div>
-                            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                <input type="checkbox" class="custom-control-input price-checkbox" id="price-3">
-                                <label class="custom-control-label" for="price-3">$200 - $300</label>
-                            </div>
-                            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                <input type="checkbox" class="custom-control-input price-checkbox" id="price-4">
-                                <label class="custom-control-label" for="price-4">$300 - $400</label>
-                            </div>
-                            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                                <input type="checkbox" class="custom-control-input price-checkbox" id="price-5">
-                                <label class="custom-control-label" for="price-5">$400 - $500</label>
-                            </div>
-                        </form>
-                    </div>
-                <!-- Price End -->
-                
-            </div>
-            <!-- Shop Sidebar End -->
-
 
             <!-- Shop Product Start -->
-            <div class="col-lg-9 col-md-8">
+            <div class="col-12">
                 <div class="row pb-3">
-                    <div class="col-12 pb-1">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div>
-                            </div>
-                            <div class="ml-2">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Latest</a>
-                                        <a class="dropdown-item" href="#">Popularity</a>
-                                        <a class="dropdown-item" href="#">Best Rating</a>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="row" id="console-products">                    
+                        <div class="container-fluid pt-5 pb-3">
+                            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+                           <span class="bg-secondary pr-3">Game console</span>
+                            </h2>
+                                <div class="product-container row"></div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                            <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/use/product/Console/product1.png" alt="">
-                                <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                                </div>
-                            </div>
-                            <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href="">test เฉยๆ เดะดึงมาจาก json</a>
-                                <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>20</h5><h6 class="text-muted ml-2"><del>1150</del></h6>
-                                </div>
-                            </div>
+                    <div class="row" id="games-products">                    
+                        <div class="container-fluid pt-5 pb-3">
+                            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+                           <span class="bg-secondary pr-3">Game</span>
+                            </h2>
+                            <div class="product-container row"></div>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <nav>
-                          <ul class="pagination justify-content-center">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                          </ul>
-                        </nav>
+                    <div class="row" id="gift-card-products">                    
+                        <div class="container-fluid pt-5 pb-3">
+                            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+                           <span class="bg-secondary pr-3">Gift card</span>
+                            </h2>
+                            <div class="product-container row"></div>
+                        </div>
                     </div>
+                    <div class="row" id="gaming-gear-products">                    
+                        <div class="container-fluid pt-5 pb-3">
+                            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+                           <span class="bg-secondary pr-3">Gaming Gear</span>
+                            </h2>
+                            <div class="product-container row"></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <!-- Shop Product End -->
@@ -468,6 +418,77 @@ function signIn(event) {
 }
 </script>
 <script src="Register.js"></script>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  // โหลดสินค้า
+  loadProducts('games', 'games-products');
+  loadProducts('gear', 'gaming-gear-products');
+  loadProducts('giftcard', 'gift-card-products');
+  loadProducts('console', 'console-products');
+
+  // ไม่ต้องซ่อนอะไรเลยตอนโหลด
+  document.querySelectorAll('.row[id$="-products"]').forEach(section => {
+    section.classList.remove('d-none');
+  });
+
+  // ซ่อน/แสดงหมวดหมู่เมื่อคลิกเมนู
+  document.querySelectorAll('.category-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const selectedCategory = link.getAttribute('data-category'); // เช่น 'games-products'
+      document.querySelectorAll('.row[id$="-products"]').forEach(section => {
+        section.classList.add('d-none');
+      });
+      const selectedSection = document.getElementById(selectedCategory);
+      if (selectedSection) {
+        selectedSection.classList.remove('d-none');
+      }
+    });
+  });
+});
+
+
+function loadProducts(categoryType, targetElementId) {
+  fetch(`http://localhost:4000/api/catagory?type=${categoryType}`)
+    .then(res => res.json())
+    .then(data => {
+            const container = document.querySelector(`#${targetElementId} .product-container`);
+      container.innerHTML = ''; // ล้างก่อน
+      data.forEach(product => {
+        container.innerHTML += createProductCard(product);
+      });
+    })
+    .catch(err => console.error(`Error loading ${categoryType}:`, err));
+}
+
+function createProductCard(product) {
+  return `
+    <div class="col-lg-3 col-md-4 col-sm-6 pb-3">
+      <div class="product-item bg-light mb-4">
+        <div class="product-img position-relative overflow-hidden" style="height: 250px;">
+          <img class="img-fluid w-100" style="height: 100%; object-fit: cover;" src="${product.image}" alt="${product.name}">
+          <div class="product-action">
+            <a class="btn btn-outline-dark btn-square" href="#"><i class="fa fa-shopping-cart"></i></a>
+            <a class="btn btn-outline-dark btn-square" href="#"><i class="far fa-heart"></i></a>
+            <a class="btn btn-outline-dark btn-square" href="#"><i class="fa fa-sync-alt"></i></a>
+            <a class="btn btn-outline-dark btn-square" href="#"><i class="fa fa-search"></i></a>
+          </div>
+        </div>
+        <div class="text-center py-4">
+          <a class="h6 text-decoration-none text-truncate" href="#">${product.name}</a>
+          <p class="small text-muted mb-2">${product.description || ''}</p>
+          <div class="d-flex align-items-center justify-content-center mt-2">
+            <h5>${product.price}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+
+</script>
 </body>
 
 </html>
