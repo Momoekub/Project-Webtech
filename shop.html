@@ -605,7 +605,24 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+    // อ่าน query string ว่ามี category มั้ย?
+  const params = new URLSearchParams(window.location.search);
+  const initialCategory = params.get('category');
+  if (initialCategory) {
+    showCategory(initialCategory);
+  }
 });
+
+function showCategory(categoryId) {
+  document.querySelectorAll('.row[id$="-products"]').forEach(section => {
+    section.classList.add('d-none');
+  });
+  const selectedSection = document.getElementById(categoryId);
+  if (selectedSection) {
+    selectedSection.classList.remove('d-none');
+  }
+}
 
 
 function loadProducts(categoryType, targetElementId) {
