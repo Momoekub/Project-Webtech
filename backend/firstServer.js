@@ -9,6 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/api/catagory', require('./routes/catagory'));
+app.use('/api/search', require('./routes/search'));
 
 app.listen(PORT, () => {
     console.log('Server running at http://localhost:'+ PORT);
