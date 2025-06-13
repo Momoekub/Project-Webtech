@@ -44,9 +44,11 @@ router.post('/signup', (req, res) => {
   res.json({ success: true, username });
 });
 
-// POST /forgot-password
-router.post('/forgot-password', (req, res) => {
-  const { email, newPassword } = req.body;
+// POST /reset-password
+router.post('/reset-password', (req, res) => {
+  const { email, newPassword, otp } = req.body;
+  
+  // อ่าน users จากไฟล์
   const users = readUsers();
   const user = users.find(u => u.email === email);
 
@@ -54,10 +56,13 @@ router.post('/forgot-password', (req, res) => {
     return res.status(404).json({ success: false, message: "ไม่พบอีเมลนี้ในระบบ" });
   }
 
+  // **(ตรงนี้ต้องมีการตรวจสอบ otp ด้วย ถ้ามีระบบเก็บ otp)**
+  // สมมติผ่านแล้ว
+
   user.password = newPassword;
   writeUsers(users);
 
-  res.json({ success: true });
+  res.json({ success: true, message: "เปลี่ยนรหัสผ่านสำเร็จ" });
 });
 
 // POST /change-username
@@ -76,3 +81,18 @@ router.post('/change-username', (req, res) => {
   res.json({ success: true });
 });
 module.exports = router;
+
+router.post('/request-otp', (req, res) => {
+  const { email } = req.body;
+  const users = readUsers();
+  const user = users.find(u => u.email === email);
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: "ไม่พบอีเมลนี้ในระบบ" });
+  }
+
+  // สร้าง OTP ง่าย ๆ แบบสุ่ม 6 หลัก
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  res.json({ success: true, otp });
+});

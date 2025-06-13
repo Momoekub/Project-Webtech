@@ -59,28 +59,32 @@
 
 
 <!-- Forgot Password Modal -->
-<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">ลืมรหัสผ่าน</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form onsubmit="forgotPassword(event)">
+      <form onsubmit="verifyOTPAndReset(event)">
+        <div class="modal-header">
+          <h5 class="modal-title">ลืมรหัสผ่าน</h5>
+        </div>
+        <div class="modal-body">
           <div class="form-group">
             <label for="forgotEmail">อีเมล</label>
-            <input type="email" class="form-control" id="forgotEmail" placeholder="กรอกอีเมลของคุณ">
+            <input type="email" class="form-control" id="forgotEmail">
+            <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="requestOTP()">ขอรหัส OTP</button>
+          </div>
+          <div class="form-group">
+            <label for="otp">รหัส OTP</label>
+            <input type="text" class="form-control" id="otp">
           </div>
           <div class="form-group">
             <label for="newPassword">รหัสผ่านใหม่</label>
-            <input type="password" class="form-control" id="newPassword" placeholder="ตั้งรหัสผ่านใหม่">
+            <input type="password" class="form-control" id="newPassword">
           </div>
-          <button type="submit" class="btn btn-primary btn-block">ตั้งรหัสใหม่</button>
-        </form>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">ตั้งรหัสผ่านใหม่</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -552,161 +556,10 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 
+  <!---แก้ไขใหม่ให้โค้ดสคริปไปอยู่ในRegister.js--->
+  <script src="Register.js"></script>
 
-   <script>
-// ลืมรหัสผ่าน
-function openForgotPasswordModal() {
-  $('#signInModal').modal('hide');
-  $('#forgotPasswordModal').modal('show');
-}
 
-function forgotPassword(event) {
-  event.preventDefault();
-  const email = document.getElementById('forgotEmail').value;
-  const newPassword = document.getElementById('newPassword').value;
-
-  if (!email || !newPassword) {
-    alert("กรุณากรอกอีเมลและรหัสผ่านใหม่");
-    return;
-  }
-
-  fetch('http://localhost:8000/api/account/forgot-password', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, newPassword })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      alert("ตั้งรหัสผ่านใหม่เรียบร้อยแล้ว");
-      $('#forgotPasswordModal').modal('hide');
-      $('#signInModal').modal('show');
-    } else {
-      alert(data.message);
-    }
-  });
-}
-
-// สมัครสมาชิก
-function signUp(event) {
-  event.preventDefault();       
-  const username = document.getElementById('signupUsername').value;
-  const email = document.getElementById('signupEmail').value;
-  const password = document.getElementById('signupPassword').value;
-
-  fetch('http://localhost:8000/api/account/signup', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, email, password })  
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      localStorage.setItem('username', data.username);
-      updateAccountUI();
-      $('#signUpModal').modal('hide');
-      alert("สมัครสมาชิกสำเร็จ");
-    } else {
-      alert("สมัครไม่สำเร็จ: " + data.message);
-    }
-  });
-}
-
-// ล็อกอิน
-function signIn(event) {
-  event.preventDefault(); 
-  const email = document.getElementById('signinEmail').value; 
-  const password = document.getElementById('signinPassword').value;
-
-  fetch('http://localhost:8000/api/account/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      localStorage.setItem('username', data.username);
-      updateAccountUI();
-      $('#signInModal').modal('hide');
-      alert("ล็อกอินสำเร็จ");
-    } else {
-      alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
-      const err = document.getElementById('loginError');
-      if (err) err.innerText = data.message || "Login failed";
-    }
-  });
-}
-
-// เปลี่ยน UI เมื่อผู้ใช้ล็อกอินสำเร็จ
-function updateAccountUI() {
-  const username = localStorage.getItem('username');
-  const dropdown = document.getElementById('accountDropdown');
-  if (!dropdown) return;
-  if (username) {
-    dropdown.innerHTML = `
-      <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">${username}</button>
-      <div class="dropdown-menu dropdown-menu-right">
-        <button class="dropdown-item" type="button" onclick="openChangeUsernameModal()">เปลี่ยนชื่อผู้ใช้</button>
-        <button class="dropdown-item" type="button" onclick="logout()">Logout</button>
-      </div>
-    `;
-  } else {
-    dropdown.innerHTML = `
-      <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
-      <div class="dropdown-menu dropdown-menu-right">
-        <button class="dropdown-item" type="button" data-toggle="modal" data-target="#signInModal">Sign in</button>
-        <button class="dropdown-item" type="button" data-toggle="modal" data-target="#signUpModal">Sign up</button>
-      </div>
-    `;
-  }
-}
-
-function changeUsername(event) {
-  event.preventDefault();
-
-  const newUsername = document.getElementById('newUsername').value.trim();
-  const email = document.getElementById('changeEmail').value.trim();
-
-  if (!newUsername || !email) {
-    alert("กรุณากรอกข้อมูลให้ครบ");
-    return;
-  }
-
-  fetch('http://localhost:8000/api/account/change-username', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, newUsername })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      alert("เปลี่ยนชื่อผู้ใช้สำเร็จเป็น: " + newUsername);
-      localStorage.setItem('username', newUsername);
-      updateAccountUI();
-      $('#changeUsernameModal').modal('hide');
-    } else {
-      alert(data.message || "เปลี่ยนชื่อผู้ใช้ไม่สำเร็จ");
-    }
-  })
-  .catch(err => {
-    alert("เกิดข้อผิดพลาด: " + err.message);
-  });
-}
-function openChangeUsernameModal() {
-  $('#changeUsernameModal').modal('show');
-}
-
-// Logout
-function logout() {
-  localStorage.removeItem('username');
-  updateAccountUI();
-}
-
-// เรียกอัปเดต UI ทันทีเมื่อโหลดหน้า
-document.addEventListener('DOMContentLoaded', function () {
-  updateAccountUI();
-});
 </script>
 
 <script>
