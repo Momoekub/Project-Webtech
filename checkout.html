@@ -330,10 +330,10 @@
                             <label>Address Line 1</label>
                             <input class="form-control" type="text" name="address1" placeholder="123 Street">
                         </div>
-                        <!-- Replace "Create Account" with Submit Button -->
+                        <!-- Replace "Create Account" with Submit Button 
                         <div class="col-md-12 form-group d-block d-lg-none mt-3">
                             <button type="submit" class="btn btn-block btn-success font-weight-bold py-3">Place Order</button>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -440,7 +440,7 @@
                   </div>
                 </div>
                 <!-- Place Order button (for desktop only, hidden on mobile) -->
-                <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3 d-none d-lg-block">Place Order</button>
+                <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3 ">Place Order</button>
             </div>
         </div>
     </form>
@@ -544,7 +544,7 @@
     return;
   }
   try {
-    const res = await fetch(`http://localhost:7000/api/cart?username=${encodeURIComponent(username)}`);
+    const res = await fetch(`http://localhost:5000/api/cart?username=${encodeURIComponent(username)}`);
     const cart = await res.json();
 
     const container = document.getElementById('checkoutlist');
@@ -573,6 +573,52 @@
     console.error('เกิดข้อผิดพลาดระหว่างโหลดรายการสินค้า:', error);
   }
 }
+
+document.getElementById('checkout-form').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const username = localStorage.getItem('username'); // ดึงจาก localStorage
+  if (!username) {
+    alert('กรุณาเข้าสู่ระบบ');
+    return;
+  }
+
+  // รวมข้อมูลจาก form
+  const formData = {
+    username,
+    shipping: {
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      email: form.email.value,
+      mobile: form.mobile.value,
+      country: form.country.value,
+      city: form.city.value,
+      address1: form.address1.value,
+    },
+    payment: form.payment.value,
+  };
+
+  try {
+    const res = await fetch('http://localhost:5000/api/checkout/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert('สั่งซื้อสำเร็จ!');
+    } else {
+      alert(data.message || 'เกิดข้อผิดพลาด');
+    }
+  } catch (err) {
+    console.error('Checkout error:', err);
+    alert('ไม่สามารถสั่งซื้อได้ในขณะนี้');
+  }
+});
+
 
 document.addEventListener('DOMContentLoaded', checkoutitem);
 

@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const router = express.Router();
-const filePath = path.join(__dirname, '..', 'datatestInn', 'cart.json');
+const filePath = path.join(__dirname, '..', 'data', 'cart.json');
 
 // อ่าน cart จากไฟล์
 function readCart() {
@@ -80,44 +80,63 @@ router.post('/', (req, res) => {
 
 // ✅ แก้ไขจำนวนสินค้า
 router.put('/:id', (req, res) => {
+  router.put('/:id', (req, res) => {
   const id = req.params.id;
-  const username = req.query.username;
+  const currentusername = req.query.username;
   const oldOption = req.query.option; 
-  const { quantity, option, priceSelect } = req.body;
 
-  if (!username || !oldOption) {
+  const {
+    quantity,
+    option,
+    priceSelect,
+    productname,
+    newUsername
+  } = req.body;
+
+  if (!currentusername || !oldOption) {
     return res.status(400).json({ error: 'โปรดล็อคอิน หรือระบุ option เดิม' });
   }
 
   const cart = readCart();
-  const index = cart.findIndex(item => item.id == id && item.username === username && item.option === oldOption);
+  const index = cart.findIndex(item =>
+    item.id == id &&
+    item.currentusername === currentusername &&
+    item.option === oldOption
+  );
 
-  if (index === -1) return res.status(404).json({ error: 'ไม่พบสินค้าในตะกร้า' });
+  if (index === -1) {
+    return res.status(404).json({ error: 'ไม่พบสินค้าในตะกร้า' });
+  }
 
-  // ตรวจสอบว่ามี item เดิมที่ option ใหม่อยู่แล้วไหม
-  const existingIndex = cart.findIndex(item => 
-    item.id == id && 
-    item.username === username && 
-    item.option === option && 
+  // ตรวจสอบว่ามีรายการซ้ำในตะกร้าของผู้ใช้ใหม่หรือไม่
+  const newUser = newUsername || currentusername;
+  const existingIndex = cart.findIndex(item =>
+    item.id == id &&
+    item.currentusername === newUser &&
+    item.option === option &&
     item.option !== oldOption
   );
 
   if (existingIndex !== -1) {
-    // ถ้ามีสินค้าตัวเลือกใหม่นั้นแล้ว
-    // รวมจำนวนกับรายการใหม่
+    // รวมจำนวนสินค้าเข้าไปในรายการที่มีอยู่
     cart[existingIndex].quantity += quantity;
-    // ลบ item เดิมที่ option เก่าออกไป
-    cart.splice(index, 1);
+    cart.splice(index, 1); // ลบของเดิมออก
   } else {
-    // ไม่ซ้ำ ให้แก้ไขปกติ
+    // อัปเดตข้อมูลรายการ
     cart[index].quantity = quantity;
     if (option) cart[index].option = option;
     if (priceSelect !== undefined) cart[index].priceSelect = priceSelect;
+    if (productname) cart[index].productname = productname;
+    if (newUsername) cart[index].currentusername = newUsername;
   }
 
   writeCart(cart);
   res.json({ message: 'แก้ไขสินค้าสำเร็จ', cart });
 });
+
+});
+
+
 
 router.delete('/:id', (req, res) => {
   const id = req.params.id;

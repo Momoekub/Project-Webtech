@@ -722,16 +722,15 @@
         });
     }
     
-    //เอาไว้ดึงไอดีจากหน้าเลือกดูสินค้า ใส่"?id=(เลขไอดี มี1-5) หลังurl เพื่อเทส
-    const params = new URLSearchParams(window.location.search);
-    const productId = params.get("id");
+    //เอาไว้ดึงไอดีจากหน
+    const productId = localStorage.getItem('productid')
     if (productId) {
     loadProduct(productId);
   } else {
     alert("ไม่พบสินค้า");
   }
    async function loadProduct(id) {
-    const apiUrl = 'http://localhost:7000/api/products/'+id; 
+    const apiUrl = 'http://localhost:5000/api/products/'+id; 
     try {
       const res = await fetch(apiUrl); 
       if (!res.ok) throw new Error('โหลดข้อมูลล้มเหลว');
@@ -800,7 +799,7 @@ document.getElementById('addToCart').addEventListener('click', async function (e
     return;
   }
 
-  const productRes = await fetch(`http://localhost:7000/api/products/${id}`);
+  const productRes = await fetch(`http://localhost:5000/api/products/${id}`);
   const product = await productRes.json();
 
   const imgpath = 'img/use/Product/' + product.category + '/' + product.image;
@@ -819,7 +818,7 @@ document.getElementById('addToCart').addEventListener('click', async function (e
   console.log("ส่งข้อมูล:", data);
 
   try {
-    const res = await fetch('http://localhost:7000/api/cart', {
+    const res = await fetch('http://localhost:5000/api/cart', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

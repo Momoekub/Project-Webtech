@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Orders</title>
+</head>
+<body>
+  <h2>คำสั่งซื้อทั้งหมด</h2>
+  <div id="order-list"></div>
+
+  <script>
+    async function loadOrders() {
+      try {
+        const res = await fetch('http://localhost:5000/api/checkout'); 
+        if (!res.ok) throw new Error('โหลดข้อมูลล้มเหลว');
+
+        const orders = await res.json();
+        const list = document.getElementById('order-list');
+
+        if (!orders.length) {
+          list.innerHTML = '<p>ไม่มีคำสั่งซื้อ</p>';
+          return;
+        }
+
+        list.innerHTML = orders.map(order => `
+          <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+            <p><strong>ชื่อ:</strong> ${order.shipping.firstName} ${order.shipping.lastName}</p>
+            <p><strong>ที่อยู่:</strong> ${order.shipping.address1}, ${order.shipping.city}, ${order.shipping.country}</p>
+            <p><strong>อิเมล:</strong> ${order.shipping.email}</p>
+            <p><strong>เบอร์โทร:</strong> ${order.shipping.mobile}</p>
+            <p><strong>สถานะ:</strong> ${order.status}</p>
+            <p><strong>สินค้า:</strong></p>
+            <ul>
+              ${order.items.map(i => `<li>${i.productname} x${i.quantity} (${i.priceSelect} บาท)</li>`).join('')}
+            </ul>
+            <p><small>วันที่: ${new Date(order.createdAt).toLocaleString()}</small></p>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error(err);
+        document.getElementById('order-list').innerText = 'เกิดข้อผิดพลาดในการโหลดคำสั่งซื้อ';
+      }
+    }
+
+    window.onload = loadOrders;
+  </script>
+</body>
+</html>

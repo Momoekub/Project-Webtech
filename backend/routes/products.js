@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const router = express.Router();
 
-const filePath = path.join(__dirname, '..', 'datatestInn', 'products.json');
+const filePath = path.join(__dirname, '..', 'data', 'products.json');
 function readProducts() {
   try {
     const content = fs.readFileSync(filePath, 'utf8');

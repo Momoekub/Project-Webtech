@@ -453,8 +453,8 @@ async function loadCart() {
   try {
     // ดึงข้อมูลตะกร้าและสินค้า
     const [cartRes, productsRes] = await Promise.all([
-      fetch(`http://localhost:7000/api/cart?username=${encodeURIComponent(username)}`),
-      fetch(`http://localhost:7000/api/products`)
+      fetch(`http://localhost:5000/api/cart?username=${encodeURIComponent(username)}`),
+      fetch(`http://localhost:5000/api/products`)
     ]);
     const cart = await cartRes.json();
     const products = await productsRes.json();
@@ -512,14 +512,14 @@ async function loadCart() {
       `;
       const clickableTd = tr.querySelector('.clickable-td');
       clickableTd.addEventListener('click', () => {
-        window.location.href = `detail.html?id=${p.id}`;
+        localStorage.setItem('productid',p.id)
+        window.location.href = `detail.html`;
       });
       const select = tr.querySelector('.cart-option-selector');
       select.addEventListener('change', async () => {
         const newOption = select.value;
         const optData = productInfo.prices.find(price => price.value === newOption);
         if (!optData) return;
-
         await updateQuantity(p.id, p.quantity, p.option, newOption, optData.salePrice);
       });
 
@@ -549,7 +549,7 @@ async function updateQuantity(id, newQty, oldOption, newOption, newPrice) {
     return;
   }
 
-  const res = await fetch(`http://localhost:7000/api/cart/${id}?username=${encodeURIComponent(username)}&option=${encodeURIComponent(oldOption)}`, {
+  const res = await fetch(`http://localhost:5000/api/cart/${id}?username=${encodeURIComponent(username)}&option=${encodeURIComponent(oldOption)}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -573,7 +573,7 @@ async function deleteItem(id, option) {
   const urlParams = new URLSearchParams(window.location.search);
   const username = localStorage.getItem('username');
 
-  const res = await fetch(`http://localhost:7000/api/cart/${id}?username=${encodeURIComponent(username)}&option=${encodeURIComponent(option)}`, {
+  const res = await fetch(`http://localhost:5000/api/cart/${id}?username=${encodeURIComponent(username)}&option=${encodeURIComponent(option)}`, {
     method: 'DELETE'
   });
 

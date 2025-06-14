@@ -112,7 +112,7 @@ async function updateCartQuantity() {
   }
 
   try {
-    const res = await fetch(`http://localhost:7000/api/cart?username=${encodeURIComponent(username)}`);
+    const res = await fetch(`http://localhost:5000/api/cart?username=${encodeURIComponent(username)}`);
     const cart = await res.json();
     const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
 
