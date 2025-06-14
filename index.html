@@ -667,7 +667,7 @@ input.addEventListener('input', () => {
 
   if (query.length === 0) return;
 
-  fetch(`http://localhost:4000/api/search?query=${encodeURIComponent(query)}`)
+  fetch(`http://localhost:5000/api/search?query=${encodeURIComponent(query)}`)
     .then(res => res.json())
     .then(results => {
       if (results.length === 0) {

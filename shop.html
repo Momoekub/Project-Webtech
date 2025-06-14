@@ -476,7 +476,7 @@ function showCategory(categoryId) {
 
 
 function loadProducts(categoryType, targetElementId) {
-  fetch(`http://localhost:4000/api/catagory?type=${categoryType}`)
+  fetch(`http://localhost:5000/api/catagory?type=${categoryType}`)
     .then(res => res.json())
     .then(data => {
             const container = document.querySelector(`#${targetElementId} .product-container`);

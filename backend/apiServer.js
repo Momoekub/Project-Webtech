@@ -19,6 +19,10 @@ app.use('/img', express.static(path.join(__dirname, '..', '/img')));
 app.use('/api/products', require('./routes/products')); 
 app.use('/api/cart', require('./routes/cart'));
 
+//First
+app.use('/api/catagory', require('./routes/catagory')); //สำหรับแยกหมวดหมู่
+app.use('/api/search', require('./routes/search')); //สำหรับการค้นหาสินค้า
+
 app.listen(PORT, () => {
     console.log('Server running at http://localhost:'+ PORT);
 });
