@@ -15,7 +15,7 @@ function forgotPassword(event) {
     return;
   }
 
-  fetch('http://localhost:8000/api/account/forgot-password', {
+  fetch('http://localhost:5000/api/account/forgot-password', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, newPassword })
@@ -39,7 +39,7 @@ function signUp(event) {
   const email = document.getElementById('signupEmail').value;
   const password = document.getElementById('signupPassword').value;
 
-  fetch('http://localhost:8000/api/account/signup', {
+  fetch('http://localhost:5000/api/account/signup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, email, password })  
@@ -63,7 +63,7 @@ function signIn(event) {
   const email = document.getElementById('signinEmail').value; 
   const password = document.getElementById('signinPassword').value;
 
-  fetch('http://localhost:8000/api/account/login', {
+  fetch('http://localhost:5000/api/account/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
@@ -95,7 +95,7 @@ function changeUsername(event) {
     return;
   }
 
-  fetch('http://localhost:8000/api/account/change-username', {
+  fetch('http://localhost:5000/api/account/change-username', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, newUsername })
@@ -160,7 +160,7 @@ function requestOTP() {
   const email = document.getElementById('forgotEmail').value.trim();
   if (!email) return alert("กรอกอีเมลก่อน");
 
-  fetch('http://localhost:8000/api/account/request-otp', {
+  fetch('http://localhost:5000/api/account/request-otp', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email })
@@ -187,7 +187,7 @@ function verifyOTPAndReset(event) {
     return;
   }
 
-  fetch('http://localhost:8000/api/account/reset-password', {
+  fetch('http://localhost:5000/api/account/reset-password', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, otp, newPassword })

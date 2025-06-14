@@ -289,9 +289,9 @@
     <!-- Breadcrumb End -->
 
 
-    <!-- Checkout Start -->
+  <!-- Checkout Start -->
 <div class="container-fluid">
-    <form>
+    <form id="checkout-form">
         <div class="row px-xl-5">
             <!-- Shipping Address: Left Side -->
             <div class="col-lg-8">
@@ -302,37 +302,33 @@
                     <div class="row">
                         <div class="col-md-6 form-group">
                             <label>First Name</label>
-                            <input class="form-control" type="text" placeholder="John">
+                            <input class="form-control" type="text" name="firstName" placeholder="John">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Last Name</label>
-                            <input class="form-control" type="text" placeholder="Doe">
+                            <input class="form-control" type="text" name="lastName" placeholder="Doe">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>E-mail</label>
-                            <input class="form-control" type="email" placeholder="example@email.com">
+                            <input class="form-control" type="email" name="email" placeholder="example@email.com">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Mobile No</label>
-                            <input class="form-control" type="text" placeholder="+123 456 789">
+                            <input class="form-control" type="text" name="mobile" placeholder="+123 456 789">
                         </div>
-                    
-                    
-                       <div class="col-md-6 form-group">
-    <label for="countrySelect">Country</label>
-    <select class="custom-select" id="countrySelect">
-        <option value="" selected>Select Country</option>
-    </select>
-</div>
-
-
+                        <div class="col-md-6 form-group">
+                            <label for="countrySelect">Country</label>
+                            <select class="custom-select" id="countrySelect" name="country">
+                                <option value="" selected>Select Country</option>
+                            </select>
+                        </div>
                         <div class="col-md-6 form-group">
                             <label>City</label>
-                            <input class="form-control" type="text" placeholder="New York">
+                            <input class="form-control" type="text" name="city" placeholder="New York">
                         </div>
                         <div class="col-md-12 form-group">
                             <label>Address Line 1</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
+                            <input class="form-control" type="text" name="address1" placeholder="123 Street">
                         </div>
                         <!-- Replace "Create Account" with Submit Button -->
                         <div class="col-md-12 form-group d-block d-lg-none mt-3">
@@ -369,96 +365,88 @@
                     </div>
                 </div>
                 <!-- ส่วนเลือกช่องทางการชำระ -->
-<div class="mb-5">
-  <h5 class="section-title position-relative text-uppercase mb-3">
-    <span class="bg-secondary pr-3">Payment</span>
-  </h5>
-  <div class="bg-light p-30">
-    <!-- ช่องทางทั้งหมด -->
-    <div class="form-group">
-      <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" name="payment" id="mobilebanking" onclick="openModal('bankModal')">
-        <label class="custom-control-label" for="mobilebanking">Mobile Banking</label>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" name="payment" id="promptpay" onclick="openModal('promptpayModal')">
-        <label class="custom-control-label" for="promptpay">PromptPay</label>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" name="payment" id="creditcard" onclick="openModal('creditModal')">
-        <label class="custom-control-label" for="creditcard">Credit Card</label>
-      </div>
-    </div>
-
-    <div class="form-group mb-4">
-      <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" name="payment" id="cod" onclick="openModal('codModal')">
-        <label class="custom-control-label" for="cod">ชำระเงินปลายทาง (Cash on Delivery)</label>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MODALS -->
-<!-- PromptPay Modal -->
-<div id="promptpayModal" class="custom-modal">
-  <div class="custom-modal-content">
-    <span class="close" onclick="closeModal('promptpayModal')">&times;</span>
-    <h4>PromptPay</h4>
-    <p>กรุณาสแกน QR Code</p>
-    <img src="img/qr-code.jpg" width="200" alt="PromptPay QR"><!---  เดี๋ยวดึงข้อมูลมาทีหลังมาสร้างเป็นqrcode --->
-    <p><small>ยอดเงิน: 00 บาท</small></p>
-  </div>
-</div>
-
-<!-- Mobile Banking Modal -->
-<div id="bankModal" class="custom-modal">
-  <div class="custom-modal-content">
-    <span class="close" onclick="closeModal('bankModal')">&times;</span>
-    <h4>Mobile Banking</h4>
-    <p>ชื่อบัญชี: บริษัท ABC</p>
-    <p>ธนาคารไทยพาณิชย์</p>
-    <p>เลขบัญชี: 123-456-7890</p>
-    <label>แนบสลิป: <input type="file" accept="image/*" class="form-control-file"></label>
-  </div>
-</div>
-
-<!-- Credit Card Modal -->
-<div id="creditModal" class="custom-modal">
-  <div class="custom-modal-content">
-    <span class="close" onclick="closeModal('creditModal')">&times;</span>
-    <h4>Credit Card</h4>
-    <label>ชื่อบนบัตร: <input type="text" class="form-control"></label>
-    <label>หมายเลขบัตร: <input type="text" class="form-control" maxlength="16"></label>
-    <label>วันหมดอายุ: <input type="text" class="form-control" placeholder="MM/YY"></label>
-    <label>CVV: <input type="text" class="form-control" maxlength="3"></label>
-  </div>
-</div>
-
-<!-- COD Modal -->
-<div id="codModal" class="custom-modal">
-  <div class="custom-modal-content">
-    <span class="close" onclick="closeModal('codModal')">&times;</span>
-    <h4>ชำระเงินปลายทาง</h4>
-    <p>เจ้าหน้าที่จะเก็บเงินเมื่อจัดส่งสินค้า</p>
-    <p>โปรดยืนยันที่อยู่ให้ถูกต้อง</p>
-  </div>
-</div>
-                        <!-- Place Order button (for desktop only, hidden on mobile) -->
-                        <button  class="btn btn-block btn-primary font-weight-bold py-3 d-none d-lg-block">Place Order</button>
+                <div class="mb-5">
+                    <h5 class="section-title position-relative text-uppercase mb-3">
+                        <span class="bg-secondary pr-3">Payment</span>
+                    </h5>
+                    <div class="bg-light p-30">
+                        <!-- ช่องทางทั้งหมด -->
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="mobilebanking" value="mobilebanking" onclick="openModal('bankModal')">
+                                <label class="custom-control-label" for="mobilebanking">Mobile Banking</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="promptpay" value="promptpay" onclick="openModal('promptpayModal')">
+                                <label class="custom-control-label" for="promptpay">PromptPay</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="creditcard" value="creditcard" onclick="openModal('creditModal')">
+                                <label class="custom-control-label" for="creditcard">Credit Card</label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="cod" value="cod" onclick="openModal('codModal')">
+                                <label class="custom-control-label" for="cod">ชำระเงินปลายทาง (Cash on Delivery)</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <!-- MODALS -->
+                <!-- PromptPay Modal -->
+                <div id="promptpayModal" class="custom-modal">
+                  <div class="custom-modal-content">
+                    <span class="close" onclick="closeModal('promptpayModal')">&times;</span>
+                    <h4>PromptPay</h4>
+                    <p>กรุณาสแกน QR Code</p>
+                    <img src="img/qr-code.jpg" width="200" alt="PromptPay QR">
+                    <p><small>ยอดเงิน: 00 บาท</small></p>
+                  </div>
+                </div>
+                <!-- Mobile Banking Modal -->
+                <div id="bankModal" class="custom-modal">
+                  <div class="custom-modal-content">
+                    <span class="close" onclick="closeModal('bankModal')">&times;</span>
+                    <h4>Mobile Banking</h4>
+                    <p>ชื่อบัญชี: บริษัท ABC</p>
+                    <p>ธนาคารไทยพาณิชย์</p>
+                    <p>เลขบัญชี: 123-456-7890</p>
+                    <label>แนบสลิป: <input type="file" accept="image/*" class="form-control-file"></label>
+                  </div>
+                </div>
+                <!-- Credit Card Modal -->
+                <div id="creditModal" class="custom-modal">
+                  <div class="custom-modal-content">
+                    <span class="close" onclick="closeModal('creditModal')">&times;</span>
+                    <h4>Credit Card</h4>
+                    <label>ชื่อบนบัตร: <input type="text" class="form-control"></label>
+                    <label>หมายเลขบัตร: <input type="text" class="form-control" maxlength="16"></label>
+                    <label>วันหมดอายุ: <input type="text" class="form-control" placeholder="MM/YY"></label>
+                    <label>CVV: <input type="text" class="form-control" maxlength="3"></label>
+                  </div>
+                </div>
+                <!-- COD Modal -->
+                <div id="codModal" class="custom-modal">
+                  <div class="custom-modal-content">
+                    <span class="close" onclick="closeModal('codModal')">&times;</span>
+                    <h4>ชำระเงินปลายทาง</h4>
+                    <p>เจ้าหน้าที่จะเก็บเงินเมื่อจัดส่งสินค้า</p>
+                    <p>โปรดยืนยันที่อยู่ให้ถูกต้อง</p>
+                  </div>
+                </div>
+                <!-- Place Order button (for desktop only, hidden on mobile) -->
+                <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3 d-none d-lg-block">Place Order</button>
             </div>
         </div>
     </form>
 </div>
 <!-- Checkout End -->
+
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
         <div class="row px-xl-5 pt-5">
@@ -605,8 +593,31 @@ window.onclick = function(event) {
     }
   });
 }
+
+
+
 </script>
 <!--สคริปต์หน้าล็อคอินกับสร้างบัญชี-->
 <script src="Register.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    fetch('http://localhost:5000/api/country/list')
+      .then(res => res.json())
+      .then(countries => {
+        const select = document.getElementById('countrySelect');
+        countries.forEach(country => {
+          const option = document.createElement('option');
+          option.value = country.code;
+          option.textContent = country.name;
+          select.appendChild(option);
+        });
+      })
+      .catch(err => {
+        console.error('โหลดรายชื่อประเทศไม่สำเร็จ:', err);
+      });
+  });
+</script>
+
+
 
 </html>

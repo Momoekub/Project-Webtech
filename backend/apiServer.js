@@ -8,7 +8,10 @@ const PORT = 5000; // <-- มาเปลี่ยนพอร์ตตรงน
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api/nametest', require('./routes/nametest'));
+//ของโมโม่
+app.use('/api/account', require('./routes/account'));
+app.use('/api/country', require('./routes/country'));
+app.use('/api/checkout', require('./routes/checkout'));
 
 app.listen(PORT, () => {
     console.log('Server running at http://localhost:'+ PORT);
