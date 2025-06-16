@@ -332,7 +332,6 @@
                     <h3 class="font-weight-semi-bold mb-4" id="productPrice">--</h3>
                     <div class="d-flex mb-3">
                        <div class="form-group">
-                        <label for="productPriceSelect"><strong class="text-dark">ราคา:</strong></label>
                         <div id="priceSelect" class="d-flex flex-wrap gap-2 mt-2">
                         </div>
                         </div>
@@ -722,62 +721,69 @@
         });
     }
     
-    //เอาไว้ดึงไอดีจากหน
-    const productId = localStorage.getItem('productid')
-    if (productId) {
-    loadProduct(productId);
-  } else {
-    alert("ไม่พบสินค้า");
-  }
-   async function loadProduct(id) {
-    const apiUrl = 'http://localhost:5000/api/products/'+id; 
-    try {
-      const res = await fetch(apiUrl); 
-      if (!res.ok) throw new Error('โหลดข้อมูลล้มเหลว');
-      
-      const product = await res.json();
-      document.getElementById('productDetail').textContent = product.name;
-      document.getElementById('productName').textContent = product.name;
-      document.getElementById('productPrice').textContent = product.price + "฿";
-      document.getElementById('productDescription').textContent = product.description;
-      document.getElementById('productReview').textContent = '1 review for "' + product.name + '"';
-      const imgElement = document.querySelector('.col-lg-5 img');
-      imgElement.src = 'img/use/Product/' + product.category + '/' + product.image;
+const productId = localStorage.getItem('productid');
+const category = localStorage.getItem('productcategory');
+if (productId && category) {
+  loadProduct(category, productId);
+} else {
+  alert("ไม่พบข้อมูลสินค้า");
+}
+
+async function loadProduct(category, id) {
+  const apiUrl = `http://localhost:5000/api/products/${category}/${id}`;  
+  try {
+    const res = await fetch(apiUrl);
+    if (!res.ok) throw new Error('โหลดข้อมูลล้มเหลว');
+
+    const product = await res.json();
+    console.log("PRODUCT:", product);  
+
+    document.getElementById('productDetail').textContent = product.name;
+    document.getElementById('productName').textContent = product.name;
+    document.getElementById('productDescription').textContent = product.description;
+    document.getElementById('productReview').textContent = '1 review for "' + product.name + '"';
+
+    const imgElement = document.querySelector('.col-lg-5 img');
+    if (imgElement) {
+      imgElement.src = product.image || 'img/default.png';
       imgElement.alt = product.name;
-      
-      const priceContainer = document.getElementById('priceSelect');
-    priceContainer.innerHTML = ''; 
+    }
 
-    product.prices.forEach((price, index) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'btn btn-outline-primary';
-      btn.dataset.value = price.salePrice;
-      btn.dataset.option = price.value;
-      btn.textContent = `${price.value}`;
+    const priceContainer = document.getElementById('priceSelect');
+    priceContainer.innerHTML = '';
 
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('#priceSelect button').forEach(b => {
-      b.classList.remove('active');
-    });
-        btn.classList.add('active');
-        document.getElementById('productPrice').textContent = `${price.salePrice}฿`;
-    });
+    if (Array.isArray(product.prices) && product.prices.length > 0) {
+      product.prices.forEach((price, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn btn-outline-primary';
+        btn.dataset.value = price.salePrice;
+        btn.dataset.option = price.value;
+        btn.textContent = `${price.value}`;
 
-      
-      if (index === 0) {
-        btn.classList.add('active');
-        document.getElementById('productPrice').textContent = `${price.salePrice}฿`;
-      }
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#priceSelect button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('productPrice').textContent = `${price.salePrice}฿`;
+        });
 
-      priceContainer.appendChild(btn);
-    });
+        if (index === 0) {
+          btn.classList.add('active');
+          document.getElementById('productPrice').textContent = `${price.salePrice}฿`;
+        }
 
+        priceContainer.appendChild(btn);
+      });
+    } else {
+      document.getElementById('productPrice').textContent = `${product.price}฿`;
+    }
   } catch (error) {
     console.error(error);
     alert(error.message);
   }
-  }
+}
+
+
 
 
   //addtoCart

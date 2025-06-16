@@ -1,26 +1,118 @@
 [
   {
-    "name": "Steam wallet",
+    "name": "Steam Wallet",
+    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "category": "Gift-Card",
     "image": "img/use/product/GiftCard/giftcard1.png",
-    "price": 100,
-    "description": "Steam wallet"
+    "prices": [
+      {
+        "value": "50฿",
+        "salePrice": 50
+      },
+      {
+        "value": "100฿",
+        "salePrice": 100
+      },
+      {
+        "value": "200฿",
+        "salePrice": 200
+      },
+      {
+        "value": "350฿",
+        "salePrice": 350
+      },
+      {
+        "value": "1000฿",
+        "salePrice": 1000
+      },
+      {
+        "value": "2000฿",
+        "salePrice": 2000
+      }
+    ],
+    "id": 1
   },
-    {
-    "name": "Garena shell",
+  {
+    "name": "Garena Shell",
+    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "category": "Gift-Card",
     "image": "img/use/product/GiftCard/giftcard2.png",
-    "price": 100,
-    "description": "Garena shell"
+    "prices": [
+      {
+        "value": "Shell 27 + Bonus 3",
+        "salePrice": 20
+      },
+      {
+        "value": "Shell 67 + Bonus 8",
+        "salePrice": 50
+      },
+      {
+        "value": "Shell 121 + Bonus 14",
+        "salePrice": 90
+      },
+      {
+        "value": "Shell 135 + Bonus 15",
+        "salePrice": 98
+      },
+      {
+        "value": "Shell 405 + Bonus 45",
+        "salePrice": 295
+      },
+      {
+        "value": "Shell 675 + Bonus 75",
+        "salePrice": 490
+      },
+      {
+        "value": "Shell 350 + Bonus 150",
+        "salePrice": 980
+      }
+    ],
+    "id": 2
   },
-    {
+  {
     "name": "Roblox Gift Card",
+    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "category": "Gift-Card",
     "image": "img/use/product/GiftCard/giftcard3.png",
-    "price": 100,
-    "description": "Roblox Gift Card"
+    "prices": [
+      {
+        "value": "300฿",
+        "salePrice": 300
+      },
+      {
+        "value": "750฿",
+        "salePrice": 750
+      }
+    ],
+    "id": 3
   },
-    {
+  {
     "name": "Riot Cash Card",
+    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "category": "Gift-Card",
     "image": "img/use/product/GiftCard/giftcard4.png",
-    "price": 100,
-    "description": "Riot Cash Card"
+    "prices": [
+      {
+        "value": "500 VP",
+        "salePrice": 139
+      },
+      {
+        "value": "1050 VP",
+        "salePrice": 279
+      },
+      {
+        "value": "2175 VP",
+        "salePrice": 559
+      },
+      {
+        "value": "3850 VP",
+        "salePrice": 979
+      },
+      {
+        "value": "11500 VP",
+        "salePrice": 2800
+      }
+    ],
+    "id": 4
   }
 ]

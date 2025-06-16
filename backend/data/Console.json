@@ -3,48 +3,158 @@
     "name": "PlayStation 4",
     "image": "img/use/product/Console/product1.png",
     "price": 100,
-    "description": "ps4"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Console",
+    "prices": [
+      {
+        "value": "Slim 1TB",
+        "salePrice": 9990
+      },
+      {
+        "value": "Pro 1TB",
+        "salePrice": 14990
+      }
+    ],
+    "id": 13
   },
-    {
+  {
     "name": "PlayStation 5",
     "image": "img/use/product/Console/product2.png",
     "price": 120,
-    "description": "ps5"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Console",
+    "prices": [
+      {
+        "value": "Sony DualSense White Controller",
+        "salePrice": 2590
+      },
+      {
+        "value": "Silm Digital Edition 1TB",
+        "salePrice": 13890
+      },
+      {
+        "value": "Slim Disc Edition 1TB",
+        "salePrice": 18690
+      },
+      {
+        "value": "Pro (2TB)",
+        "salePrice": 29500
+      }
+    ],
+    "id": 14
   },
-    {
+  {
     "name": "PlayStation 3",
     "image": "img/use/product/Console/product3.png",
-    "price": 70,
-    "description": "ps3"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Console",
+    "prices": [
+      {
+        "value": "Super Slim 500GB",
+        "salePrice": 4999
+      }
+    ],
+    "id": 15
   },
-    {
+  {
     "name": "PlayStation 2",
     "image": "img/use/product/Console/product4.png",
-    "price": 50,
-    "description": "ps2"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Console",
+    "prices": [
+      {
+        "value": "7000X",
+        "salePrice": 3500
+      },
+      {
+        "value": "9000X",
+        "salePrice": 3990
+      }
+    ],
+    "id": 16
   },
-    {
+  {
     "name": "Xbox-Series X",
     "image": "img/use/product/Console/product5.png",
-    "price": 100,
-    "description": "Series X"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Console",
+    "prices": [
+      {
+        "value": "Digital Edition Robot White 1TB",
+        "salePrice": 18990
+      },
+      {
+        "value": "Disc Edition Carbon Black 1TB",
+        "salePrice": 23990
+      },
+      {
+        "value": "*Preorder* Special Edition Galaxy Black 2TB",
+        "salePrice": 37000
+      }
+    ],
+    "id": 17
   },
-    {
+  {
     "name": "Xbox-Series S",
     "image": "img/use/product/Console/product6.png",
-    "price": 90,
-    "description": "Series S"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Console",
+    "prices": [
+      {
+        "value": "Digital Edition Robot White 512GB",
+        "salePrice": 11990
+      },
+      {
+        "value": "Digital Edition Robot White 1TB",
+        "salePrice": 13500
+      },
+      {
+        "value": "Disc Edition Carbon Black 1TB",
+        "salePrice": 14990
+      }
+    ],
+    "id": 18
   },
-    {
+  {
     "name": "Xbox One",
     "image": "img/use/product/Console/product7.png",
-    "price": 120,
-    "description": "One"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Console",
+    "prices": [
+      {
+        "value": "Xbox One S (500GB)",
+        "salePrice": 10000
+      },
+      {
+        "value": "Xbox One X 1TB",
+        "salePrice": 19000
+      },
+      {
+        "value": "Xbox One S 1TB",
+        "salePrice": 13000
+      }
+    ],
+    "id": 19
   },
-    {
+  {
     "name": "Nintendo Switch",
     "image": "img/use/product/Console/product8.png",
-    "price": 300,
-    "description": "Nintendo"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Console",
+    "prices": [
+      {
+        "value": "Nintendo Switch GEN2",
+        "salePrice": 8999
+      },
+      {
+        "value": "Nintendo Switch OLED",
+        "salePrice": 10000
+      },
+      {
+        "value": "*Preorder* Nintendo Switch 2",
+        "salePrice": 17800
+      }
+    ],
+    "id": 20
   }
 ]

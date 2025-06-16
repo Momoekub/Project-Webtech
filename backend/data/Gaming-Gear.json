@@ -1,32 +1,88 @@
 [
-   {
+  {
     "name": "Controller",
     "image": "img/use/product/Gear/gear1.png",
     "price": 100,
-    "description": "Controller"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Gaming-Gear",
+    "prices": [
+      {
+        "value": "Marvo GT-016",
+        "salePrice": 350
+      },
+      {
+        "value": "Xbox Wireless Controller",
+        "salePrice": 1990
+      }
+    ],
+    "id": 21
   },
-    {
+  {
     "name": "VR",
     "image": "img/use/product/Gear/gear2.png",
-    "price": 100,
-    "description": "vr"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Gaming-Gear",
+    "prices": [
+      {
+        "value": "Oculus Quest 2 128GB",
+        "salePrice": 19990
+      },
+      {
+        "value": "Meta Quest 3 128GB",
+        "salePrice": 24900
+      }
+    ],
+    "id": 22
   },
-    {
+  {
     "name": "Starter pack",
-      "image": "img/use/product/Gear/gear3.png",
-    "price": 100,
-    "description": "keyboard + mouse"
+    "image": "img/use/product/Gear/gear3.png",
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Gaming-Gear",
+    "prices": [
+      {
+        "value": "LOGITECH MK200",
+        "salePrice": 490
+      },
+      {
+        "value": "MSI FORGE GK100 COMBO",
+        "salePrice": 1190
+      }
+    ],
+    "id": 23
   },
-    {
+  {
     "name": "Mouse",
     "image": "img/use/product/Gear/gear4.png",
-    "price": 100,
-    "description": "mouse"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Gaming-Gear",
+    "prices": [
+      {
+        "value": "NUBWO NM-89W",
+        "salePrice": 390
+      },
+      {
+        "value": "Logitech G502 HERO",
+        "salePrice": 1490
+      }
+    ],
+    "id": 24
   },
-    {
+  {
     "name": "Keyboard",
     "image": "img/use/product/Gear/gear5.png",
-    "price": 100,
-    "description": "keyboard"
+    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
+    "category": "Gaming-Gear",
+    "prices": [
+      {
+        "value": "EGA TYPE CMK1 Mechanical",
+        "salePrice": 890
+      },
+      {
+        "value": "Logitech G610 Orion Red Backlit Mechanical",
+        "salePrice": 2500
+      }
+    ],
+    "id": 25
   }
 ]
