@@ -40,5 +40,11 @@
     "email": "dkub_jaja@gmail.com",
     "password": "123456789",
     "role": "user"
+  },
+  {
+    "username": "momoe",
+    "email": "momoemothana@gmail.com",
+    "password": "1234",
+    "role": "user"
   }
 ]
