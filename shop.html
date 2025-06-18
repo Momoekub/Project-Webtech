@@ -27,7 +27,7 @@
 </head>
 
 <body>
-   <!-- Sign In Modal -->
+    <!-- Sign In Modal -->
     <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -147,6 +147,8 @@
   </div>
 </div>
 
+
+
     <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-1 px-xl-5">
@@ -182,18 +184,19 @@
                     <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Shop</span>
                 </a>
             </div>
-            <div class="col-lg-4 col-6 text-left">
-                <form action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
-                                <i class="fa fa-search"></i>
-                            </span>
-                        </div>
-                    </div>
-                </form>
-            </div>
+<div class="col-lg-4 col-6 text-left position-relative">
+  <form action="">
+    <div class="input-group">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search for products">
+      <div class="input-group-append">
+        <span class="input-group-text bg-transparent text-primary">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+    </div>
+    <ul id="searchResults" class="list-group position-absolute w-100" style="z-index: 1000;"></ul>
+  </form>
+</div>
             <div class="col-lg-4 col-6 text-right">
                 <p class="m-0">Customer Service</p>
                 <h5 class="m-0">+012 345 6789</h5>
@@ -213,10 +216,10 @@
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                     <div class="navbar-nav w-100">
-                    <a href="#" class="nav-item nav-link category-link" data-category="gaming-gear-products">Gaming Gear</a>
-                    <a href="#" class="nav-item nav-link category-link" data-category="games-products">Games</a>
-                    <a href="#" class="nav-item nav-link category-link" data-category="gift-card-products">Gift Card</a>
-                    <a href="#" class="nav-item nav-link category-link" data-category="console-products">Console</a>
+                      <a href="shop.html?category=gaming-gear-products" class="nav-item nav-link">Gaming Gear</a>
+                      <a href="shop.html?category=games-products" class="nav-item nav-link">Games</a>
+                      <a href="shop.html?category=gift-card-products" class="nav-item nav-link">Gift Card</a>
+                      <a href="shop.html?category=console-products" class="nav-item nav-link">Console</a>
                   </div>
                 </nav>
             </div>
@@ -233,21 +236,11 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.html" class="nav-item nav-link">Home</a>
                             <a href="shop.html" class="nav-item nav-link active">Shop</a>
-                            <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
-                                <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                    <a href="cart.html" class="dropdown-item">Shopping Cart</a>
-                                    <a href="checkout.html" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
+                            <a href="cart.html" class="nav-item nav-link">Shopping Cart</a>
+                            <a href="checkout.html" class="nav-item nav-link">Checkout</a>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a href="" class="btn px-0">
-                                <i class="fas fa-heart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
-                            </a>
                             <a href="cart.html" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
                                 <span class="cartquantity badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
@@ -501,8 +494,6 @@ function createProductCard(product) {
           <img class="img-fluid w-100" style="height: 100%; object-fit: cover;" src="${product.image}" alt="${product.name}">
           <div class="product-action">
             <a class="btn btn-outline-dark btn-square" href="#"><i class="fa fa-shopping-cart"></i></a>
-            <a class="btn btn-outline-dark btn-square" href="#"><i class="far fa-heart"></i></a>
-            <a class="btn btn-outline-dark btn-square" href="#"><i class="fa fa-sync-alt"></i></a>
             <a class="btn btn-outline-dark btn-square" href="detail.html"
               onclick="event.preventDefault(); 
                        localStorage.setItem('productid', '${product.id}'); 
@@ -530,6 +521,40 @@ function createProductCard(product) {
   `;
 }
 
+// ระบบค้นหาสินค้า
+
+        const input = document.getElementById('searchInput');
+const resultList = document.getElementById('searchResults');
+
+input.addEventListener('input', () => {
+  const query = input.value.trim();
+  resultList.innerHTML = '';
+
+  if (query.length === 0) return;
+
+  fetch(`http://localhost:5000/api/search?query=${encodeURIComponent(query)}`)
+    .then(res => res.json())
+    .then(results => {
+      if (results.length === 0) {
+        resultList.innerHTML = `<li class="list-group-item">No results found</li>`;
+        return;
+      }
+
+      results.slice(0, 5).forEach(name => {
+        const li = document.createElement('li');
+        li.classList.add('list-group-item');
+        li.textContent = name;
+        li.addEventListener('click', () => {
+          input.value = name;
+          resultList.innerHTML = '';
+        });
+        resultList.appendChild(li);
+      });
+    })
+    .catch(err => {
+      console.error('Search error:', err);
+    });
+});
 
 
 </script>
