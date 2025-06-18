@@ -114,47 +114,5 @@
       }
     ],
     "id": 23
-  },
-  {
-    "name": "Xbox One",
-    "image": "img/use/product/Console/product7.png",
-    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
-    "category": "Console",
-    "prices": [
-      {
-        "value": "Xbox One S (500GB)",
-        "salePrice": 10000
-      },
-      {
-        "value": "Xbox One X 1TB",
-        "salePrice": 19000
-      },
-      {
-        "value": "Xbox One S 1TB",
-        "salePrice": 13000
-      }
-    ],
-    "id": 24
-  },
-  {
-    "name": "Nintendo Switch",
-    "image": "img/use/product/Console/product8.png",
-    "description": "จัดส่งภายใน 1-2 วันหลังสั่งซื้อสินค้า Preorder จัดส่งภายใน 14 วันหลังสินค้าวางจำหน่าย",
-    "category": "Console",
-    "prices": [
-      {
-        "value": "Nintendo Switch GEN2",
-        "salePrice": 8999
-      },
-      {
-        "value": "Nintendo Switch OLED",
-        "salePrice": 10000
-      },
-      {
-        "value": "*Preorder* Nintendo Switch 2",
-        "salePrice": 17800
-      }
-    ],
-    "id": 25
   }
 ]

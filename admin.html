@@ -87,6 +87,7 @@
       <h3 id="modalTitle">เพิ่มสินค้า</h3>
       <form id="productForm">
         <input type="hidden" id="editingProductId">
+        <input type="hidden" id="editingProductCategory">
         <label for="productName">ชื่อสินค้า</label>
         <input type="text" id="productName" name="productName" required>
         <label for="productCategory">หมวดหมู่</label>
@@ -112,45 +113,45 @@
     };
 
     // ================ PRODUCT LIST ================
-  function renderProducts(products) {
-  const tbody = document.querySelector('#productTable tbody');
+    function renderProducts(products) {
+      const tbody = document.querySelector('#productTable tbody');
 
-  if (!Array.isArray(products) || !products.length) {
-    tbody.innerHTML = '<tr><td colspan="7">ไม่พบข้อมูลสินค้า</td></tr>';
-    return;
-  }
+      if (!Array.isArray(products) || !products.length) {
+        tbody.innerHTML = '<tr><td colspan="7">ไม่พบข้อมูลสินค้า</td></tr>';
+        return;
+      }
 
-  tbody.innerHTML = '';
-  
-  products.forEach(p => {
-    const priceList = (p.prices || [])
-      .map(pr => `<span>${pr.value} : ${pr.salePrice}฿</span>`)
-      .join("");
+      tbody.innerHTML = '';
+      
+      products.forEach(p => {
+        const priceList = (p.prices || [])
+          .map(pr => `<span>${pr.value} : ${pr.salePrice}฿</span>`)
+          .join("");
 
-    const desc = p.description ? 
-      (p.description.length > 80 ? p.description.substring(0, 80) + '...' : p.description) 
-      : '';
+        const desc = p.description ? 
+          (p.description.length > 80 ? p.description.substring(0, 80) + '...' : p.description) 
+          : '';
 
-    // ใช้ path จาก p.image ตรง ๆ เลย
-    const imagePath = p.image ? `http://localhost:5000/${p.image}` : 'img/default.png';
-   console.log(imagePath,p.image)
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${p.id || '-'}</td>
-      <td>${p.name || '-'}</td>
-      <td>${p.category || '-'}</td>
-      <td class="desc">${desc}</td>
-      <td class="prices">${priceList || '-'}</td>
-      <td><img src="${imagePath}" alt="${p.name}" style="max-width:70px;"></td>
-      <td>
-        <button class="action-btn edit-btn" onclick="openEditModal('${p.id}')">แก้ไข</button>
-        <button class="action-btn delete-btn" onclick="deleteProduct('${p.id}')">ลบ</button>
-      </td>
-    `;
+        // ใช้ path จาก p.image ตรง ๆ เลย
+        const imagePath = p.image ? `http://localhost:5000/${p.image}` : 'img/default.png';
 
-    tbody.appendChild(tr);
-  });
-}
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${p.id || '-'}</td>
+          <td>${p.name || '-'}</td>
+          <td>${p.category || '-'}</td>
+          <td class="desc">${desc}</td>
+          <td class="prices">${priceList || '-'}</td>
+          <td><img src="${imagePath}" alt="${p.name}" style="max-width:70px;"></td>
+          <td>
+            <button class="action-btn edit-btn" onclick="openEditModal('${p.category}', '${p.id}')">แก้ไข</button>
+            <button class="action-btn delete-btn" onclick="deleteProduct('${p.category}', '${p.id}')">ลบ</button>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
 
     function fetchProducts() {
       fetch('http://localhost:5000/api/products')
@@ -172,23 +173,35 @@
       modalTitle.textContent = "เพิ่มสินค้า";
       productForm.reset();
       document.getElementById('editingProductId').value = '';
+      document.getElementById('editingProductCategory').value = '';
       editingId = null;
       modalBg.style.display = 'flex';
     };
 
-    function openEditModal(id) {
-      fetch(`http://localhost:5000/api/products/${id}`)
-        .then(res => res.json())
+    function openEditModal(category, id) {
+      if (!id || !category) {
+        alert('ไม่พบข้อมูลสินค้า');
+        return;
+      }
+      fetch(`http://localhost:5000/api/products/${category}/${id}`)
+        .then(res => {
+          if (!res.ok) throw new Error('ไม่พบสินค้า');
+          return res.json();
+        })
         .then(p => {
           modalTitle.textContent = "แก้ไขสินค้า";
-          document.getElementById('editingProductId').value = p.id;
+          document.getElementById('editingProductId').value = p.id || id;
+          document.getElementById('editingProductCategory').value = p.category || category;
           document.getElementById('productName').value = p.name || '';
           document.getElementById('productCategory').value = p.category || '';
           document.getElementById('productDesc').value = p.description || '';
           document.getElementById('productImage').value = p.image || '';
-          document.getElementById('productPrices').value = (p.prices||[]).map(pr => `${pr.value}:${pr.salePrice}`).join(',');
-          editingId = p.id;
+          document.getElementById('productPrices').value = (p.prices || []).map(pr => `${pr.value}:${pr.salePrice}`).join(',');
+          editingId = p.id || id;
           modalBg.style.display = 'flex';
+        })
+        .catch(err => {
+          alert('โหลดข้อมูลสินค้าไม่สำเร็จ: ' + err.message);
         });
     }
 
@@ -199,54 +212,70 @@
     // ================ ADD/EDIT PRODUCT ================
     productForm.onsubmit = function(e) {
       e.preventDefault();
-      const id = document.getElementById('editingProductId').value;
+      const id = document.getElementById('editingProductId').value.trim();
+      const category = document.getElementById('editingProductCategory').value.trim() || document.getElementById('productCategory').value.trim();
       const name = document.getElementById('productName').value.trim();
-      const category = document.getElementById('productCategory').value.trim();
       const description = document.getElementById('productDesc').value.trim();
       const image = document.getElementById('productImage').value.trim();
-      // แปลงราคาจาก string เป็น array object
-      // เช่น 50฿:50,100฿:100 → [{value:"50฿",salePrice:50}, {value:"100฿",salePrice:100}]
-      const prices = document.getElementById('productPrices').value.split(',').map(s => {
-        const [value, price] = s.split(':');
-        if (!value || !price) return null;
-        return { value: value.trim(), salePrice: Number(price.trim()) };
-      }).filter(Boolean);
+
+      const prices = document.getElementById('productPrices').value.split(',')
+        .map(s => {
+          const [value, price] = s.split(':');
+          if (!value || !price) return null;
+          return { value: value.trim(), salePrice: Number(price.trim()) };
+        })
+        .filter(Boolean);
 
       const productData = { name, category, description, image, prices };
 
       if (id) {
-        // แก้ไข
-        fetch(`http://localhost:5000/api/products/${id}`, {
+        // ส่งแก้ไข
+        fetch(`http://localhost:5000/api/products/${category}/${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(productData)
         })
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) throw new Error('แก้ไขไม่สำเร็จ');
+          return res.json();
+        })
         .then(() => {
           closeModal();
           fetchProducts();
-        });
+        })
+        .catch(err => alert('เกิดข้อผิดพลาด: ' + err.message));
       } else {
-        // เพิ่มใหม่
+        // ส่งเพิ่มใหม่
         fetch(`http://localhost:5000/api/products`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(productData)
         })
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) throw new Error('เพิ่มสินค้าไม่สำเร็จ');
+          return res.json();
+        })
         .then(() => {
           closeModal();
           fetchProducts();
-        });
+        })
+        .catch(err => alert('เกิดข้อผิดพลาด: ' + err.message));
       }
     };
 
+
     // ================ DELETE PRODUCT ================
-    function deleteProduct(id) {
+    function deleteProduct(category, id) {
       if (confirm('คุณแน่ใจว่าต้องการลบสินค้านี้?')) {
-        fetch(`http://localhost:5000/api/products/${id}`, { method: 'DELETE' })
-          .then(res => res.json())
-          .then(() => fetchProducts());
+        fetch(`http://localhost:5000/api/products/${category}/${id}`, {
+          method: 'DELETE'
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('ลบไม่สำเร็จ');
+          return res.json();
+        })
+        .then(() => fetchProducts())
+        .catch(err => alert('เกิดข้อผิดพลาด: ' + err.message));
       }
     }
 
@@ -308,7 +337,6 @@
     // ================ DELETE ORDER =================
     function deleteOrder(id) {
       if (confirm('คุณแน่ใจว่าต้องการลบออร์เดอร์นี้?')) {
-        // ถ้า backend มี DELETE /api/order/:id แล้ว ให้ใช้แบบนี้
         fetch(`http://localhost:5000/api/order/${id}`, { method: 'DELETE' })
           .then(res => res.json())
           .then(() => fetchOrders())
