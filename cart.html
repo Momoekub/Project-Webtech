@@ -437,7 +437,9 @@
     <script src="Register.js"></script>
     <!--สคริปต์หน้าล็อคอินกับสร้างบัญชี-->
 <script>
-  loadCart();
+ document.addEventListener('DOMContentLoaded', loadCart);
+
+  // โหลดข้อมูลตะกร้าและแสดงผล
 async function loadCart() {
   const username = localStorage.getItem('username');
   const tbody = document.getElementById('cart-body');
@@ -447,40 +449,62 @@ async function loadCart() {
   let totalquantity = 0;
 
   if (!username) {
-    alert('โปรดlogin');
+    alert('โปรด login ก่อน');
     return;
   }
 
   try {
-    // ดึงข้อมูลตะกร้าและสินค้า
-    const [cartRes, productsRes] = await Promise.all([
-      fetch(`http://localhost:5000/api/cart?username=${encodeURIComponent(username)}`),
-      fetch(`http://localhost:5000/api/products`)
-    ]);
+    // ดึงข้อมูลตะกร้า
+    const cartRes = await fetch(`http://localhost:5000/api/cart?username=${encodeURIComponent(username)}`);
+    if (!cartRes.ok) throw new Error(`HTTP ${cartRes.status}`);
     const cart = await cartRes.json();
-    const products = await productsRes.json();
 
+    // หาหมวดหมู่สินค้าที่ไม่ซ้ำ
+    const categories = [...new Set(cart.map(item => item.category))];
+
+    // ดึงสินค้าจากแต่ละหมวดหมู่
+    const productsArrays = await Promise.all(
+      categories.map(cat =>
+        fetch(`http://localhost:5000/api/products/${encodeURIComponent(cat)}`)
+          .then(res => res.ok ? res.json() : [])
+      )
+    );
+    const products = productsArrays.flat();
+
+    // ล้างตารางก่อน
     tbody.innerHTML = '';
 
+    // สร้างแถวใหม่ตามข้อมูลใน cart
     cart.forEach(p => {
       const productInfo = products.find(prod => prod.id == p.id);
       if (!productInfo) return;
-      const total = p.priceSelect * p.quantity;
-      subtotal += total;
-      totalquantity+=p.quantity
 
-      // สร้าง option list จาก prices ใน productInfo
-      const optionsHtml = productInfo.prices.map(price => `
-        <option value="${price.value}" ${price.value === p.option ? 'selected' : ''}>${price.value}</option>
-      `).join('');
-      if (p.category !== "GiftCard" && p.category !== "Games") {
-        shipping += 40*p.quantity;
+      const total = p.price * p.quantity;
+      subtotal += total;
+      totalquantity += p.quantity;
+
+      const priceList = Array.isArray(productInfo.prices)
+        ? productInfo.prices
+        : [productInfo.prices];
+
+      // สร้าง <option> สำหรับแต่ละราคา
+      const optionsHtml = priceList.map(price =>
+        `<option value="${price.value}" ${price.value === p.option ? 'selected' : ''}>
+          ${price.value}
+        </option>`
+      ).join('');
+
+      // ค่าจัดส่ง
+      if (p.category !== "Gift-Card" && p.category !== "Games") {
+        shipping += 40 * p.quantity;
       }
       totalprice = subtotal + shipping;
+
+      // สร้าง <tr>
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td class=" cartlists align-middle clickable-td" data-id="${p.id}" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-          <img src="/img/use/product/${p.category}/${p.image}" alt="productimage" style="width: 50px;">
+        <td class="align-middle clickable-td" style="display:flex;align-items:center;gap:10px;cursor:pointer;" data-id="${p.id}">
+          <img src="${p.image}" style="width:50px;" alt="">
           ${p.productname}
         </td>
         <td class="align-middle">
@@ -488,108 +512,134 @@ async function loadCart() {
             ${optionsHtml}
           </select>
         </td>
-        <td class="align-middle price-col">${p.priceSelect}฿</td>
+        <td class="align-middle price-col">${p.price}</td>
         <td class="align-middle">
-          <div class="input-group quantity mx-auto" style="width: 100px;">
-            <div class="input-group-btn">
-              <button class="btn btn-sm btn-primary btn-minus">
-                <i class="fa fa-minus"></i>
-              </button>
-            </div>
+          <div class="input-group quantity mx-auto" style="width:100px;">
+            <button class="btn btn-sm btn-primary btn-minus"><i class="fa fa-minus"></i></button>
             <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="${p.quantity}" readonly>
-            <div class="input-group-btn">
-              <button class="btn btn-sm btn-primary btn-plus">
-                <i class="fa fa-plus"></i>
-              </button>
-            </div>
+            <button class="btn btn-sm btn-primary btn-plus"><i class="fa fa-plus"></i></button>
           </div>
         </td>
         <td class="align-middle total-col">${total}฿</td>
         <td class="align-middle">
-          <button class="btn btn-sm btn-danger btn-delete">
-            <i class="fa fa-times"></i>
-          </button>
+          <button class="btn btn-sm btn-danger btn-delete"><i class="fa fa-times"></i></button>
         </td>
       `;
-      const clickableTd = tr.querySelector('.clickable-td');
-      clickableTd.addEventListener('click', () => {
-        localStorage.setItem('productid',p.id)
-        window.location.href = `detail.html`;
+
+      // คลิกชื่อ → ไปหน้า detail
+      tr.querySelector('.clickable-td').addEventListener('click', () => {
+        localStorage.setItem('productid', p.id);
+        localStorage.setItem('productcategory', p.category);
+        window.location.href = 'detail.html';
       });
-      const select = tr.querySelector('.cart-option-selector');
-      select.addEventListener('change', async () => {
-        const newOption = select.value;
+
+      // dropdown เปลี่ยน option
+      const selectElement = tr.querySelector('.cart-option-selector');
+      selectElement.addEventListener('change', async () => {
+        const newOption = selectElement.value;
         const optData = productInfo.prices.find(price => price.value === newOption);
         if (!optData) return;
-        await updateQuantity(p.id, p.quantity, p.option, newOption, optData.salePrice);
+        const success = await updateQuantity(p.id, p.quantity, p.option, newOption, optData.salePrice);
+        if (success) {
+          p.option = newOption;  // อัปเดต option ใหม่ไว้ที่ object p ด้วย
+        }
       });
 
-      tr.querySelector('.btn-minus').addEventListener('click', () => updateQuantity(p.id, p.quantity - 1, p.option, p.option, p.priceSelect));
-      tr.querySelector('.btn-plus').addEventListener('click', () => updateQuantity(p.id, p.quantity + 1, p.option, p.option, p.priceSelect));
-      tr.querySelector('.btn-delete').addEventListener('click', () => deleteItem(p.id, p.option));
+      // ปุ่ม - และ +
+      tr.querySelector('.btn-minus').addEventListener('click', async () => {
+        const currentOption = selectElement.value;
+        const optData = productInfo.prices.find(price => price.value === currentOption);
+        if (!optData) return;
+        const success = await updateQuantity(p.id, p.quantity - 1, currentOption, currentOption, optData.salePrice);
+        if (success) p.quantity -= 1;
+      });
 
+      tr.querySelector('.btn-plus').addEventListener('click', async () => {
+        const currentOption = selectElement.value;
+        const optData = productInfo.prices.find(price => price.value === currentOption);
+        if (!optData) return;
+        const success = await updateQuantity(p.id, p.quantity + 1, currentOption, currentOption, optData.salePrice);
+        if (success) p.quantity += 1;
+      });
+
+      // ปุ่มลบสินค้า
+      tr.querySelector('.btn-delete').addEventListener('click', () => {
+        const currentOption = selectElement.value;
+        deleteItem(p.id, currentOption);
+      });
+
+      // ใส่แถวลงในตาราง
       tbody.appendChild(tr);
     });
+
+    // แสดงผลรวม
     document.getElementById('subtotal').textContent = `${subtotal}฿`;
     document.getElementById('shipping').textContent = `${shipping}฿`;
-    document.getElementById('totalquantity').textContent = `${totalquantity} ชิ้น`;
+    document.getElementById('totalquantity').textContent = `${totalquantity}`;
     document.getElementById('totalprice').textContent = `${totalprice}฿`;
-    
 
   } catch (err) {
     console.error('เกิดข้อผิดพลาดขณะโหลดตะกร้า:', err);
   }
 }
 
-// ฟังก์ชันอัพเดทจำนวนและ option พร้อมราคาที่เลือกใหม่
+// ฟังก์ชันแก้ไขจำนวนสินค้าในตะกร้า
 async function updateQuantity(id, newQty, oldOption, newOption, newPrice) {
   const username = localStorage.getItem('username');
+  console.log(username)
   if (newQty < 1) {
     await deleteItem(id, oldOption);
     await loadCart();
-    return;
+    return true;
   }
 
   const res = await fetch(`http://localhost:5000/api/cart/${id}?username=${encodeURIComponent(username)}&option=${encodeURIComponent(oldOption)}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+      username,
       quantity: newQty,
       option: newOption,
-      priceSelect: newPrice
+      price: newPrice
     })
   });
+  console.log('oldOption:', oldOption);
 
   if (!res.ok) {
     const err = await res.json();
-    alert.error('Update failed:', err);
-
+    alert('Update failed: ' + (err.message || JSON.stringify(err)));
+    return false;
   } else {
     await loadCart();
+    return true;
   }
 }
 
-
+// ฟังก์ชันลบสินค้า
 async function deleteItem(id, option) {
-  const urlParams = new URLSearchParams(window.location.search);
   const username = localStorage.getItem('username');
-
+  if (!username) {
+    alert('โปรดล็อคอินก่อน');
+    return;
+  }
   const res = await fetch(`http://localhost:5000/api/cart/${id}?username=${encodeURIComponent(username)}&option=${encodeURIComponent(option)}`, {
     method: 'DELETE'
   });
 
   if (!res.ok) {
     const err = await res.json();
-    console.error('Delete failed:', err);
+    alert(`Delete failed: ${err.error || JSON.stringify(err)}`);
   } else {
-    await loadCart(); 
+    await loadCart();
   }
 }
 
+// เรียกโหลดตะกร้าเมื่อหน้าโหลดเสร็จ
+//window.addEventListener('DOMContentLoaded', loadCart);
 
-async function checkout(){
 
-}
+
+
 
 
 </script>

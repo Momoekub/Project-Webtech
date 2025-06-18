@@ -1,7 +1,7 @@
 [
   {
     "name": "Steam Wallet",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Gift-Card",
     "image": "img/use/product/GiftCard/giftcard1.png",
     "prices": [
@@ -30,11 +30,11 @@
         "salePrice": 2000
       }
     ],
-    "id": 1
+    "id": 14
   },
   {
     "name": "Garena Shell",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Gift-Card",
     "image": "img/use/product/GiftCard/giftcard2.png",
     "prices": [
@@ -67,11 +67,11 @@
         "salePrice": 980
       }
     ],
-    "id": 2
+    "id": 15
   },
   {
     "name": "Roblox Gift Card",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Gift-Card",
     "image": "img/use/product/GiftCard/giftcard3.png",
     "prices": [
@@ -84,11 +84,11 @@
         "salePrice": 750
       }
     ],
-    "id": 3
+    "id": 16
   },
   {
     "name": "Riot Cash Card",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Gift-Card",
     "image": "img/use/product/GiftCard/giftcard4.png",
     "prices": [
@@ -113,6 +113,6 @@
         "salePrice": 2800
       }
     ],
-    "id": 4
+    "id": 17
   }
 ]

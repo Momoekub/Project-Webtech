@@ -91,6 +91,7 @@ function changeUsername(event) {
 
   const newUsername = document.getElementById('newUsername').value.trim();
   const email = document.getElementById('changeEmail').value.trim();
+  const oldUsername = localStorage.getItem('username');
 
   if (!newUsername || !email) {
     alert("กรุณากรอกข้อมูลให้ครบ");
@@ -105,6 +106,11 @@ function changeUsername(event) {
   .then(res => res.json())
   .then(data => {
     if (data.success) {
+      fetch('http://localhost:5000/api/cart/change-username', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ oldUsername, newUsername })
+        })
       alert("เปลี่ยนชื่อผู้ใช้สำเร็จเป็น: " + newUsername);
       localStorage.setItem('username', newUsername);
       updateAccountUI();

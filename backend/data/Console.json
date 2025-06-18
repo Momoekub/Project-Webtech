@@ -15,7 +15,7 @@
         "salePrice": 14990
       }
     ],
-    "id": 13
+    "id": 18
   },
   {
     "name": "PlayStation 5",
@@ -41,7 +41,7 @@
         "salePrice": 29500
       }
     ],
-    "id": 14
+    "id": 19
   },
   {
     "name": "PlayStation 3",
@@ -54,7 +54,7 @@
         "salePrice": 4999
       }
     ],
-    "id": 15
+    "id": 20
   },
   {
     "name": "PlayStation 2",
@@ -71,7 +71,7 @@
         "salePrice": 3990
       }
     ],
-    "id": 16
+    "id": 21
   },
   {
     "name": "Xbox-Series X",
@@ -92,7 +92,7 @@
         "salePrice": 37000
       }
     ],
-    "id": 17
+    "id": 22
   },
   {
     "name": "Xbox-Series S",
@@ -113,7 +113,7 @@
         "salePrice": 14990
       }
     ],
-    "id": 18
+    "id": 23
   },
   {
     "name": "Xbox One",
@@ -134,7 +134,7 @@
         "salePrice": 13000
       }
     ],
-    "id": 19
+    "id": 24
   },
   {
     "name": "Nintendo Switch",
@@ -155,6 +155,6 @@
         "salePrice": 17800
       }
     ],
-    "id": 20
+    "id": 25
   }
 ]

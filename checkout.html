@@ -157,7 +157,6 @@
                     <a class="text-body mr-3" href="">Contact</a>
                     <a class="text-body mr-3" href="">Help</a>
                     <a class="text-body mr-3" href="">FAQs</a>
-                    <a class="text-body mr-3 d-none" id="adminTab" href="admin.html">Admin</a>
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
@@ -295,11 +294,11 @@
     <form id="checkout-form">
         <div class="row px-xl-5">
             <!-- Shipping Address: Left Side -->
-            <div class="col-lg-8">
+            <div id="shippingAddressForm" class="col-lg-8">
                 <h5 class="section-title position-relative text-uppercase mb-3">
                     <span class="bg-secondary pr-3">Shipping Address</span>
                 </h5>
-                <div class="bg-light p-30 mb-5">
+                <div class=" bg-light p-30 mb-5">
                     <div class="row">
                         <div class="col-md-6 form-group">
                             <label>First Name</label>
@@ -339,7 +338,7 @@
                 </div>
             </div>
             <!-- Order Total + Payment: Right Side -->
-            <div class="col-lg-4">
+            <div id="ordertotal" class="col-lg-4">
                 <h5 class="section-title position-relative text-uppercase mb-3">
                     <span class="bg-secondary pr-3">Order Total</span>
                 </h5>
@@ -351,11 +350,15 @@
                     <div class="border-bottom pt-3 pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6 id="subtotal-amount">$0</h6>
+                            <h6 id="subtotal-amount">0</h6>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 id="totalshipping" class="font-weight-medium">0</h6>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 id="totalshipping" class="font-weight-medium">$0</h6>
+                            <h6 class="font-weight-medium">Quantity</h6>
+                            <h6 id="totalquantity" class="font-weight-medium">0</h6>
                         </div>
                     </div>
                     <div class="pt-2">
@@ -425,10 +428,10 @@
                   <div class="custom-modal-content">
                     <span class="close" onclick="closeModal('creditModal')">&times;</span>
                     <h4>Credit Card</h4>
-                    <label>ชื่อบนบัตร: <input type="text" class="form-control"></label>
-                    <label>หมายเลขบัตร: <input type="text" class="form-control" maxlength="16"></label>
-                    <label>วันหมดอายุ: <input type="text" class="form-control" placeholder="MM/YY"></label>
-                    <label>CVV: <input type="text" class="form-control" maxlength="3"></label>
+                    <label>ชื่อบนบัตร: <input type="text" id="cardName" name="cardName" class="form-control"></label>
+                    <label>หมายเลขบัตร: <input type="text" id="cardNumber" name="cardNumber" class="form-control" maxlength="16"></label>
+                    <label>วันหมดอายุ: <input type="text" id="cardExpiry" name="cardExpiry" class="form-control" placeholder="MM/YY"></label>
+                    <label>CVV: <input type="text" id="cardCVV" name="cardCVV" class="form-control" maxlength="3"></label>
                   </div>
                 </div>
                 <!-- COD Modal -->
@@ -539,7 +542,7 @@
     <script>
       
   async function checkoutitem() {
-    const username = localStorage.getItem('username');
+  const username = localStorage.getItem('username');
   if (!username) {
     alert('โปรด login ก่อนทำการ checkout');
     return;
@@ -548,27 +551,68 @@
     const res = await fetch(`http://localhost:5000/api/cart?username=${encodeURIComponent(username)}`);
     const cart = await res.json();
 
+    const categories = [...new Set(cart.map(item => item.category))];
+    const shippingForm = document.getElementById('shippingAddressForm');
+    const onlyGiftCardOrGames = categories.length > 0 && categories.every(cat => cat === 'GiftCard' || cat === 'Games');
+
+    const shippingAddressForm = document.getElementById('shippingAddressForm');
+
+if (onlyGiftCardOrGames) {
+  const formGroups = shippingForm.querySelectorAll('.form-group');
+  formGroups.forEach(group => {
+    const input = group.querySelector('input, select');
+    if (input && input.name === 'email') {
+      group.style.display = 'block';  
+    } else {
+      group.style.display = 'none';   
+    }
+  });
+}
+
+    const codOption = document.querySelector('input#cod')?.closest('.form-group');
+    if (codOption) {
+      if (onlyGiftCardOrGames) {
+        codOption.style.display = 'none';
+        const codInput = document.getElementById('cod');
+        if (codInput.checked) {
+          codInput.checked = false;
+          document.getElementById('mobilebanking').checked = true;
+        }
+      } else {
+        codOption.style.display = 'block';
+      }
+    }
+
     const container = document.getElementById('checkoutlist');
-    container.innerHTML = ''; 
+    container.innerHTML = '';
+
     let subtotal = 0;
     let shipping = 0;
+    let totalquantity = 0;
+
     cart.forEach(item => {
-      subtotal += item.priceSelect * item.quantity;
+      subtotal += item.price * item.quantity;
+      totalquantity += item.quantity;  // เพิ่มนับจำนวนสินค้า
       if (item.category !== "GiftCard" && item.category !== "Games") {
         shipping += 40 * item.quantity;
       }
       const div = document.createElement('div');
-      div.className = 'mb-3'; 
+      div.className = 'mb-3';
       div.innerHTML = `
         <p class="mb-1">${item.productname}${item.option ? ' (' + item.option + ')' : ''}</p>
-        <p class="mb-0 text-muted">${item.priceSelect}฿</p>
+        <p class="mb-0 text-muted">${item.price}฿</p>
       `;
       container.appendChild(div);
     });
+
     const total = subtotal + shipping;
+
     document.getElementById('subtotal-amount').textContent = `${subtotal}฿`;
     document.getElementById('totalshipping').textContent = `${shipping}฿`;
+    document.getElementById('totalquantity').textContent = totalquantity;
     document.getElementById('totalprice').textContent = `${total}฿`;
+
+    document.getElementById('checkout-form').dataset.onlyGiftCardOrGames = onlyGiftCardOrGames;
 
   } catch (error) {
     console.error('เกิดข้อผิดพลาดระหว่างโหลดรายการสินค้า:', error);
@@ -579,49 +623,60 @@ document.getElementById('checkout-form').addEventListener('submit', async functi
   e.preventDefault();
 
   const form = e.target;
-  const username = localStorage.getItem('username'); // ดึงจาก localStorage
-  if (!username) {
-    alert('กรุณาเข้าสู่ระบบ');
+  const formData = new FormData(form);
+
+  const paymentMethod = form.querySelector('input[name="payment"]:checked')?.value;
+  if (!paymentMethod) {
+    alert("กรุณาเลือกวิธีชำระเงิน");
     return;
   }
 
-  // รวมข้อมูลจาก form
-  const formData = {
-    username,
-    shipping: {
-      firstName: form.firstName.value,
-      lastName: form.lastName.value,
-      email: form.email.value,
-      mobile: form.mobile.value,
-      country: form.country.value,
-      city: form.city.value,
-      address1: form.address1.value,
-    },
-    payment: form.payment.value,
+  // เพิ่ม username จาก localStorage (หรือฟอร์ม login)
+  formData.append('username', localStorage.getItem('username') || 'guest');
+  const shipping = {
+    firstName: form.firstName.value,
+    lastName: form.lastName.value,
+    email: form.email.value,
+    mobile: form.mobile.value,
+    address1: form.address1.value,
   };
+  formData.append('shipping', JSON.stringify(shipping));
+  formData.append('paymentMethod', paymentMethod);
 
   try {
-    const res = await fetch('http://localhost:5000/api/checkout/', {
+    const response = await fetch('http://localhost:5000/api/checkout', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
+      body: formData,
     });
 
-    const data = await res.json();
+    const result = await response.json();
 
-    if (data.success) {
-      alert('สั่งซื้อสำเร็จ!');
+    if (response.ok) {
+      alert('สั่งซื้อสำเร็จ');
+      console.log(result);
     } else {
-      alert(data.message || 'เกิดข้อผิดพลาด');
+      alert(result.error || 'เกิดข้อผิดพลาด');
     }
   } catch (err) {
-    console.error('Checkout error:', err);
-    alert('ไม่สามารถสั่งซื้อได้ในขณะนี้');
+    console.error(err);
+    alert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์');
   }
 });
 
 
+
 document.addEventListener('DOMContentLoaded', checkoutitem);
+const radios = document.querySelectorAll('input[name="payment"]');
+const extraFields = document.querySelectorAll('.payment-extra');
+radios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    extraFields.forEach(div => div.style.display = 'none');
+    const method = radio.value;
+    const activeDiv = document.getElementById(`${method}-info`);
+    if (activeDiv) activeDiv.style.display = 'block';
+  });
+});
+
 
 function openModal(id) {
   document.getElementById(id).style.display = "block";

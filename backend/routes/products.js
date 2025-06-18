@@ -2,12 +2,44 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const router = express.Router();
+const categoriesFile = path.join(__dirname, '..', 'data', 'Catagory-shop.json');
 
 // ดึง path ของไฟล์ตาม category
 function getFilePathByCategory(category) {
   return path.join(__dirname, '..', 'data', `${category}.json`);
 }
+function readCategories() {
+  try {
+    const content = fs.readFileSync(categoriesFile, 'utf8');
+    return content ? JSON.parse(content) : [];
+  } catch (err) {
+    console.error('อ่านไฟล์ categories.json ผิดพลาด:', err);
+    return [];
+  }
+}
+router.get('/', (req, res) => {
+  try {
+    try {
+    const categoriesObj = readCategories();
+    const categories = categoriesObj.categories || [];
+    let allProducts = [];
 
+    categories.forEach(category => {
+      const products = readProducts(category);
+      const productsWithCategory = products.map(p => ({ ...p, category }));
+      allProducts = allProducts.concat(productsWithCategory);
+    });
+
+    res.json(allProducts);
+  } catch (err) {
+    console.error('เกิดข้อผิดพลาดในการโหลดสินค้าทุกหมวดหมู่:', err);
+    res.status(500).json({ error: 'เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า' });
+  }
+  } catch (err) {
+    console.error('เกิดข้อผิดพลาดในการโหลดสินค้าทุกหมวดหมู่:', err);
+    res.status(500).json({ error: 'เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า' });
+  }
+});
 // อ่านสินค้า
 function readProducts(category) {
   const filePath = getFilePathByCategory(category);

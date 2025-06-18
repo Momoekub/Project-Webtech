@@ -15,6 +15,10 @@ app.use('/api/country', require('./routes/country'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/order', orderRoutes); 
 app.use('/img', express.static(path.join(__dirname, '..', 'img')));
+app.use('/api/cart', require('./routes/cart'));
+app.use('/api/checkout', require('./routes/checkout'));
+app.use('/api/catagory', require('./routes/catagory')); //สำหรับแยกหมวดหมู่Add commentMore actions
+app.use('/api/search', require('./routes/search')); //สำหรับการค้นหาสินค้า
 
 app.listen(PORT, () => {
   console.log('✅ Server running at http://localhost:' + PORT);

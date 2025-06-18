@@ -2,89 +2,89 @@
   {
     "name": "The Last of Us™ Part I",
     "image": "img/use/product/Games/game1.jpg",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Games",
     "prices":[{
         "value": "SteamKey",
         "salePrice": 1690
       }],
-    "id": 5
+    "id": 6
   },
     {
     "name": "The Last of Us™ Part II Remastered",
     "image": "img/use/product/Games/game2.jpg",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Games",
     "prices":[{
         "value": "SteamKey",
         "salePrice": 1290
       }],
-    "id": 6
+    "id": 7
   },
     {
     "name": "Stray",
     "image": "img/use/product/Games/game3.jpg",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Games",
     "prices":[{
         "value": "SteamKey",
         "salePrice": 549
       }],
-    "id": 7
+    "id": 8
   },
     {
     "name": "Guilty Gear -Strive-",
     "image": "img/use/product/Games/game4.jpg",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Games",
     "prices":[{
         "value": "SteamKey",
         "salePrice": 1330
       }],
-    "id": 8
+    "id": 9
   },
     {
     "name": "Warhammer 40,000: Space Marine 2",
     "image": "img/use/product/Games/game5.jpg",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Games",
     "prices":[{
         "value": "SteamKey",
         "salePrice": 1490
       }],
-    "id": 9
+    "id": 10
   },
     {
     "name": "Tennis Manager 25",
     "image": "img/use/product/Games/game6.jpg",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Games",
     "prices":[{
         "value": "SteamKey",
         "salePrice": 799
       }],
-    "id": 10
+    "id": 11
   },
     {
     "name": "Clair Obscur: Expedition 33",
     "image": "img/use/product/Games/game7.jpg",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Games",
     "prices":[{
         "value": "SteamKey",
         "salePrice": 1100
       }],
-    "id": 11
+    "id": 12
   },
     {
     "name": "Monster Hunter Wilds Deluxe Edition",
     "image": "img/use/product/Games/game8.jpg",
-    "description": "ส่งโค้ดภายใน 5 นาทีทางอีเมล หลังจากชำระเงินเรียบร้อย",
+    "description": "ส่งโค้ดภายใน 5 นาที หลังจากชำระเงินเรียบร้อย",
     "category": "Games",
     "prices":[{
         "value": "SteamKey",
         "salePrice": 2550 
       }],
-    "id": 12
+    "id": 13
   }
 ]

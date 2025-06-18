@@ -790,55 +790,66 @@ async function loadProduct(category, id) {
   //addtoCart
 document.getElementById('addToCart').addEventListener('click', async function (e) {
   e.preventDefault();
-  const id = productId;
   const productname = document.getElementById('productName').textContent;
+  const productId = localStorage.getItem('productid');
   const activePriceBtn = document.querySelector('#priceSelect .active');
-  const option = activePriceBtn.dataset.option;
-  const quantity = document.getElementById('quantity')?.value;
+  const quantity = parseInt(document.getElementById('quantity')?.value, 10);
   const username = localStorage.getItem('username');
+  const category = localStorage.getItem('productcategory');
 
   if (!username) {
-    alert('โปรดlogin');
-    return;
-  }
-  if (!id || !productname || !activePriceBtn || !quantity) {
-    alert('Error');
+    alert('โปรด login ก่อน');
     return;
   }
 
-  const productRes = await fetch(`http://localhost:5000/api/products/${id}`);
-  const product = await productRes.json();
+  if (!productId || !productname || !activePriceBtn || !quantity || quantity < 1) {
+    alert('ข้อมูลไม่ครบถ้วน');
+    return;
+  }
 
-  const imgpath = 'img/use/Product/' + product.category + '/' + product.image;
-  const priceSelect = activePriceBtn.dataset.value;
-
-  const data = {
-    username : username,
-    id: id,
-    productname: productname,
-    priceSelect: parseFloat(priceSelect),
-    quantity: parseInt(quantity),
-    image: product.image,         
-    category: product.category,
-    option: option 
-  };
-  console.log("ส่งข้อมูล:", data);
+  // ข้อมูลจากปุ่มราคา
+  const option = activePriceBtn.dataset.option;         // เช่น "2000฿"
+  const price = parseFloat(activePriceBtn.dataset.value); // เช่น 2000
 
   try {
+    // ดึงข้อมูลสินค้าจาก API
+    const productRes = await fetch(`http://localhost:5000/api/products/${category}/${productId}`);
+    if (!productRes.ok) throw new Error('ไม่สามารถดึงข้อมูลสินค้าได้');
+    const product = await productRes.json();
+
+    // เตรียมข้อมูลส่ง
+    const data = {
+      username: username,
+      id: productId,
+      productname: productname,
+      price: price,
+      quantity: quantity,
+      image: product.image,       
+      category: category, 
+      option: option              
+    };
+
+
+    // ส่งไปยัง server
     const res = await fetch('http://localhost:5000/api/cart', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
 
-    if (!res.ok) throw new Error("ไม่สามารถเพิ่มลงตะกร้าได้");
+    if (!res.ok) {
+  const errorData = await res.json();
+  throw new Error(errorData.error || 'ไม่สามารถเพิ่มสินค้าลงตะกร้าได้');
+}
 
     alert("เพิ่มสินค้าลงตะกร้าเรียบร้อยแล้ว");
   } catch (err) {
-    console.error(err);
+    console.error('เกิดข้อผิดพลาด:', err);
     alert("เกิดข้อผิดพลาด: " + err.message);
   }
 });
+
+
 
 </script>
 
