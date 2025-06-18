@@ -1,27 +1,50 @@
 [
   {
-    "username": "โมโม่",
-    "email": "momoemothana@gmail.com",
-    "password": "0000"
+    "username": "admin",
+    "email": "admin_lnwshop@gmail.com",
+    "password": "0000",
+    "role": "admin"
   },
   {
     "username": "sdmasfmasfas",
     "email": "40678@wattano.ac.th",
-    "password": "0000"
+    "password": "0000",
+    "role": "user"
   },
   {
     "username": "First",
     "email": "pattarapon_ja@cmu.ac.th",
-    "password": "987654321"
+    "password": "987654321",
+    "role": "user"
   },
   {
     "username": "Hello",
     "email": "hi@gmail.com",
-    "password": "987654321"
+    "password": "987654321",
+    "role": "user"
   },
   {
     "username": "hi2",
     "email": "hi2@gmail.com",
-    "password": "123"
+    "password": "123",
+    "role": "user"
+  },
+  {
+    "username": "BBBBBB",
+    "email": "addaassa@gmail.com",
+    "password": "123456789",
+    "role": "user"
+  },
+  {
+    "username": "dkub",
+    "email": "dkub_jaja@gmail.com",
+    "password": "123456789",
+    "role": "user"
+  },
+  {
+    "username": "momoe",
+    "email": "momoemothana@gmail.com",
+    "password": "1234",
+    "role": "user"
   }
 ]

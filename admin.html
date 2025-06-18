@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - จัดการสินค้า</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: 'Prompt', Arial, sans-serif; background: #f6f8fa; margin: 0; }
+    .admin-header { background: #232f3e; color: #fff; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center;}
+    .admin-header h1 { margin: 0; font-size: 2rem; }
+    .admin-header button { padding: 8px 18px; border: none; border-radius: 4px; background: #ff4d4f; color: #fff; cursor: pointer;}
+    .container { max-width: 1100px; margin: 32px auto; background: #fff; border-radius: 8px; box-shadow: 0 0 8px #ddd; padding: 32px;}
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;}
+    .top-bar button { background: #0074d9; color: #fff; border: none; border-radius: 4px; padding: 8px 20px; cursor: pointer;}
+    table { width: 100%; border-collapse: collapse; margin-top: 16px;}
+    th, td { padding: 12px 8px; border-bottom: 1px solid #eee; text-align: left;}
+    th { background: #f0f4f8;}
+    .action-btn { margin-right: 8px; padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer;}
+    .edit-btn { background: #ffb700; color: #fff;}
+    .delete-btn { background: #e74c3c; color: #fff;}
+    .desc { max-width:340px; font-size:0.96em; color:#444; }
+    .prices { font-size:0.96em; }
+    .prices span { display:inline-block; margin-right:12px; background:#f0f0f0; border-radius:4px; padding:2px 7px; }
+    .nowrap { white-space:nowrap; }
+    .small-text { font-size:0.92em; color:#666; }
+    @media (max-width: 600px) {
+      .container { padding: 6vw 2vw; }
+      th, td { font-size: 0.92em; }
+    }
+    .modal-bg { display: none; position: fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); justify-content: center; align-items: center; z-index: 9999; }
+    .modal { background: #fff; padding: 24px; border-radius: 8px; max-width: 350px; width: 90%; box-shadow: 0 0 16px #bbb;}
+    .modal label { display:block; margin: 8px 0 4px;}
+    .modal input, .modal textarea { width: 100%; margin-bottom: 12px; padding: 8px;}
+    .modal .modal-actions { display: flex; justify-content: flex-end; gap: 8px;}
+  </style>
+</head>
+<body>
+  <div class="admin-header">
+    <h1>ระบบแอดมิน : จัดการสินค้า</h1>
+    <button id="logoutBtn">กลับสู่ร้านค้า</button>
+  </div>
+  <div class="container">
+    <div class="top-bar">
+      <h2>รายการสินค้า</h2>
+      <button id="addProductBtn">+ เพิ่มสินค้า</button>
+    </div>
+    <!-- ตารางสินค้า (ดึงจาก API) -->
+    <table id="productTable">
+      <thead>
+        <tr>
+          <th>รหัสสินค้า</th>
+          <th>ชื่อสินค้า</th>
+          <th>หมวดหมู่</th>
+          <th>รายละเอียด</th>
+          <th>ราคาทั้งหมด</th>
+          <th>รูป</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="7" style="text-align:center;">กำลังโหลด...</td></tr>
+      </tbody>
+    </table>
+
+    <h2 style="margin-top:40px;">Order List</h2>
+    <table id="orderTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Items</th>
+          <th>Status</th>
+          <th>Shipping</th>
+          <th>Created At</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="7" style="text-align:center;">กำลังโหลด...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal เพิ่ม/แก้ไขสินค้า -->
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <h3 id="modalTitle">เพิ่มสินค้า</h3>
+      <form id="productForm">
+        <input type="hidden" id="editingProductId">
+        <label for="productName">ชื่อสินค้า</label>
+        <input type="text" id="productName" name="productName" required>
+        <label for="productCategory">หมวดหมู่</label>
+        <input type="text" id="productCategory" name="productCategory" required>
+        <label for="productDesc">รายละเอียด</label>
+        <textarea id="productDesc" name="productDesc"></textarea>
+        <label for="productImage">ชื่อไฟล์รูป (เช่น product1.png)</label>
+        <input type="text" id="productImage" name="productImage">
+        <label for="productPrices">ราคาทั้งหมด (ตัวอย่างเช่น 50฿:50,100฿:100,200฿:200)</label>
+        <input type="text" id="productPrices" name="productPrices" placeholder="50฿:50,100฿:100">
+        <div class="modal-actions">
+          <button type="button" onclick="closeModal()">ยกเลิก</button>
+          <button type="submit" id="saveBtn">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ================ LOGOUT ================
+    document.getElementById('logoutBtn').onclick = () => {
+      window.location.href = "index.html";
+    };
+
+    // ================ PRODUCT LIST ================
+  function renderProducts(products) {
+  const tbody = document.querySelector('#productTable tbody');
+
+  if (!Array.isArray(products) || !products.length) {
+    tbody.innerHTML = '<tr><td colspan="7">ไม่พบข้อมูลสินค้า</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = '';
+  
+  products.forEach(p => {
+    const priceList = (p.prices || [])
+      .map(pr => `<span>${pr.value} : ${pr.salePrice}฿</span>`)
+      .join("");
+
+    const desc = p.description ? 
+      (p.description.length > 80 ? p.description.substring(0, 80) + '...' : p.description) 
+      : '';
+
+    // ใช้ path จาก p.image ตรง ๆ เลย
+    const imagePath = p.image ? `http://localhost:5000/${p.image}` : 'img/default.png';
+   console.log(imagePath,p.image)
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${p.id || '-'}</td>
+      <td>${p.name || '-'}</td>
+      <td>${p.category || '-'}</td>
+      <td class="desc">${desc}</td>
+      <td class="prices">${priceList || '-'}</td>
+      <td><img src="${imagePath}" alt="${p.name}" style="max-width:70px;"></td>
+      <td>
+        <button class="action-btn edit-btn" onclick="openEditModal('${p.id}')">แก้ไข</button>
+        <button class="action-btn delete-btn" onclick="deleteProduct('${p.id}')">ลบ</button>
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+    function fetchProducts() {
+      fetch('http://localhost:5000/api/products')
+        .then(res => res.json())
+        .then(renderProducts)
+        .catch(() => {
+          document.querySelector('#productTable tbody').innerHTML = '<tr><td colspan="7">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>';
+        });
+    }
+    fetchProducts();
+
+    // ================ MODAL LOGIC ================
+    const modalBg = document.getElementById('modalBg');
+    const modalTitle = document.getElementById('modalTitle');
+    const productForm = document.getElementById('productForm');
+    let editingId = null;
+
+    document.getElementById('addProductBtn').onclick = () => {
+      modalTitle.textContent = "เพิ่มสินค้า";
+      productForm.reset();
+      document.getElementById('editingProductId').value = '';
+      editingId = null;
+      modalBg.style.display = 'flex';
+    };
+
+    function openEditModal(id) {
+      fetch(`http://localhost:5000/api/products/${id}`)
+        .then(res => res.json())
+        .then(p => {
+          modalTitle.textContent = "แก้ไขสินค้า";
+          document.getElementById('editingProductId').value = p.id;
+          document.getElementById('productName').value = p.name || '';
+          document.getElementById('productCategory').value = p.category || '';
+          document.getElementById('productDesc').value = p.description || '';
+          document.getElementById('productImage').value = p.image || '';
+          document.getElementById('productPrices').value = (p.prices||[]).map(pr => `${pr.value}:${pr.salePrice}`).join(',');
+          editingId = p.id;
+          modalBg.style.display = 'flex';
+        });
+    }
+
+    function closeModal() {
+      modalBg.style.display = 'none';
+    }
+
+    // ================ ADD/EDIT PRODUCT ================
+    productForm.onsubmit = function(e) {
+      e.preventDefault();
+      const id = document.getElementById('editingProductId').value;
+      const name = document.getElementById('productName').value.trim();
+      const category = document.getElementById('productCategory').value.trim();
+      const description = document.getElementById('productDesc').value.trim();
+      const image = document.getElementById('productImage').value.trim();
+      // แปลงราคาจาก string เป็น array object
+      // เช่น 50฿:50,100฿:100 → [{value:"50฿",salePrice:50}, {value:"100฿",salePrice:100}]
+      const prices = document.getElementById('productPrices').value.split(',').map(s => {
+        const [value, price] = s.split(':');
+        if (!value || !price) return null;
+        return { value: value.trim(), salePrice: Number(price.trim()) };
+      }).filter(Boolean);
+
+      const productData = { name, category, description, image, prices };
+
+      if (id) {
+        // แก้ไข
+        fetch(`http://localhost:5000/api/products/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(productData)
+        })
+        .then(res => res.json())
+        .then(() => {
+          closeModal();
+          fetchProducts();
+        });
+      } else {
+        // เพิ่มใหม่
+        fetch(`http://localhost:5000/api/products`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(productData)
+        })
+        .then(res => res.json())
+        .then(() => {
+          closeModal();
+          fetchProducts();
+        });
+      }
+    };
+
+    // ================ DELETE PRODUCT ================
+    function deleteProduct(id) {
+      if (confirm('คุณแน่ใจว่าต้องการลบสินค้านี้?')) {
+        fetch(`http://localhost:5000/api/products/${id}`, { method: 'DELETE' })
+          .then(res => res.json())
+          .then(() => fetchProducts());
+      }
+    }
+
+    // ปิด modal ถ้าคลิกพื้นหลัง
+    modalBg.onclick = function(e) {
+      if (e.target === modalBg) closeModal();
+    };
+
+    // ================ ORDER LIST =================
+    function formatShipping(shipping) {
+      if(!shipping) return '';
+      return `${shipping.firstName || ''} ${shipping.lastName || ''}<br>
+        <span class="small-text">${shipping.email || ''}<br>
+        ${shipping.mobile || ''}<br>
+        ${shipping.address1 || ''} ${shipping.city || ''} ${shipping.country || ''}</span>`;
+    }
+
+    function renderOrders(orders) {
+      const tbody = document.querySelector('#orderTable tbody');
+      if (!Array.isArray(orders) || !orders.length) {
+        tbody.innerHTML = '<tr><td colspan="7">ไม่พบข้อมูลออร์เดอร์</td></tr>';
+        return;
+      }
+      tbody.innerHTML = '';
+      orders.forEach(o => {
+        const items = (o.items || []).map(i => {
+          return `<div>
+            ${i.productname || i.name} 
+            <span class="nowrap">x${i.quantity || 1}</span> 
+            <span class="small-text">(${i.option || (i.value || '-')})</span>
+          </div>`;
+        }).join('');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${o.id || '-'}</td>
+          <td>${o.username || '-'}</td>
+          <td>${items || '-'}</td>
+          <td>${o.status || '-'}</td>
+          <td>${formatShipping(o.shipping)}</td>
+          <td>${o.createdAt ? new Date(o.createdAt).toLocaleString('th-TH') : '-'}</td>
+          <td>
+            <button class="action-btn delete-btn" onclick="deleteOrder('${o.id}')">ลบ</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function fetchOrders() {
+      fetch('http://localhost:5000/api/order')
+        .then(res => res.json())
+        .then(renderOrders)
+        .catch(() => {
+          document.querySelector('#orderTable tbody').innerHTML = '<tr><td colspan="7">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>';
+        });
+    }
+    fetchOrders();
+
+    // ================ DELETE ORDER =================
+    function deleteOrder(id) {
+      if (confirm('คุณแน่ใจว่าต้องการลบออร์เดอร์นี้?')) {
+        // ถ้า backend มี DELETE /api/order/:id แล้ว ให้ใช้แบบนี้
+        fetch(`http://localhost:5000/api/order/${id}`, { method: 'DELETE' })
+          .then(res => res.json())
+          .then(() => fetchOrders())
+          .catch(() => fetchOrders());
+      }
+    }
+  </script>
+</body>
+</html>

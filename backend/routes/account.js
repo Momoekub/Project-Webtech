@@ -20,13 +20,16 @@ router.post('/login', (req, res) => {
   const { email, password } = req.body;
   const users = readUsers();
   const user = users.find(u => u.email === email && u.password === password);
-  if (user) {
-    res.json({ success: true, username: user.username });
-  } else {
-    res.status(401).json({ success: false, message: "Email หรือ Password ไม่ถูกต้อง" });
+  if (!user) {
+    return res.status(401).json({ success: false, message: "Email หรือ Password ไม่ถูกต้อง" });
   }
+  // ส่ง role กลับไปด้วย
+  res.json({ 
+    success: true, 
+    username: user.username, 
+    role: user.role || "user"
+  });
 });
-
 // POST /signup
 router.post('/signup', (req, res) => {
   const { username, email, password } = req.body;
@@ -39,7 +42,7 @@ router.post('/signup', (req, res) => {
     return res.status(400).json({ success: false, message: "อีเมลนี้ถูกใช้ไปแล้ว" });
   }
 
-  users.push({ username, email, password });
+  users.push({ username, email, password ,role:"user"});
   writeUsers(users);
   res.json({ success: true, username });
 });

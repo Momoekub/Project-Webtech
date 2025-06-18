@@ -48,6 +48,7 @@ function signUp(event) {
   .then(data => {
     if (data.success) {
       localStorage.setItem('username', data.username);
+      localStorage.setItem('role', 'user'); // สมัครใหม่เป็น user เสมอ
       updateAccountUI();
       $('#signUpModal').modal('hide');
       alert("สมัครสมาชิกสำเร็จ");
@@ -72,6 +73,7 @@ function signIn(event) {
   .then(data => {
     if (data.success) {
       localStorage.setItem('username', data.username);
+      localStorage.setItem('role', data.role); // เก็บ role ด้วย
       updateAccountUI();
       $('#signInModal').modal('hide');
       alert("ล็อกอินสำเร็จ");
@@ -124,12 +126,18 @@ function openChangeUsernameModal() {
 // อัปเดต UI เมื่อผู้ใช้ล็อกอิน
 function updateAccountUI() {
   const username = localStorage.getItem('username');
+  const role = localStorage.getItem('role');
   const dropdown = document.getElementById('accountDropdown');
   if (!dropdown) return;
+  let adminTab = '';
+  if (role === 'admin') {
+    adminTab = `<button class="dropdown-item" type="button" onclick="openAdminPanel()">หลังบ้าน (Admin)</button>`;
+  }
   if (username) {
     dropdown.innerHTML = `
       <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">${username}</button>
       <div class="dropdown-menu dropdown-menu-right">
+        ${adminTab}
         <button class="dropdown-item" type="button" onclick="openChangeUsernameModal()">เปลี่ยนชื่อผู้ใช้</button>
         <button class="dropdown-item" type="button" onclick="logout()">Logout</button>
       </div>
@@ -148,6 +156,7 @@ function updateAccountUI() {
 // ออกจากระบบ
 function logout() {
   localStorage.removeItem('username');
+  localStorage.removeItem('role'); // ลบ role ด้วย
   updateAccountUI();
 }
 
@@ -202,4 +211,9 @@ function verifyOTPAndReset(event) {
       alert(data.message);
     }
   });
+}
+
+// ฟังก์ชันเปิดหน้า admin (ตัวอย่าง)
+function openAdminPanel() {
+  window.location.href = "admin.html";
 }
