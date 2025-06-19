@@ -158,7 +158,7 @@ a {
 }
 
 a:hover {
-  color: #e6b400;
+  color: #2f00ff;
   text-decoration: underline;
 }
 
@@ -9328,7 +9328,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .text-body {
-  color: #6C757D !important;
+  color: #cf4646!important;
 }
 
 .text-muted {
@@ -9739,4 +9739,14 @@ a.text-dark:hover, a.text-dark:focus {
   font-size: 24px;
   color: #888;
   cursor: pointer;
+}
+.row.bg-secondary a, .row.bg-secondary .text-body {
+  color:#cf4646 !important;
+  text-decoration: none !important;
+  background-color: transparent !important;
+}
+.row.bg-secondary a:hover, .row.bg-secondary a:focus {
+  color: #1976d2 !important;
+
+  text-decoration: none !important;
 }

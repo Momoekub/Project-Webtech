@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>เกี่ยวกับเรา - lnwzashop</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: linear-gradient(120deg, #e2e2e2 0%, #c9eaff 100%);
+      margin: 0;
+      color: #232323;
+    }
+    .container {
+      max-width: 980px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(40, 100, 180, 0.13);
+      padding: 44px 36px;
+    }
+    .startup-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .startup-header img {
+      width: 180px;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px #bee9ff;
+    }
+    .intro {
+      flex: 1;
+    }
+    h1, h2 {
+      color: #2A6DFF;
+    }
+    .mission {
+      background: #f2faff;
+      border-left: 5px solid #2A6DFF;
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 12px;
+      font-size: 1.16em;
+    }
+    /* ฟีเจอร์ */
+    .feature-bg {
+      background: #e9f5ff !important;
+    }
+    .main-feature {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 30px 0 25px 0;
+    }
+    .main-feature-box {
+      border-radius: 16px;
+      padding: 26px 25px;
+      min-width: 320px;
+      max-width: 420px;
+      box-shadow: 0 2px 10px #f7fbff;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+    .main-feature-box img {
+      width: 250px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 2px 8px #f7fbff);
+      transition: transform 0.2s;
+    }
+    .main-feature-box b {
+      font-size: 1.24em;
+      color: #2A6DFF;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .main-feature-box div {
+      font-size: 1.08em;
+      color: #444;
+    }
+    .other-features-title {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #2A6DFF;
+      font-size: 1.14em;
+      font-weight: bold;
+    }
+    .other-features {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-bottom: 35px;
+    }
+    .other-feature-box {
+      border-radius: 13px;
+      padding: 28px 16px 18px 16px;
+      min-width: 180px;
+      max-width: 210px;
+      text-align: center;
+      box-shadow: 0 1px 6px #e1ecf7;
+      margin-bottom: 10px;
+      transition: box-shadow 0.2s;
+    }
+    .other-feature-box img {
+      width: 54px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 2px 4px #c8e5ff);
+    }
+    .other-feature-box b {
+      color: #2A6DFF;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .founders {
+      display: flex;
+      gap: 28px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+    }
+    .founder {
+      flex: 1 1 160px;
+      text-align: center;
+      background: #f9fcff;
+      border-radius: 12px;
+      padding: 18px 10px;
+      margin-bottom: 10px;
+    }
+    .founder img {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 1px 6px #e1ecf7;
+      margin-bottom: 8px;
+    }
+    .startup-footer {
+      margin-top: 34px;
+      text-align: center;
+      font-size: 1.08em;
+      color: #333;
+    }
+    /* ปุ่มกลับหน้าแรก */
+    .back-btn {
+      display: inline-block;
+      margin: 24px 0 0 0;
+      padding: 12px 32px;
+      background: #2A6DFF;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.08em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 2px 6px #b3d7ff;
+    }
+    .back-btn:hover {
+      background: #1a53b8;
+      color: #fff;
+    }
+    @media (max-width: 700px) {
+      .startup-header, .founders, .other-features {
+        flex-direction: column;
+        gap: 18px;
+      }
+      .container { padding: 16px 8px; }
+      .main-feature-box { min-width: 0; max-width: 100%; padding: 28px 8px; }
+      .main-feature-box img { width: 120px; }
+      .other-feature-box { min-width: 0; max-width: 100%; }
+      .back-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="startup-header">
+      <img src="img/aboutus/startup_team.png" alt="ทีมสตาร์ทอัพ lnwzashop" />
+      <div class="intro">
+        <h1>เกี่ยวกับ lnwzashop</h1>
+        <p>
+          <b>lnwzashop</b> คือบริษัทสตาร์ทอัพไทยสายเกม ที่เกิดจากกลุ่มเพื่อนเกมเมอร์และนักเทคโนโลยี  
+          เราเชื่อว่าทุกคนควรเข้าถึงอุปกรณ์เกมและบัตรเติมเงินคุณภาพดี ได้อย่างรวดเร็ว ปลอดภัย และราคายุติธรรม  
+          วิสัยทัศน์ของเราคือการสร้าง <b>แพลตฟอร์มเกมที่ครบวงจร</b> ที่มาพร้อมบริการเหนือระดับสำหรับคอเกมทุกวัย
+        </p>
+      </div>
+    </div>
+    <div class="mission">
+      <b>พันธกิจของเรา:</b><br>
+      “ปลดล็อกประสบการณ์เกมยุคใหม่ ด้วยบริการที่โปร่งใส อัตโนมัติ และดูแลลูกค้าแบบเพื่อน”
+    </div>
+
+    <h2>จุดเด่นของ lnwzashop</h2>
+
+    <div class="other-features-title">ฟีเจอร์อื่นๆ ของเรา</div>
+    <div class="other-features">
+      <div class="other-feature-box feature-bg">
+        <img src="img/aboutus/feature_auto.png" alt="ระบบออโต้" />
+        <b>ระบบออโต้เต็มรูปแบบ</b>
+        <div>ชำระเงินแล้วรับโค้ดทันที ไม่ต้องรอแอดมิน</div>
+      </div>
+      <div class="other-feature-box feature-bg">
+        <img src="img/aboutus/feature_secure.png" alt="ปลอดภัย" />
+        <b>ปลอดภัยขั้นสุด</b>
+        <div>ข้อมูลลูกค้าเข้ารหัสทุกขั้นตอน</div>
+      </div>
+      <div class="other-feature-box feature-bg">
+        <img src="img/aboutus/feature_support.png" alt="บริการ 24 ชั่วโมง" />
+        <b>ซัพพอร์ต 24 ชั่วโมง</b>
+        <div>ทีมงานรุ่นใหม่ ตอบไว เข้าใจเกมเมอร์</div>
+      </div>
+    </div>
+     <div class="main-feature">
+      <div class="main-feature-box feature-bg">
+        <img src="img/aboutus/feature_fast.png" alt="จ่ายง่ายหลายช่องทาง" />
+        <b>จ่ายง่ายหลายช่องทาง</b>
+        <div>รองรับธนาคาร พร้อมเพย์ และ E-Wallet<br>เพื่อความสะดวกของลูกค้าทุกกลุ่ม</div>
+      </div>
+    </div>
+
+    <h2>วัฒนธรรมแบบสตาร์ทอัพ</h2>
+    <p>
+      ที่ lnwzashop เราเชื่อในพลังของคนรุ่นใหม่  
+      ทุกคนในทีมกล้าเสนอไอเดียใหม่ๆ ร่วมกันพัฒนาเทคโนโลยีเพื่อวงการเกมไทย  
+      เราทำงานแบบ agile เคารพความหลากหลาย และสนุกกับงานที่เรารัก
+    </p>
+
+    <h2>ทีมผู้ก่อตั้ง</h2>
+    <div class="founders">
+      <div class="founder">
+        <img src="img/aboutus/founder1.jpg" alt="คุณเฟิส" />
+        <div><b>คุณเฟิส</b></div>
+        <div>CEO & Visionary</div>
+        <div style="font-size:0.94em;color:#555;">
+          “เกมคือชีวิต เทคโนโลยีคืออนาคต”
+        </div>
+      </div>
+      <div class="founder">
+        <img src="img/aboutus/fouder2.png" alt="คุณโมโม่" />
+        <div><b>คุณโมโม่</b></div>
+        <div>COO & Customer Success</div>
+        <div style="font-size:0.94em;color:#555;">
+          “ลูกค้าคือหัวใจของทุกบริการ”
+        </div>
+      </div>
+      <div class="founder">
+        <img src="img/aboutus/founder3.jpg" alt="คุณอิน" />
+        <div><b>คุณอิน</b></div>
+        <div>CTO & Platform Engineer</div>
+        <div style="font-size:0.94em;color:#555;">
+          “พัฒนาเพื่อประสบการณ์เกมเมอร์ที่ดีที่สุด”
+        </div>
+      </div>
+    </div>
+
+    <h2>เสียงจากลูกค้า & ความสำเร็จ</h2>
+    <img src="img/aboutus/award.png" alt="รีวิวลูกค้าและรางวัล" style="width:30%;margin:18px 0;border-radius:12px;">
+    <p>
+      lnwzashop ได้รับความไว้วางใจจากการรีวิวของผู้ใช้ 100 ราย  
+      และได้รับรางวัล Start Up ด้าน E-commerce จากเวทีดิจิทัลไทยปี 2024<br>
+      <i>ขอบคุณที่ร่วมเป็นส่วนหนึ่งของการเดินทางกับเรา</i>
+    </p>
+
+    <div class="startup-footer">
+      <b>ช่องทางติดต่อ</b><br>
+      Line: @lnwzashop | Facebook: lnwzashop | Email: lnwza007@gmail.com
+    </div>
+    <div style="text-align:center;">
+      <a href="index.html" class="back-btn">กลับไปหน้าแรก</a>
+    </div>
+  </div>
+</body>
+</html>

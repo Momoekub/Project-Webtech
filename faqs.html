@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>FAQs | INWZA Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background: #f5faff; margin: 0; color: #111; }
+        .container { max-width: 800px; margin: 48px auto; background: #fff; border-radius: 16px; box-shadow: 0 8px 32px #aee2ff22; padding: 38px 26px; }
+        h1 { color: #111; margin-bottom: 20px; }
+        .faq-list { margin: 0; padding: 0; list-style: none; }
+        .faq-item { margin-bottom: 12px; }
+        .faq-q {
+            background: #f1f1f1; border-radius: 8px; padding: 14px 18px; cursor: pointer;
+            font-weight: bold; color: #111;
+        }
+        .faq-q:hover { background: #e0e7ef; }
+        .faq-a {
+            display: none;
+            padding: 14px 18px;
+            border-left: 3px solid #1976d2;
+            margin: 0 0 0 0;
+            color: #111;
+            background: #f7fafc;
+            border-radius: 0 0 8px 8px;
+        }
+        .faq-item.active .faq-a { display: block; }
+        .back-btn {
+            display: inline-block; margin-top: 25px; padding: 10px 30px;
+            background: #1976d2; color: #fff; border: none; border-radius: 8px;
+            font-size: 1.08em; text-decoration: none; cursor: pointer;
+
+        }
+        .back-btn:hover { background: #0d47a1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FAQs คำถามที่พบบ่อย</h1>
+        <ul class="faq-list">
+            <li class="faq-item">
+                <div class="faq-q">Q: ต้องสมัครสมาชิกก่อนสั่งซื้อหรือไม่?</div>
+                <div class="faq-a">A: ไม่จำเป็น สามารถสั่งซื้อได้ทันทีโดยไม่ต้องสมัครสมาชิก</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: จ่ายเงินช่องทางไหนได้บ้าง?</div>
+                <div class="faq-a">A: รองรับ ธนาคาร, พร้อมเพย์, และ E-Wallet ทุกประเภท</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: สินค้าที่ซื้อแล้วคืนเงิน/เปลี่ยนสินค้าได้หรือไม่?</div>
+                <div class="faq-a">A: หากเกิดปัญหาจากระบบหรือได้รับสินค้าไม่ถูกต้อง ติดต่อทีมงานเพื่อขอคืนเงินหรือเปลี่ยนสินค้าได้</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: สินค้าจะได้รับเมื่อไหร่?</div>
+                <div class="faq-a">A: ระบบออโต้จะส่งโค้ด/สินค้าให้ทันทีหลังชำระเงินสำเร็จ</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: ติดต่อทีมงานได้ช่องทางไหน?</div>
+                <div class="faq-a">A: Line: @lnwzashop, Facebook: lnwzashop, Email: lnwza007@gmail.com</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: ถ้าชำระเงินไม่สำเร็จควรทำอย่างไร?</div>
+                <div class="faq-a">A: กรุณาตรวจสอบยอดเงินและข้อมูลบัญชี หากยังมีปัญหา ติดต่อทีมงานเพื่อช่วยเหลือเพิ่มเติม</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: หากกรอกข้อมูลผิดพลาดหลังชำระเงินแล้วสามารถแก้ไขได้หรือไม่?</div>
+                <div class="faq-a">A: สามารถแจ้งทีมงานเพื่อช่วยแก้ไขข้อมูลให้ได้ทันที</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: มีค่าจัดส่งหรือไม่?</div>
+                <div class="faq-a">A: สินค้าดิจิทัลไม่มีค่าจัดส่ง สำหรับสินค้าจริงจะมีค่าจัดส่งตามอัตราที่กำหนด</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: จะรู้ได้อย่างไรว่าสินค้าในสต็อก?</div>
+                <div class="faq-a">A: สินค้าที่แสดงในระบบคือสินค้าที่มีสต็อกพร้อมจำหน่าย หากหมดจะขึ้นสถานะ “หมดสต็อก”</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: ถ้าต้องการใบเสร็จหรือใบกำกับภาษีต้องทำอย่างไร?</div>
+                <div class="faq-a">A: สามารถแจ้งรายละเอียดกับทีมงานเพื่อขอรับใบเสร็จ/ใบกำกับภาษีได้</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: สินค้าสามารถใช้กับระบบปฏิบัติการอะไรบ้าง?</div>
+                <div class="faq-a">A: โปรดอ่านรายละเอียดสินค้าแต่ละรายการ หากไม่แน่ใจสอบถามทีมงานก่อนได้</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: ถ้าไม่ได้รับอีเมลยืนยัน/สินค้าควรทำอย่างไร?</div>
+                <div class="faq-a">A: ตรวจสอบอีเมลใน Junk/Spam หากยังไม่ได้รับ กรุณาติดต่อทีมงาน</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: สามารถเปลี่ยนแปลงวิธีชำระเงินหลังสั่งซื้อได้หรือไม่?</div>
+                <div class="faq-a">A: โดยปกติไม่สามารถเปลี่ยนแปลงได้ แต่หากมีเหตุจำเป็น กรุณาติดต่อทีมงาน</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: ทำไมราคาสินค้าถึงแตกต่างจากที่อื่น?</div>
+                <div class="faq-a">A: ทางร้านพยายามตั้งราคาที่เหมาะสมและคุ้มค่าสำหรับลูกค้า พร้อมรับประกันคุณภาพสินค้า</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: มีโปรโมชั่นหรือส่วนลดพิเศษไหม?</div>
+                <div class="faq-a">A: ติดตามโปรโมชั่นได้ที่หน้าเว็บไซต์หรือช่องทางโซเชียลของร้าน</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: ข้อมูลส่วนตัวของลูกค้าปลอดภัยหรือไม่?</div>
+                <div class="faq-a">A: ทางร้านให้ความสำคัญกับความปลอดภัยของข้อมูลลูกค้า และเก็บรักษาอย่างปลอดภัย</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: สามารถยกเลิกคำสั่งซื้อได้หรือไม่?</div>
+                <div class="faq-a">A: หากยังไม่ได้รับสินค้า สามารถแจ้งขอยกเลิกได้ทันที</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: หากพบปัญหาการใช้งานสินค้าควรทำอย่างไร?</div>
+                <div class="faq-a">A: สามารถติดต่อทีมงานเพื่อขอคำแนะนำหรือแจ้งปัญหาได้ตลอดเวลา</div>
+            </li>
+            <li class="faq-item">
+                <div class="faq-q">Q: สามารถติดต่อสอบถามได้ช่วงเวลาใด?</div>
+                <div class="faq-a">A: ทีมงานให้บริการทุกวัน 09.00 – 20.00 น.</div>
+            </li>
+        </ul>
+        <a href="index.html" class="back-btn">กลับสู่หน้าแรก</a>
+    </div>
+    <script>
+    document.querySelectorAll('.faq-q').forEach(function(q) {
+        q.addEventListener('click', function() {
+            var item = this.parentElement;
+            item.classList.toggle('active');
+        });
+    });
+</script>
+</body>
+</html>
