@@ -2,24 +2,46 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const router = express.Router();
+
+// ที่อยู่ไฟล์หมวดหมู่
 const categoriesFile = path.join(__dirname, '..', 'data', 'Catagory-shop.json');
 
 // ดึง path ของไฟล์ตาม category
 function getFilePathByCategory(category) {
   return path.join(__dirname, '..', 'data', `${category}.json`);
 }
+
+// อ่านหมวดหมู่จากไฟล์ Catagory-shop.json
 function readCategories() {
   try {
     const content = fs.readFileSync(categoriesFile, 'utf8');
     return content ? JSON.parse(content) : [];
   } catch (err) {
-    console.error('อ่านไฟล์ categories.json ผิดพลาด:', err);
+    console.error('อ่านไฟล์หมวดหมู่ผิดพลาด:', err);
     return [];
   }
 }
+
+// อ่านสินค้าในแต่ละหมวด
+function readProducts(category) {
+  const filePath = getFilePathByCategory(category);
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    return content ? JSON.parse(content) : [];
+  } catch (err) {
+    return [];
+  }
+}
+
+// เขียนข้อมูลสินค้า
+function writeProducts(category, data) {
+  const filePath = getFilePathByCategory(category);
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+}
+
+// ดึงสินค้าทุกหมวด
 router.get('/', (req, res) => {
   try {
-    try {
     const categoriesObj = readCategories();
     const categories = categoriesObj.categories || [];
     let allProducts = [];
@@ -32,39 +54,19 @@ router.get('/', (req, res) => {
 
     res.json(allProducts);
   } catch (err) {
-    console.error('เกิดข้อผิดพลาดในการโหลดสินค้าทุกหมวดหมู่:', err);
-    res.status(500).json({ error: 'เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า' });
-  }
-  } catch (err) {
-    console.error('เกิดข้อผิดพลาดในการโหลดสินค้าทุกหมวดหมู่:', err);
-    res.status(500).json({ error: 'เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า' });
+    console.error('โหลดสินค้าผิดพลาด:', err);
+    res.status(500).json({ error: 'โหลดข้อมูลผิดพลาด' });
   }
 });
-// อ่านสินค้า
-function readProducts(category) {
-  const filePath = getFilePathByCategory(category);
-  try {
-    const content = fs.readFileSync(filePath, 'utf8');
-    return content ? JSON.parse(content) : [];
-  } catch (err) {
-    return [];
-  }
-}
 
-// เขียนสินค้า
-function writeProducts(category, data) {
-  const filePath = getFilePathByCategory(category);
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
-
-// ดึงสินค้าทั้งหมดใน category
+// ดึงสินค้าทั้งหมดใน category เดียว
 router.get('/:category', (req, res) => {
   const { category } = req.params;
   const data = readProducts(category);
   res.json(data);
 });
 
-// ดึงสินค้าตาม id และ category
+// ดึงสินค้ารายตัว
 router.get('/:category/:id', (req, res) => {
   const { category, id } = req.params;
   const data = readProducts(category);
@@ -73,17 +75,54 @@ router.get('/:category/:id', (req, res) => {
   res.json(product);
 });
 
-// เพิ่มสินค้าใหม่
-router.post('/:category', (req, res) => {
-  const { category } = req.params;
-  const data = readProducts(category);
-  const newProduct = req.body;
+// เพิ่มสินค้าใหม่ (ส่ง category ทาง body)
+router.post('/', (req, res) => {
+  const { category, name, description, image, prices } = req.body;
 
+  if (!category || !name || !prices || !Array.isArray(prices)) {
+    return res.status(400).json({ error: 'ข้อมูลไม่ครบหรือราคาผิดพลาด' });
+  }
+
+  const data = readProducts(category);
   const maxId = data.length > 0 ? Math.max(...data.map(p => p.id)) : 0;
-  newProduct.id = maxId + 1;
+
+  const newProduct = {
+    id: maxId + 1,
+    name,
+    description,
+    image,
+    prices
+  };
 
   data.push(newProduct);
   writeProducts(category, data);
+
+  res.json({ message: 'เพิ่มสินค้าสำเร็จ', product: newProduct });
+});
+
+// เพิ่มสินค้าโดยส่ง category ผ่าน URL
+router.post('/:category', (req, res) => {
+  const { category } = req.params;
+  const { name, description, image, prices } = req.body;
+
+  if (!name || !prices || !Array.isArray(prices)) {
+    return res.status(400).json({ error: 'ข้อมูลไม่ครบหรือราคาผิดพลาด' });
+  }
+
+  const data = readProducts(category);
+  const maxId = data.length > 0 ? Math.max(...data.map(p => p.id)) : 0;
+
+  const newProduct = {
+    name,
+    description,
+    image,
+    prices,
+    id: maxId + 1,
+  };
+
+  data.push(newProduct);
+  writeProducts(category, data);
+
   res.json({ message: 'เพิ่มสินค้าสำเร็จ', product: newProduct });
 });
 

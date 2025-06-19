@@ -236,8 +236,6 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.html" class="nav-item nav-link">Home</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="cart.html" class="nav-item nav-link">Shopping Cart</a>
-                            <a href="checkout.html" class="nav-item nav-link active">Checkout</a>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
@@ -259,8 +257,8 @@
         <div class="row px-xl-5">
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" href="#">Home</a>
-                    <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                    <span class="breadcrumb-item text-dark" >Home</span>
+                    <span class="breadcrumb-item text-dark" >Shop</span>
                     <span class="breadcrumb-item active">Checkout</span>
                 </nav>
             </div>
@@ -310,10 +308,6 @@
                             <label>Address Line 1</label>
                             <input class="form-control" type="text" name="address1" placeholder="123 Street">
                         </div>
-                        <!-- Replace "Create Account" with Submit Button 
-                        <div class="col-md-12 form-group d-block d-lg-none mt-3">
-                            <button type="submit" class="btn btn-block btn-success font-weight-bold py-3">Place Order</button>
-                        </div>-->
                     </div>
                 </div>
             </div>
@@ -344,7 +338,7 @@
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5 id="totalprice">$0</h5>
+                            <h5 id="totalprice">0</h5>
                         </div>
                     </div>
                 </div>
@@ -389,7 +383,7 @@
                     <h4>PromptPay</h4>
                     <p>กรุณาสแกน QR Code</p>
                     <img src="img/qr-code.jpg" width="200" alt="PromptPay QR">
-                    <p><small>ยอดเงิน: 00 บาท</small></p>
+                    <p id="promtpaytotal"><small>ยอดเงิน: 00 บาท</small></p>
                   </div>
                 </div>
                 <!-- Mobile Banking Modal -->
@@ -519,7 +513,7 @@
   async function checkoutitem() {
   const username = localStorage.getItem('username');
   if (!username) {
-    alert('โปรด login ก่อนทำการ checkout');
+    alert('โปรด login');
     return;
   }
   try {
@@ -528,7 +522,7 @@
 
     const categories = [...new Set(cart.map(item => item.category))];
     const shippingForm = document.getElementById('shippingAddressForm');
-    const onlyGiftCardOrGames = categories.length > 0 && categories.every(cat => cat === 'GiftCard' || cat === 'Games');
+    const onlyGiftCardOrGames = categories.length > 0 && categories.every(cat => cat === 'Gift-Card' || cat === 'Games');
 
     const shippingAddressForm = document.getElementById('shippingAddressForm');
 
@@ -568,7 +562,7 @@ if (onlyGiftCardOrGames) {
     cart.forEach(item => {
       subtotal += item.price * item.quantity;
       totalquantity += item.quantity;  // เพิ่มนับจำนวนสินค้า
-      if (item.category !== "GiftCard" && item.category !== "Games") {
+      if (item.category !== "Gift-Card" && item.category !== "Games") {
         shipping += 40 * item.quantity;
       }
       const div = document.createElement('div');
@@ -586,6 +580,7 @@ if (onlyGiftCardOrGames) {
     document.getElementById('totalshipping').textContent = `${shipping}฿`;
     document.getElementById('totalquantity').textContent = totalquantity;
     document.getElementById('totalprice').textContent = `${total}฿`;
+    document.getElementById('promtpaytotal').textContent = `ยอดเงิน : ${total}฿`;
 
     document.getElementById('checkout-form').dataset.onlyGiftCardOrGames = onlyGiftCardOrGames;
 
@@ -596,44 +591,46 @@ if (onlyGiftCardOrGames) {
 
 document.getElementById('checkout-form').addEventListener('submit', async function (e) {
   e.preventDefault();
-
   const form = e.target;
-  const formData = new FormData(form);
-
-  const paymentMethod = form.querySelector('input[name="payment"]:checked')?.value;
-  if (!paymentMethod) {
-    alert("กรุณาเลือกวิธีชำระเงิน");
+  const username = localStorage.getItem('username');
+  if (!username) {
+    alert("โปรด login ก่อนทำรายการ");
     return;
   }
-
-  // เพิ่ม username จาก localStorage (หรือฟอร์ม login)
-  formData.append('username', localStorage.getItem('username') || 'guest');
-  const shipping = {
+  const paymentMethod = form.querySelector('input[name="payment"]:checked')?.value;
+  const data = {
+    username,
     firstName: form.firstName.value,
     lastName: form.lastName.value,
     email: form.email.value,
     mobile: form.mobile.value,
+    country: form.country.value,
+    city: form.city.value,
     address1: form.address1.value,
+    paymentMethod
   };
-  formData.append('shipping', JSON.stringify(shipping));
-  formData.append('paymentMethod', paymentMethod);
 
   try {
     const response = await fetch('http://localhost:5000/api/checkout', {
       method: 'POST',
-      body: formData,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
     });
 
     const result = await response.json();
 
     if (response.ok) {
-      alert('สั่งซื้อสำเร็จ');
-      console.log(result);
+      console.log('กำลังเปลี่ยนหน้า...');
+      setTimeout(() => {
+        window.location.assign(window.location.origin + '/index.html');
+      }, 200);
+      alert('สั่งซื้อสำเร็จ')
+      
     } else {
       alert(result.error || 'เกิดข้อผิดพลาด');
     }
   } catch (err) {
-    console.error(err);
+    console.error('Error:', err);
     alert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์');
   }
 });

@@ -127,6 +127,54 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCartQuantity();
 });
 
+async function quickAddToCart(productId, category) {
+  e.preventDefault();
+  const username = localStorage.getItem('username');
+  if (!username) {
+    alert('โปรด login ก่อนเพิ่มสินค้าลงตะกร้า');
+    return;
+  }
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/products/${category}/${productId}`);
+    if (!res.ok) throw new Error('โหลดสินค้าล้มเหลว');
+    const product = await res.json();
+
+    const firstOption = product.prices?.[0];
+    if (!firstOption) {
+      alert('ไม่มีราคาสินค้าให้เลือก');
+      return;
+    }
+
+    const data = {
+      username: username,
+      id: productId,
+      productname: product.name,
+      price: firstOption.salePrice,
+      quantity: 1,
+      image: product.image,
+      category: category,
+      option: firstOption.value
+    };
+
+    const cartRes = await fetch('http://localhost:5000/api/cart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (!cartRes.ok) {
+      const errData = await cartRes.json();
+      throw new Error(errData.error || 'เพิ่มสินค้าลงตะกร้าไม่สำเร็จ');
+    }
+
+    alert('เพิ่มสินค้าเรียบร้อยแล้ว');
+  } catch (err) {
+    console.error('Quick Add Error:', err);
+    alert('เกิดข้อผิดพลาด: ' + err.message);
+  }
+}
+
 
 
 

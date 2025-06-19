@@ -236,8 +236,6 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.html" class="nav-item nav-link">Home</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="cart.html" class="nav-item nav-link active">Shopping Cart</a>
-                            <a href="checkout.html" class="nav-item nav-link">Checkout</a>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
@@ -259,8 +257,8 @@
         <div class="row px-xl-5">
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" href="#">Home</a>
-                    <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                    <span class="breadcrumb-item text-dark" >Home</span>
+                    <span class="breadcrumb-item text-dark" >Shop</span>
                     <span class="breadcrumb-item active">Shopping Cart</span>
                 </nav>
             </div>
@@ -289,14 +287,7 @@
                 </table>
             </div>
             <div class="col-lg-4">
-                <form class="mb-30" action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary">Apply Coupon</button>
-                        </div>
-                    </div>
-                </form>
+                
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
                 <div class="bg-light p-30 mb-5">
                     <div class="border-bottom pb-2">
@@ -318,14 +309,13 @@
                             <h5>Total</h5>
                             <h5 id="totalprice"></h5>
                         </div>
-                        <a href="checkout.html" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</a>
+                        <a href="checkout.html" class="btn btn-block btn-primary font-weight-bold my-3 py-3" id="checkout-btn">Proceed To Checkout</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Cart End -->
-
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
@@ -414,8 +404,6 @@
     <!--สคริปต์หน้าล็อคอินกับสร้างบัญชี-->
 <script>
  document.addEventListener('DOMContentLoaded', loadCart);
-
-  // โหลดข้อมูลตะกร้าและแสดงผล
 async function loadCart() {
   const username = localStorage.getItem('username');
   const tbody = document.getElementById('cart-body');
@@ -430,15 +418,11 @@ async function loadCart() {
   }
 
   try {
-    // ดึงข้อมูลตะกร้า
     const cartRes = await fetch(`http://localhost:5000/api/cart?username=${encodeURIComponent(username)}`);
     if (!cartRes.ok) throw new Error(`HTTP ${cartRes.status}`);
     const cart = await cartRes.json();
 
-    // หาหมวดหมู่สินค้าที่ไม่ซ้ำ
     const categories = [...new Set(cart.map(item => item.category))];
-
-    // ดึงสินค้าจากแต่ละหมวดหมู่
     const productsArrays = await Promise.all(
       categories.map(cat =>
         fetch(`http://localhost:5000/api/products/${encodeURIComponent(cat)}`)
@@ -447,10 +431,8 @@ async function loadCart() {
     );
     const products = productsArrays.flat();
 
-    // ล้างตารางก่อน
     tbody.innerHTML = '';
 
-    // สร้างแถวใหม่ตามข้อมูลใน cart
     cart.forEach(p => {
       const productInfo = products.find(prod => prod.id == p.id);
       if (!productInfo) return;
@@ -463,20 +445,17 @@ async function loadCart() {
         ? productInfo.prices
         : [productInfo.prices];
 
-      // สร้าง <option> สำหรับแต่ละราคา
       const optionsHtml = priceList.map(price =>
         `<option value="${price.value}" ${price.value === p.option ? 'selected' : ''}>
           ${price.value}
         </option>`
       ).join('');
 
-      // ค่าจัดส่ง
       if (p.category !== "Gift-Card" && p.category !== "Games") {
         shipping += 40 * p.quantity;
       }
       totalprice = subtotal + shipping;
 
-      // สร้าง <tr>
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td class="align-middle clickable-td" style="display:flex;align-items:center;gap:10px;cursor:pointer;" data-id="${p.id}">
@@ -502,14 +481,12 @@ async function loadCart() {
         </td>
       `;
 
-      // คลิกชื่อ → ไปหน้า detail
       tr.querySelector('.clickable-td').addEventListener('click', () => {
         localStorage.setItem('productid', p.id);
         localStorage.setItem('productcategory', p.category);
         window.location.href = 'detail.html';
       });
 
-      // dropdown เปลี่ยน option
       const selectElement = tr.querySelector('.cart-option-selector');
       selectElement.addEventListener('change', async () => {
         const newOption = selectElement.value;
@@ -517,17 +494,18 @@ async function loadCart() {
         if (!optData) return;
         const success = await updateQuantity(p.id, p.quantity, p.option, newOption, optData.salePrice);
         if (success) {
-          p.option = newOption;  // อัปเดต option ใหม่ไว้ที่ object p ด้วย
+          p.option = newOption;
+          loadCart();  // รีโหลดตะกร้าเพื่ออัพเดตราคาหรือจำนวน
         }
       });
 
-      // ปุ่ม - และ +
       tr.querySelector('.btn-minus').addEventListener('click', async () => {
         const currentOption = selectElement.value;
         const optData = productInfo.prices.find(price => price.value === currentOption);
         if (!optData) return;
+        if (p.quantity <= 1) return; // ป้องกันลดต่ำกว่า 1
         const success = await updateQuantity(p.id, p.quantity - 1, currentOption, currentOption, optData.salePrice);
-        if (success) p.quantity -= 1;
+        if (success) loadCart();
       });
 
       tr.querySelector('.btn-plus').addEventListener('click', async () => {
@@ -535,24 +513,38 @@ async function loadCart() {
         const optData = productInfo.prices.find(price => price.value === currentOption);
         if (!optData) return;
         const success = await updateQuantity(p.id, p.quantity + 1, currentOption, currentOption, optData.salePrice);
-        if (success) p.quantity += 1;
+        if (success) loadCart();
       });
 
-      // ปุ่มลบสินค้า
-      tr.querySelector('.btn-delete').addEventListener('click', () => {
+      tr.querySelector('.btn-delete').addEventListener('click', async () => {
         const currentOption = selectElement.value;
-        deleteItem(p.id, currentOption);
+        const success = await deleteItem(p.id, currentOption);
+        if (success) loadCart();
       });
 
-      // ใส่แถวลงในตาราง
       tbody.appendChild(tr);
     });
 
-    // แสดงผลรวม
     document.getElementById('subtotal').textContent = `${subtotal}฿`;
     document.getElementById('shipping').textContent = `${shipping}฿`;
     document.getElementById('totalquantity').textContent = `${totalquantity}`;
     document.getElementById('totalprice').textContent = `${totalprice}฿`;
+
+    // ควบคุมปุ่ม Proceed To Checkout
+    const checkoutBtn = document.getElementById('checkout-btn');
+    if (totalquantity === 0) {
+      checkoutBtn.classList.add('disabled');
+      checkoutBtn.setAttribute('aria-disabled', 'true');
+      checkoutBtn.style.pointerEvents = 'none';
+      checkoutBtn.style.opacity = '0.6';
+      checkoutBtn.style.cursor = 'not-allowed';
+    } else {
+      checkoutBtn.classList.remove('disabled');
+      checkoutBtn.removeAttribute('aria-disabled');
+      checkoutBtn.style.pointerEvents = 'auto';
+      checkoutBtn.style.opacity = '1';
+      checkoutBtn.style.cursor = 'pointer';
+    }
 
   } catch (err) {
     console.error('เกิดข้อผิดพลาดขณะโหลดตะกร้า:', err);
@@ -609,15 +601,6 @@ async function deleteItem(id, option) {
     await loadCart();
   }
 }
-
-// เรียกโหลดตะกร้าเมื่อหน้าโหลดเสร็จ
-//window.addEventListener('DOMContentLoaded', loadCart);
-
-
-
-
-
-
 </script>
 <script src="Register.js"></script>
 </body>

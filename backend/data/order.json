@@ -76,15 +76,15 @@
     "createdAt": "2025-06-18T08:58:41.266Z"
   },
   {
-    "id": "1750239138252",
-    "username": "Hello",
+    "id": "1750357454622",
+    "username": "hi2",
     "items": [
       {
-        "username": "Hello",
-        "id": "11",
+        "username": "hi2",
+        "id": 11,
         "productname": "Tennis Manager 25",
         "price": 799,
-        "quantity": 8,
+        "quantity": 1,
         "image": "img/use/product/Games/game6.jpg",
         "category": "Games",
         "option": "SteamKey"
@@ -94,17 +94,13 @@
     "shipping": {
       "firstName": "",
       "lastName": "",
-      "email": "hi@gmail.com",
+      "email": "hi2222@gmail.com",
       "mobile": "",
       "country": "",
       "city": "",
       "address1": ""
     },
     "paymentMethod": "creditcard",
-    "paymentDetails": {
-      "slipFilename": null,
-      "originalName": null
-    },
-    "createdAt": "2025-06-18T09:32:18.252Z"
+    "createdAt": "2025-06-19T18:24:14.622Z"
   }
 ]
