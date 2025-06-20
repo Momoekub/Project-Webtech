@@ -37,36 +37,59 @@ router.post('/', (req, res) => {
     mobile, country, city, address1,
     paymentMethod
   } = req.body;
+
   if (!username) {
-    return res.status(400).json({ error: 'กรุณาระบุ username' });
+    return res.status(400).json({ error: 'โปรด login' });
   }
-  if (!email || !paymentMethod) {
-  return res.status(400).json({ error: 'ข้อมูลการจัดส่งหรือชำระเงินไม่ครบ' });
-}
+
   const cart = readCart();
   const userCart = cart.filter(item => item.username === username);
   if (userCart.length === 0) {
     return res.status(400).json({ error: 'ไม่มีสินค้าในตะกร้า' });
   }
 
+  // ต้องตรวจสอบหลังจากมี userCart แล้ว
+  const isDigitalOrder = userCart.every(item =>
+    item.category === 'Gift-Card' || item.category === 'Games'
+  );
+
+  // ตรวจสอบข้อมูลให้ครบตามประเภทสินค้า
+  if (isDigitalOrder) {
+    if (!email || !paymentMethod) {
+      return res.status(400).json({ error: 'ข้อมูลอีเมลหรือการชำระเงินไม่ครบสำหรับสินค้าดิจิทัล' });
+    }
+  } else {
+    if (!firstName || !lastName || !email || !mobile || !country || !city || !address1 || !paymentMethod) {
+      return res.status(400).json({ error: 'ข้อมูลการจัดส่งหรือการชำระเงินไม่ครบ' });
+    }
+  }
+
+  const shipping = isDigitalOrder
+    ? { email }
+    : { firstName, lastName, email, mobile, country, city, address1 };
+
   const newOrder = {
     id: Date.now().toString(),
     username,
     items: userCart,
     status: 'รอตรวจสอบ',
-    shipping: {
-      firstName, lastName, email, mobile, country, city, address1
-    },
+    shipping,
     paymentMethod,
     createdAt: new Date().toISOString()
   };
+
   const orders = readOrders();
   orders.push(newOrder);
   writeOrders(orders);
+
+  // ล้างตะกร้าผู้ใช้
   const newCart = cart.filter(item => item.username !== username);
   writeCart(newCart);
+
   res.json({ message: 'สั่งซื้อสำเร็จ', order: newOrder });
 });
+
+
 
 // GET /api/order
 router.get('/', (req, res) => {

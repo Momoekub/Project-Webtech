@@ -93,7 +93,7 @@ function changeUsername(event) {
   const email = document.getElementById('changeEmail').value.trim();
   const oldUsername = localStorage.getItem('username');
 
-  if (!newUsername || !email) {
+  if (!newUsername || !email || !oldUsername) {
     alert("กรุณากรอกข้อมูลให้ครบ");
     return;
   }
@@ -101,20 +101,24 @@ function changeUsername(event) {
   fetch('http://localhost:5000/api/account/change-username', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, newUsername })
+    body: JSON.stringify({ oldUsername, newUsername, email })
   })
   .then(res => res.json())
   .then(data => {
     if (data.success) {
       fetch('http://localhost:5000/api/cart/change-username', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ oldUsername, newUsername })
-        })
-      alert("เปลี่ยนชื่อผู้ใช้สำเร็จเป็น: " + newUsername);
-      localStorage.setItem('username', newUsername);
-      updateAccountUI();
-      $('#changeUsernameModal').modal('hide');
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ oldUsername, newUsername })
+      })
+      .then(res => res.json())
+      .then(cartData => {
+        alert("เปลี่ยนชื่อผู้ใช้สำเร็จเป็น: " + newUsername);
+        localStorage.setItem('username', newUsername);
+        updateAccountUI?.();
+        $('#changeUsernameModal').modal('hide');
+      })
+      .catch(err => alert("เกิดข้อผิดพลาดขณะอัปเดตตะกร้า: " + err.message));
     } else {
       alert(data.message || "เปลี่ยนชื่อผู้ใช้ไม่สำเร็จ");
     }

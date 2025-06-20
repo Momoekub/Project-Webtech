@@ -516,28 +516,40 @@
     alert('โปรด login');
     return;
   }
+
   try {
+    // โหลดรายการในตะกร้าสำหรับผู้ใช้
     const res = await fetch(`http://localhost:5000/api/cart?username=${encodeURIComponent(username)}`);
     const cart = await res.json();
 
+    if (!Array.isArray(cart) || cart.length === 0) {
+      alert("ไม่มีสินค้าในตะกร้า");
+      return;
+    }
+
+    // ตรวจสอบหมวดหมู่สินค้า
     const categories = [...new Set(cart.map(item => item.category))];
-    const shippingForm = document.getElementById('shippingAddressForm');
     const onlyGiftCardOrGames = categories.length > 0 && categories.every(cat => cat === 'Gift-Card' || cat === 'Games');
 
-    const shippingAddressForm = document.getElementById('shippingAddressForm');
+    const shippingForm = document.getElementById('shippingAddressForm');
+    const checkoutForm = document.getElementById('checkout-form');
+    const container = document.getElementById('checkoutlist');
 
-if (onlyGiftCardOrGames) {
-  const formGroups = shippingForm.querySelectorAll('.form-group');
-  formGroups.forEach(group => {
-    const input = group.querySelector('input, select');
-    if (input && input.name === 'email') {
-      group.style.display = 'block';  
-    } else {
-      group.style.display = 'none';   
-    }
-  });
-}
+    // ซ่อนหรือแสดงช่องกรอกข้อมูลจัดส่ง
+    const formGroups = shippingForm.querySelectorAll('.form-group');
+    formGroups.forEach(group => {
+      const input = group.querySelector('input, select');
+      if (!input) return;
 
+      if (onlyGiftCardOrGames) {
+        // แสดงเฉพาะ email สำหรับสินค้าดิจิทัล
+        group.style.display = (input.name === 'email') ? 'block' : 'none';
+      } else {
+        group.style.display = 'block';
+      }
+    });
+
+    // ซ่อนหรือแสดงช่องจ่ายเงินปลายทาง (COD)
     const codOption = document.querySelector('input#cod')?.closest('.form-group');
     if (codOption) {
       if (onlyGiftCardOrGames) {
@@ -552,42 +564,49 @@ if (onlyGiftCardOrGames) {
       }
     }
 
-    const container = document.getElementById('checkoutlist');
+    // เคลียร์รายการเก่า
     container.innerHTML = '';
 
     let subtotal = 0;
     let shipping = 0;
     let totalquantity = 0;
 
+    // วนลูปรายการสินค้าในตะกร้า
     cart.forEach(item => {
       subtotal += item.price * item.quantity;
-      totalquantity += item.quantity;  // เพิ่มนับจำนวนสินค้า
+      totalquantity += item.quantity;
+
       if (item.category !== "Gift-Card" && item.category !== "Games") {
         shipping += 40 * item.quantity;
       }
+
       const div = document.createElement('div');
       div.className = 'mb-3';
       div.innerHTML = `
         <p class="mb-1">${item.productname}${item.option ? ' (' + item.option + ')' : ''}</p>
-        <p class="mb-0 text-muted">${item.price}฿</p>
+        <p class="mb-0 text-muted">${item.price}฿ x ${item.quantity}</p>
       `;
       container.appendChild(div);
     });
 
     const total = subtotal + shipping;
 
+    // แสดงข้อมูลราคาทั้งหมด
     document.getElementById('subtotal-amount').textContent = `${subtotal}฿`;
     document.getElementById('totalshipping').textContent = `${shipping}฿`;
     document.getElementById('totalquantity').textContent = totalquantity;
     document.getElementById('totalprice').textContent = `${total}฿`;
     document.getElementById('promtpaytotal').textContent = `ยอดเงิน : ${total}฿`;
 
-    document.getElementById('checkout-form').dataset.onlyGiftCardOrGames = onlyGiftCardOrGames;
+    // เพิ่ม flag ลงใน form สำหรับใช้ใน onSubmit
+    checkoutForm.dataset.onlyGiftCardOrGames = onlyGiftCardOrGames;
 
   } catch (error) {
     console.error('เกิดข้อผิดพลาดระหว่างโหลดรายการสินค้า:', error);
+    alert('ไม่สามารถโหลดข้อมูลตะกร้า');
   }
 }
+
 
 document.getElementById('checkout-form').addEventListener('submit', async function (e) {
   e.preventDefault();
@@ -598,17 +617,24 @@ document.getElementById('checkout-form').addEventListener('submit', async functi
     return;
   }
   const paymentMethod = form.querySelector('input[name="payment"]:checked')?.value;
+  const onlyGift = form.dataset.onlyGiftCardOrGames === "true"; // ดึงข้อมูลจาก data attribute
   const data = {
     username,
-    firstName: form.firstName.value,
-    lastName: form.lastName.value,
     email: form.email.value,
-    mobile: form.mobile.value,
-    country: form.country.value,
-    city: form.city.value,
-    address1: form.address1.value,
     paymentMethod
   };
+
+  if (!onlyGift) {
+    // เพิ่มข้อมูลจัดส่งเมื่อไม่ใช่สินค้าดิจิทัลล้วน
+    Object.assign(data, {
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      mobile: form.mobile.value,
+      country: form.country.value,
+      city: form.city.value,
+      address1: form.address1.value,
+    });
+  }
 
   try {
     const response = await fetch('http://localhost:5000/api/checkout', {
@@ -620,12 +646,10 @@ document.getElementById('checkout-form').addEventListener('submit', async functi
     const result = await response.json();
 
     if (response.ok) {
-      console.log('กำลังเปลี่ยนหน้า...');
+      alert('สั่งซื้อสำเร็จ');
       setTimeout(() => {
         window.location.assign(window.location.origin + '/index.html');
-      }, 200);
-      alert('สั่งซื้อสำเร็จ')
-      
+      }, 10);
     } else {
       alert(result.error || 'เกิดข้อผิดพลาด');
     }
@@ -634,8 +658,6 @@ document.getElementById('checkout-form').addEventListener('submit', async functi
     alert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์');
   }
 });
-
-
 
 document.addEventListener('DOMContentLoaded', checkoutitem);
 const radios = document.querySelectorAll('input[name="payment"]');

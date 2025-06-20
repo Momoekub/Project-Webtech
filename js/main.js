@@ -128,10 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function quickAddToCart(productId, category) {
-  e.preventDefault();
   const username = localStorage.getItem('username');
   if (!username) {
-    alert('โปรด login ก่อนเพิ่มสินค้าลงตะกร้า');
+    alert('โปรด login');
     return;
   }
 

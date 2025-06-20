@@ -82,16 +82,15 @@ router.post('/', (req, res) => {
   if (!category || !name || !prices || !Array.isArray(prices)) {
     return res.status(400).json({ error: 'ข้อมูลไม่ครบหรือราคาผิดพลาด' });
   }
-
   const data = readProducts(category);
   const maxId = data.length > 0 ? Math.max(...data.map(p => p.id)) : 0;
 
   const newProduct = {
-    id: maxId + 1,
     name,
     description,
     image,
-    prices
+    prices,
+    id: maxId + 1,
   };
 
   data.push(newProduct);
@@ -100,7 +99,6 @@ router.post('/', (req, res) => {
   res.json({ message: 'เพิ่มสินค้าสำเร็จ', product: newProduct });
 });
 
-// เพิ่มสินค้าโดยส่ง category ผ่าน URL
 router.post('/:category', (req, res) => {
   const { category } = req.params;
   const { name, description, image, prices } = req.body;
