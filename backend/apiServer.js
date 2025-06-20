@@ -20,6 +20,9 @@ app.use('/api/checkout', require('./routes/checkout'));
 app.use('/api/catagory', require('./routes/catagory')); //สำหรับแยกหมวดหมู่Add commentMore actions
 app.use('/api/search', require('./routes/search')); //สำหรับการค้นหาสินค้า
 
+app.use('/api/newsletter', require('./routes/newsletter'));//ส่งอีเมล์ตรงfooter
+app.use('/api/contactus', require('./routes/contactus'));//ส่งข้อมูลในcontactus
+
 app.listen(PORT, () => {
   console.log('✅ Server running at http://localhost:' + PORT);
 });
