@@ -189,7 +189,7 @@
     <div class="input-group">
       <input type="text" id="searchInput" class="form-control" placeholder="Search for products">
       <div class="input-group-append">
-        <span class="input-group-text bg-transparent text-primary">
+        <span id="searchIcon" class="input-group-text bg-transparent text-primary">
           <i class="fa fa-search"></i>
         </span>
       </div>
@@ -602,6 +602,80 @@ async function deleteItem(id, option) {
   }
 }
 </script>
+
+<script>
+// ระบบค้นหาสินค้า
+
+const input = document.getElementById('searchInput');
+const resultList = document.getElementById('searchResults');
+
+input.addEventListener('input', () => {
+  const query = input.value.trim();
+  resultList.innerHTML = '';
+
+  if (query.length === 0) return;
+
+  fetch(`http://localhost:5000/api/search?query=${encodeURIComponent(query)}`)
+    .then(res => res.json())
+    .then(results => {
+      if (results.length === 0) {
+        resultList.innerHTML = `<li class="list-group-item">No results found</li>`;
+        return;
+      }
+
+results.slice(0, 5).forEach(product => {
+  const li = document.createElement('li');
+  li.classList.add('list-group-item');
+  li.textContent = product.name;
+
+  li.addEventListener('click', () => {
+    input.value = product.name;
+    resultList.innerHTML = '';
+
+    // บันทึกข้อมูลลง localStorage
+    localStorage.setItem('productid', product.id);
+    localStorage.setItem('productcategory', product.category);
+
+    // ไปยังหน้ารายละเอียด
+    window.location.href = 'detail.html';
+  });
+
+  resultList.appendChild(li);
+});
+
+    })
+    .catch(err => {
+      console.error('Search error:', err);
+    });
+});
+
+const searchIcon = document.getElementById('searchIcon');
+
+searchIcon.addEventListener('click', () => {
+  const query = input.value.trim();
+  if (query.length === 0) return;
+
+  fetch(`http://localhost:5000/api/search?query=${encodeURIComponent(query)}`)
+    .then(res => res.json())
+    .then(results => {
+      if (results.length === 0) {
+        alert('ไม่พบสินค้าที่คุณค้นหา');
+        return;
+      }
+
+      const product = results[0]; // เอาผลลัพธ์ตัวแรก
+
+      localStorage.setItem('productid', product.id);
+      localStorage.setItem('productcategory', product.category);
+      window.location.href = 'detail.html';
+    })
+    .catch(err => {
+      console.error('Search icon error:', err);
+    });
+});
+
+</script>
+
 <script src="Register.js"></script>
 <script>
 function submitNewsletter(e) {

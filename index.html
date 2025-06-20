@@ -190,7 +190,7 @@
     <div class="input-group">
       <input type="text" id="searchInput" class="form-control" placeholder="Search for products">
       <div class="input-group-append">
-        <span class="input-group-text bg-transparent text-primary">
+        <span id="searchIcon" class="input-group-text bg-transparent text-primary">
           <i class="fa fa-search"></i>
         </span>
       </div>
@@ -237,8 +237,6 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.html" class="nav-item nav-link active">Home</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="cart.html" class="nav-item nav-link">Shopping Cart</a>
-                            <a href="checkout.html" class="nav-item nav-link">Checkout</a>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
@@ -602,8 +600,10 @@
             });
         }
 
+</script>
 
-        // ระบบค้นหาสินค้า
+<script>
+// ระบบค้นหาสินค้า
 
 const input = document.getElementById('searchInput');
 const resultList = document.getElementById('searchResults');
@@ -622,23 +622,59 @@ input.addEventListener('input', () => {
         return;
       }
 
-      results.slice(0, 5).forEach(name => {
-        const li = document.createElement('li');
-        li.classList.add('list-group-item');
-        li.textContent = name;
-        li.addEventListener('click', () => {
-          input.value = name;
-          resultList.innerHTML = '';
-        });
-        resultList.appendChild(li);
-      });
+results.slice(0, 5).forEach(product => {
+  const li = document.createElement('li');
+  li.classList.add('list-group-item');
+  li.textContent = product.name;
+
+  li.addEventListener('click', () => {
+    input.value = product.name;
+    resultList.innerHTML = '';
+
+    // บันทึกข้อมูลลง localStorage
+    localStorage.setItem('productid', product.id);
+    localStorage.setItem('productcategory', product.category);
+
+    // ไปยังหน้ารายละเอียด
+    window.location.href = 'detail.html';
+  });
+
+  resultList.appendChild(li);
+});
+
     })
     .catch(err => {
       console.error('Search error:', err);
     });
 });
 
+const searchIcon = document.getElementById('searchIcon');
+
+searchIcon.addEventListener('click', () => {
+  const query = input.value.trim();
+  if (query.length === 0) return;
+
+  fetch(`http://localhost:5000/api/search?query=${encodeURIComponent(query)}`)
+    .then(res => res.json())
+    .then(results => {
+      if (results.length === 0) {
+        alert('ไม่พบสินค้าที่คุณค้นหา');
+        return;
+      }
+
+      const product = results[0]; // เอาผลลัพธ์ตัวแรก
+
+      localStorage.setItem('productid', product.id);
+      localStorage.setItem('productcategory', product.category);
+      window.location.href = 'detail.html';
+    })
+    .catch(err => {
+      console.error('Search icon error:', err);
+    });
+});
+
 </script>
+
 <script>
 function submitNewsletter(e) {
   e.preventDefault();
