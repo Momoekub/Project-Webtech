@@ -152,7 +152,7 @@
     <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-1 px-xl-5">
-            <div class="col-lg-6 d-none d-lg-block">
+            <div class="col-lg-6 ">
                 <div class="d-inline-flex align-items-center h-100">
                     <a class="text-body mr-3" href="about-us.html">About</a>
                     <a class="text-body mr-3" href="cart.html">Contact</a>
@@ -166,10 +166,6 @@
                         <div class="btn-group" id="accountDropdown"></div>
                 </div>
                 <div class="d-inline-flex align-items-center d-block d-lg-none">
-                    <a href="" class="btn px-0 ml-2">
-                        <i class="fas fa-heart text-dark"></i>
-                        <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
-                    </a>
                     <a href="cart.html" class="btn px-0 ml-2">
                         <i class="fas fa-shopping-cart text-dark"></i>
                         <span class="cartquantity badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
@@ -414,33 +410,6 @@
     <!-- Template Javascript -->
     <script src="js/main.js" ></script>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    starRate();
-    
-});
-
-
-        function starRate(){
-        const stars = document.querySelectorAll('.rating-stars .star');
-        const ratingInput = document.getElementById('rating');
-        stars.forEach((star) => {
-            star.addEventListener('click', () => {
-                const ratingValue = star.getAttribute('data-value');
-                ratingInput.value = ratingValue;
-
-                stars.forEach(s => {
-                    s.classList.remove('fas');
-                    s.classList.add('far');
-                });
-
-                for (let i = 0; i < ratingValue; i++) {
-                    stars[i].classList.remove('far');
-                    stars[i].classList.add('fas');
-                }
-            });
-        });
-    }
-    
 const productId = localStorage.getItem('productid');
 const category = localStorage.getItem('productcategory');
 if (productId && category) {
@@ -449,7 +418,6 @@ if (productId && category) {
 } else {
   alert("ไม่พบข้อมูลสินค้า");
 }
-
 async function loadProduct(category, id) {
   const apiUrl = `http://localhost:5000/api/products/${category}/${id}`;  
   try {
@@ -495,7 +463,7 @@ async function loadProduct(category, id) {
     }
   } catch (error) {
     console.error(error);
-    alert(error.message);
+    alert('เกิดข้อผิดพลาดในการโหลดสินค้า');
   }
 }
 

@@ -20,6 +20,15 @@
         "image": "giftcard2.png",
         "category": "GiftCard",
         "option": "Shell 350 + Bonus 150"
+      },
+      {
+        "id": "22",
+        "productname": "Xbox-Series X",
+        "price": 37000,
+        "quantity": 8,
+        "image": "img/use/product/Console/product5.png",
+        "category": "Console",
+        "option": "*Preorder* Special Edition Galaxy Black 2TB"
       }
     ],
     "status": "รอตรวจสอบ",
@@ -32,6 +41,7 @@
       "city": "Bangkok",
       "address1": "123 Main Street"
     },
+    "paymentMethod": "cod",
     "createdAt": "2025-06-16T12:00:00.000Z"
   },
   {
@@ -69,10 +79,7 @@
       "city": "NewYork",
       "address1": "123 Street eiei"
     },
-    "paymentDetails": {
-      "slipFilename": null,
-      "originalName": null
-    },
+    "paymentMethod": "creditcard",
     "createdAt": "2025-06-18T08:58:41.266Z"
   },
   {
@@ -92,13 +99,7 @@
     ],
     "status": "รอตรวจสอบ",
     "shipping": {
-      "firstName": "",
-      "lastName": "",
-      "email": "hi2222@gmail.com",
-      "mobile": "",
-      "country": "",
-      "city": "",
-      "address1": ""
+      "email": "hi2222@gmail.com"
     },
     "paymentMethod": "creditcard",
     "createdAt": "2025-06-19T18:24:14.622Z"

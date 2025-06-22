@@ -69,9 +69,10 @@
           <th>ID</th>
           <th>User</th>
           <th>Items</th>
-          <th>Status</th>
+          <th>Payment</th>
           <th>Shipping</th>
           <th>Created At</th>
+          <th>Status</th>
           <th>จัดการ</th>
         </tr>
       </thead>
@@ -313,9 +314,10 @@
           <td>${o.id || '-'}</td>
           <td>${o.username || '-'}</td>
           <td>${items || '-'}</td>
-          <td>${o.status || '-'}</td>
+          <td>${o.paymentMethod || '-'}</td>
           <td>${formatShipping(o.shipping)}</td>
           <td>${o.createdAt ? new Date(o.createdAt).toLocaleString('th-TH') : '-'}</td>
+          <td>${o.status || '-'}</td>
           <td>
             <button class="action-btn delete-btn" onclick="deleteOrder('${o.id}')">ลบ</button>
           </td>
