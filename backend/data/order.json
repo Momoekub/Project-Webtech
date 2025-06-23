@@ -153,5 +153,43 @@
     },
     "paymentMethod": "mobilebanking",
     "createdAt": "2025-06-20T09:05:12.019Z"
+  },
+  {
+    "id": "1750694858528",
+    "username": "hi2",
+    "items": [
+      {
+        "username": "hi2",
+        "id": "8",
+        "productname": "Stray",
+        "price": 549,
+        "quantity": 1,
+        "image": "img/use/product/Games/game3.jpg",
+        "category": "Games",
+        "option": "SteamKey"
+      },
+      {
+        "username": "hi2",
+        "id": 22,
+        "productname": "Xbox-Series X",
+        "price": 18990,
+        "quantity": 1,
+        "image": "img/use/product/Console/product5.png",
+        "category": "Console",
+        "option": "Digital Edition Robot White 1TB"
+      }
+    ],
+    "status": "รอตรวจสอบ",
+    "shipping": {
+      "firstName": "Inw",
+      "lastName": "Zaa",
+      "email": "Inw@gmail.com",
+      "mobile": "9999999999999999",
+      "country": "TH",
+      "city": "ChiangMai",
+      "address1": "396 Hangdong"
+    },
+    "paymentMethod": "cod",
+    "createdAt": "2025-06-23T16:07:38.528Z"
   }
 ]
