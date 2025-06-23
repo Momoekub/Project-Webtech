@@ -59,19 +59,23 @@
 
 
 <!-- Forgot Password Modal -->
-<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="forgotPasswordModal">
+  <div class="modal-dialog">
     <div class="modal-content">
-      <form onsubmit="verifyOTPAndReset(event)">
-        <div class="modal-header">
-          <h5 class="modal-title">ลืมรหัสผ่าน</h5>
+      <div class="modal-header">
+        <h5 class="modal-title">ลืมรหัสผ่าน</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="forgotEmail">อีเมล</label>
+          <input type="email" class="form-control" id="forgotEmail">
+         <button type="button" onclick="requestOTP(event); return false;" class="btn btn-sm btn-secondary mt-2">ขอรหัส OTP</button>
         </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="forgotEmail">อีเมล</label>
-            <input type="email" class="form-control" id="forgotEmail">
-            <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="requestOTP()">ขอรหัส OTP</button>
-          </div>
+        <!-- ไม่มี <form> อีกต่อไป -->
+        <div>
           <div class="form-group">
             <label for="otp">รหัส OTP</label>
             <input type="text" class="form-control" id="otp">
@@ -80,15 +84,14 @@
             <label for="newPassword">รหัสผ่านใหม่</label>
             <input type="password" class="form-control" id="newPassword">
           </div>
+          <div class="modal-footer">
+            <button type="button" onclick="verifyOTPAndReset(event)" class="btn btn-primary">ตั้งรหัสผ่านใหม่</button>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">ตั้งรหัสผ่านใหม่</button>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
-
 <!-----Changed Name----->
 <div class="modal fade" id="changeUsernameModal" tabindex="-1" role="dialog" aria-labelledby="changeUsernameModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -486,7 +489,7 @@
 
     <!-- Contact Javascript File -->
     <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
+    
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

@@ -175,23 +175,30 @@ document.addEventListener('DOMContentLoaded', function () {
   updateAccountUI();
 });
 
-function requestOTP() {
-  const email = document.getElementById('forgotEmail').value.trim();
-  if (!email) return alert("กรอกอีเมลก่อน");
+// แก้ไขฟังก์ชัน requestOTP
+function requestOTP(event) {
+    console.log("requestOTP function called"); // เพิ่มบรรทัดนี้
+    event.preventDefault();
+    console.log("event prevented"); // เพิ่มบรรทัดนี้
+  const email = document.getElementById('forgotEmail').value.trim();
+  if (!email) {
+    alert("กรอกอีเมลก่อน");
+    return;
+  }
 
-  fetch('http://localhost:5000/api/account/request-otp', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      alert("OTP ของคุณคือ: " + data.otp); // *แสดงใน alert จำลอง email*
-    } else {
-      alert(data.message);
-    }
-  });
+  fetch('http://localhost:5000/api/account/request-otp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("OTP ของคุณคือ: " + data.otp); // *แสดงใน alert จำลอง email*
+    } else {
+  alert(data.message);
+ }
+  });
 }
 
 function verifyOTPAndReset(event) {

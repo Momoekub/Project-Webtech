@@ -64,7 +64,6 @@ router.post('/reset-password', (req, res) => {
 
   user.password = newPassword;
   writeUsers(users);
-
   res.json({ success: true, message: "เปลี่ยนรหัสผ่านสำเร็จ" });
 });
 

@@ -99,7 +99,13 @@
     ],
     "status": "รอตรวจสอบ",
     "shipping": {
-      "email": "hi2222@gmail.com"
+      "firstName": "Saw",
+      "lastName": "Naja",
+      "email": "hi2222@gmail.com",
+      "mobile": "000000",
+      "country": "TH",
+      "city": "CNX",
+      "address1": "123 Sankampang"
     },
     "paymentMethod": "creditcard",
     "createdAt": "2025-06-19T18:24:14.622Z"
@@ -127,7 +133,7 @@
       "mobile": "000000",
       "country": "TH",
       "city": "CNX",
-      "address1": "123  Hangdong"
+      "address1": "123 Hangdong"
     },
     "paymentMethod": "cod",
     "createdAt": "2025-06-20T09:01:31.207Z"
@@ -149,7 +155,13 @@
     ],
     "status": "รอตรวจสอบ",
     "shipping": {
-      "email": "hi2@gmail.com"
+      "firstName": "Saw",
+      "lastName": "Naja",
+      "email": "hi2@gmail.com",
+      "mobile": "000000",
+      "country": "TH",
+      "city": "CNX",
+      "address1": "123 Hangdong"
     },
     "paymentMethod": "mobilebanking",
     "createdAt": "2025-06-20T09:05:12.019Z"

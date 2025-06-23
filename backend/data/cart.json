@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "username": "Hello",
+    "id": "4",
+    "productname": "Mouse",
+    "price": 390,
+    "quantity": 1,
+    "image": "img/use/product/Gear/gear4.png",
+    "category": "Gaming-Gear",
+    "option": "NUBWO NM-89W"
+  }
+]

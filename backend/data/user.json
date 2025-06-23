@@ -20,7 +20,7 @@
   {
     "username": "Hello",
     "email": "hi@gmail.com",
-    "password": "987654321",
+    "password": "123456",
     "role": "user"
   },
   {
@@ -44,6 +44,14 @@
   {
     "username": "momoe",
     "email": "momoemothana@gmail.com",
+    "password": "momoe",
+    "role": "user",
+    "otp": "354580",
+    "otpTimestamp": 1750698070090
+  },
+  {
+    "username": "AAAAAA",
+    "email": "aaaa@gmail.com",
     "password": "1234",
     "role": "user"
   }
