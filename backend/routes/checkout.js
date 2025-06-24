@@ -1,16 +1,9 @@
-// routes/order.js
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const multer = require('multer');
-
 const router = express.Router();
-
 const cartFile = path.join(__dirname, '..', 'data', 'cart.json');
 const orderFile = path.join(__dirname, '..', 'data', 'order.json');
-
-// setup upload folder
-const upload = multer({ dest: path.join(__dirname, '..', 'uploads') });
 
 function readCart() {
   try {
@@ -38,18 +31,15 @@ function writeOrders(data) {
   fs.writeFileSync(orderFile, JSON.stringify(data, null, 2));
 }
 
-// POST /api/order
-router.post('/', upload.single('slipFile'), (req, res) => {
+router.post('/', (req, res) => {
   const {
     username, firstName, lastName, email,
-    mobile, country,  city, address1,
+    mobile, country, city, address1,
     paymentMethod
   } = req.body;
 
-  const slipFile = req.file;
-
   if (!username) {
-    return res.status(400).json({ error: 'กรุณาระบุ username' });
+    return res.status(400).json({ error: 'โปรด login' });
   }
 
   const cart = readCart();
@@ -58,19 +48,33 @@ router.post('/', upload.single('slipFile'), (req, res) => {
     return res.status(400).json({ error: 'ไม่มีสินค้าในตะกร้า' });
   }
 
+  // ต้องตรวจสอบหลังจากมี userCart แล้ว
+  const isDigitalOrder = userCart.every(item =>
+    item.category === 'Gift-Card' || item.category === 'Games'
+  );
+
+  // ตรวจสอบข้อมูลให้ครบตามประเภทสินค้า
+  if (isDigitalOrder) {
+    if (!email || !paymentMethod) {
+      return res.status(400).json({ error: 'โปรดกรอกข้อมูลให้ครบ' });
+    }
+  } else {
+    if (!firstName || !lastName || !email || !mobile || !country || !city || !address1 || !paymentMethod) {
+      return res.status(400).json({ error: 'โปรดกรอกข้อมูลให้ครบ' });
+    }
+  }
+
+  const shipping = isDigitalOrder
+    ? { email }
+    : { firstName, lastName, email, mobile, country, city, address1 };
+
   const newOrder = {
-    id: Date.now().toString(),//สร้างไอดีจากเวลา
+    id: Date.now().toString(),
     username,
     items: userCart,
     status: 'รอตรวจสอบ',
-    shipping: {
-      firstName, lastName, email, mobile, country, city, address1
-    },
+    shipping,
     paymentMethod,
-    paymentDetails: {
-      slipFilename: slipFile ? slipFile.filename : null,
-      originalName: slipFile ? slipFile.originalname : null
-    },
     createdAt: new Date().toISOString()
   };
 
@@ -78,11 +82,14 @@ router.post('/', upload.single('slipFile'), (req, res) => {
   orders.push(newOrder);
   writeOrders(orders);
 
+  // ล้างตะกร้าผู้ใช้
   const newCart = cart.filter(item => item.username !== username);
   writeCart(newCart);
 
   res.json({ message: 'สั่งซื้อสำเร็จ', order: newOrder });
 });
+
+
 
 // GET /api/order
 router.get('/', (req, res) => {

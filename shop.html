@@ -482,8 +482,8 @@ function createProductCard(product) {
         <div class="product-img position-relative overflow-hidden" style="height: 250px;">
           <img class="img-fluid w-100" style="height: 100%; object-fit: cover;" src="${product.image}" alt="${product.name}">
           <div class="product-action">
-            <a class="btn btn-outline-dark btn-square" href="#" 
-              onclick="quickAddToCart(${product.id}, '${product.category}')">
+            <a class="btn btn-outline-dark btn-square"  href="#"
+              onclick="event.preventDefault(); quickAddToCart(${product.id}, '${product.category}')">
               <i class="fa fa-shopping-cart"></i>
             </a>
             <a class="btn btn-outline-dark btn-square" href="detail.html"
@@ -511,53 +511,6 @@ function createProductCard(product) {
       </div>
     </div>
   `;
-}
-
-async function quickAddToCart(productId, category) {
-  const username = localStorage.getItem('username');
-  if (!username) {
-    alert('โปรด login ก่อนเพิ่มสินค้าลงตะกร้า');
-    return;
-  }
-
-  try {
-    const res = await fetch(`http://localhost:5000/api/products/${category}/${productId}`);
-    if (!res.ok) throw new Error('โหลดสินค้าล้มเหลว');
-    const product = await res.json();
-
-    const firstOption = product.prices?.[0];
-    if (!firstOption) {
-      alert('ไม่มีราคาสินค้าให้เลือก');
-      return;
-    }
-
-    const data = {
-      username: username,
-      id: productId,
-      productname: product.name,
-      price: firstOption.salePrice,
-      quantity: 1,
-      image: product.image,
-      category: category,
-      option: firstOption.value
-    };
-
-    const cartRes = await fetch('http://localhost:5000/api/cart', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-
-    if (!cartRes.ok) {
-      const errData = await cartRes.json();
-      throw new Error(errData.error || 'เพิ่มสินค้าลงตะกร้าไม่สำเร็จ');
-    }
-
-    alert('เพิ่มสินค้าเรียบร้อยแล้ว');
-  } catch (err) {
-    console.error('Quick Add Error:', err);
-    alert('เกิดข้อผิดพลาด: ' + err.message);
-  }
 }
 </script>
 
