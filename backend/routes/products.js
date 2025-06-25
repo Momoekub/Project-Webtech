@@ -87,6 +87,7 @@ router.post('/', (req, res) => {
 
   const newProduct = {
     name,
+    category,
     description,
     image,
     prices,

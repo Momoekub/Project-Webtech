@@ -203,5 +203,37 @@
     },
     "paymentMethod": "cod",
     "createdAt": "2025-06-23T16:07:38.528Z"
+  },
+  {
+    "id": "1750864067611",
+    "username": "admin",
+    "items": [
+      {
+        "username": "admin",
+        "id": 14,
+        "productname": "Steam Wallet",
+        "price": 50,
+        "quantity": 1,
+        "image": "img/use/product/GiftCard/giftcard1.png",
+        "category": "Gift-Card",
+        "option": "50฿"
+      },
+      {
+        "username": "admin",
+        "id": "6",
+        "productname": "The Last of Us™ Part I",
+        "price": 1690,
+        "quantity": 13,
+        "image": "img/use/product/Games/game1.jpg",
+        "category": "Games",
+        "option": "SteamKey"
+      }
+    ],
+    "status": "รอตรวจสอบ",
+    "shipping": {
+      "email": "hi@gmail.com"
+    },
+    "paymentMethod": "promptpay",
+    "createdAt": "2025-06-25T15:07:47.611Z"
   }
 ]
